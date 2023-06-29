@@ -16,7 +16,7 @@ var target_unit: Unit
 
 
 func _ready():
-	GameEvents.focus_worldobject.connect(_on_unit_ext_selected)
+	GameEvents.focus_worldobject.connect(__on_unit_selected)
 	GameEvents.character_died.connect(on_unit_died)
 
 var dbl_clck_timer:float = 0
@@ -109,8 +109,8 @@ func raycast_from_mouse(m_pos, _collision_mask = null):
 	var params = PhysicsRayQueryParameters3D.create(ray_start,ray_end)
 	return space_state.intersect_ray(params)
 
-
-func _on_unit_ext_selected(unit):
+## callback for selecting units using elements outside the SelectionSystem node tools (e.g. character portraits) ##
+func __on_unit_selected(unit):
 	if unit.is_in_group('units'):
 		deselect_all_units()
 		selected_units.append(unit)

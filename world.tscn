@@ -1,11 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://tuiof604sdos"]
+[gd_scene load_steps=28 format=3 uid="uid://b8dolup07qmam"]
 
 [ext_resource type="Script" path="res://input_manager.gd" id="1_ko6fh"]
 [ext_resource type="PackedScene" uid="uid://co07r7ktfvc1p" path="res://unit_selection_system/selection_sys.tscn" id="2_pa5tv"]
 [ext_resource type="Script" path="res://camera.gd" id="3_7oabq"]
 [ext_resource type="Script" path="res://player_team.gd" id="5_3bb4d"]
+[ext_resource type="Texture2D" uid="uid://5rqjwl3yaoqs" path="res://characters/portraits/Bale.jpg" id="5_f0ihv"]
+[ext_resource type="Texture2D" uid="uid://86aycy8chjb8" path="res://characters/portraits/No Old Man.jpg" id="6_6vbr5"]
 [ext_resource type="PackedScene" path="res://characters/Formations.tscn" id="6_56u2j"]
-[ext_resource type="PackedScene" uid="uid://bwv2rceykyy57" path="res://ui/ui.tscn" id="6_goi0v"]
+[ext_resource type="PackedScene" uid="uid://bxsxmqyq2sivw" path="res://ui/hud/hud.tscn" id="6_goi0v"]
+[ext_resource type="Texture2D" uid="uid://dka1bxqtoamfm" path="res://characters/portraits/Mike.jpg" id="7_s6oam"]
+[ext_resource type="Texture2D" uid="uid://cn67obdpe5atn" path="res://characters/portraits/Ryan.PNG" id="8_ef1ag"]
+[ext_resource type="Texture2D" uid="uid://bha3o4hdrfjhm" path="res://characters/portraits/Tony.jpg" id="9_c8wmh"]
 [ext_resource type="Script" path="res://enemy_team.gd" id="10_x0kho"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_t4soq"]
@@ -61,9 +66,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 25.4181)
 
 [node name="SelectionSys" parent="." instance=ExtResource("2_pa5tv")]
 
+[node name="HUD" parent="." instance=ExtResource("6_goi0v")]
+
 [node name="PlayerTeam" type="Node" parent="."]
 script = ExtResource("5_3bb4d")
 players_in_team = 4
+ph_portraits = Array[CompressedTexture2D]([ExtResource("5_f0ihv"), ExtResource("6_6vbr5"), ExtResource("7_s6oam"), ExtResource("8_ef1ag"), ExtResource("9_c8wmh")])
 
 [node name="Players" type="Node3D" parent="PlayerTeam"]
 
@@ -73,8 +81,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.6475)
 [node name="InputManager" type="Node" parent="."]
 process_mode = 3
 script = ExtResource("1_ko6fh")
-
-[node name="UI" parent="." instance=ExtResource("6_goi0v")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.518221, -0.631904, 0.57632, -1.49103e-08, 0.673864, 0.738855, -0.855247, -0.38289, 0.34921, 0, 0, 0)
@@ -177,5 +183,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -14.1514)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7839, 0, -17.794)
 
 [connection signal="command_units" from="SelectionSys" to="PlayerTeam" method="_on_selection_sys_command_units"]
+[connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
+[connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
 
 [editable path="PlayerTeam/Formations"]

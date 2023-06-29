@@ -1,5 +1,8 @@
 extends Node
 
+signal added_player(unit)
+signal removed_player(unit)
+
 var player_tscn = preload("res://characters/player.tscn")
 
 @onready var formations = $Formations
@@ -8,9 +11,15 @@ const TEAM = 0
 var current_formation = 0 #index in $Formations/f?
 @export_range(1,6) var players_in_team = 1
 var target_unit:Unit
+var team:Array[Character]
+
+#### PLACEHOLDERS ####
+@export var ph_portraits: Array[CompressedTexture2D]
+######################
 
 
 func _ready():
+	GameEvents.character_died.connect(remove_player)
 	GameEvents.form_selected.connect(on_formation_selected)
 	spawn_players()
 
@@ -19,9 +28,13 @@ func spawn_players():
 	for p in range(players_in_team):
 		var player: Character = player_tscn.instantiate()
 		## Placeholder ##
+		if ph_portraits[p]:
+			player.portrait_texture = ph_portraits[p]
 		## Create save system for storing the last position
 		player.global_position = get_formation_positions()[p]
+		team.append(player)
 		players.add_child(player)
+		added_player.emit(player)
 
 
 func set_form_position(desired_pos: Vector3):
@@ -47,6 +60,12 @@ func update_target(new_target):
 		target_unit.deselect_as_target.emit()
 	target_unit = new_target
 	target_unit.select_as_target.emit()
+
+
+func remove_player(unit):
+	if team.has(unit):
+		team.remove_at(team.find(unit))
+		removed_player.emit(unit)
 
 
 func _on_selection_sys_command_units(selected_units:Array, target_obj:Dictionary, dbl_clickd:bool):

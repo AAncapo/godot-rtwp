@@ -1,0 +1,519 @@
+[gd_scene load_steps=14 format=3 uid="uid://bxsxmqyq2sivw"]
+
+[ext_resource type="Script" path="res://ui/hud/hud.gd" id="1_awdab"]
+[ext_resource type="PackedScene" uid="uid://br0m6tlibup2j" path="res://ui/hud/character_card.tscn" id="2_ntgp2"]
+[ext_resource type="PackedScene" path="res://ui/hud/form_select_btn.tscn" id="2_uegl4"]
+[ext_resource type="Script" path="res://ui/hud/hud_log_.gd" id="3_acuy0"]
+[ext_resource type="Script" path="res://ui/hud/hud_log_page.gd" id="4_t0typ"]
+[ext_resource type="Theme" uid="uid://q7j70qmrb65x" path="res://ui/hud/hud_modern_theme.tres" id="5_k372f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4053a"]
+bg_color = Color(0.305882, 0.305882, 0.305882, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stiqf"]
+bg_color = Color(0.0823529, 0.0823529, 0.0823529, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wttmi"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s41e2"]
+bg_color = Color(0.258824, 0.258824, 0.258824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jbfgp"]
+bg_color = Color(0.396078, 0.396078, 0.396078, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgpoe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06ppg"]
+bg_color = Color(0.258824, 0.258824, 0.258824, 1)
+
+[node name="hud" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_awdab")
+
+[node name="Paused" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 30.0
+grow_horizontal = 2
+color = Color(1, 0.137255, 0.137255, 0.784314)
+
+[node name="Label" type="Label" parent="Paused"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -13.0
+offset_right = 31.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 23
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="fps_counter" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "fps:"
+
+[node name="PlayersControl" type="Control" parent="."]
+custom_minimum_size = Vector2(500, 120)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -162.0
+offset_right = 250.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayersControl"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -235.0
+offset_top = -154.0
+offset_right = 235.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="char_actions_bts" type="Control" parent="PlayersControl/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="bg-actions" type="ColorRect" parent="PlayersControl/VBoxContainer/char_actions_bts"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayersControl/VBoxContainer/char_actions_bts"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Button" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button2" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button3" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button4" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button5" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button6" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button7" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button8" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button9" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="Button10" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
+text = "a"
+
+[node name="CharacterCards" type="HBoxContainer" parent="PlayersControl/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+alignment = 1
+
+[node name="CharacterCard" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="CharacterCard6" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="CharacterCard2" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="CharacterCard3" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="CharacterCard4" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="CharacterCard5" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
+layout_mode = 2
+
+[node name="FormationsButton" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -38.0
+offset_right = 80.0
+offset_bottom = -8.0
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_stiqf")
+text = "F"
+
+[node name="FormationEditor" type="Control" parent="FormationsButton"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.5
+offset_top = -95.5
+offset_right = 32.5
+offset_bottom = -26.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="FormationsButton/FormationEditor"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3
+
+[node name="FormSelectBtn" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "0"
+
+[node name="FormSelectBtn2" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "1"
+form_index = 1
+
+[node name="FormSelectBtn3" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "2"
+form_index = 2
+
+[node name="FormSelectBtn4" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "3"
+form_index = 3
+
+[node name="FormSelectBtn5" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "4"
+form_index = 4
+
+[node name="FormSelectBtn6" parent="FormationsButton/FormationEditor/GridContainer" instance=ExtResource("2_uegl4")]
+layout_mode = 2
+text = "5"
+form_index = 5
+
+[node name="Log" type="Control" parent="."]
+custom_minimum_size = Vector2(250, 20)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("3_acuy0")
+
+[node name="log_bg" type="ColorRect" parent="Log"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="entries_counter" type="Label" parent="Log"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -27.0
+offset_top = -20.0
+offset_right = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 12
+text = "0"
+horizontal_alignment = 1
+
+[node name="log_bts_container" type="HBoxContainer" parent="Log"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="show_all_bt" type="Button" parent="Log/log_bts_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_wttmi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s41e2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_jbfgp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_jgpoe")
+theme_override_styles/focus = SubResource("StyleBoxFlat_06ppg")
+text = "All"
+
+[node name="filter_combat_bt" type="Button" parent="Log/log_bts_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_wttmi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s41e2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_jbfgp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_jgpoe")
+theme_override_styles/focus = SubResource("StyleBoxFlat_06ppg")
+text = "Combat"
+
+[node name="filter_events_bt" type="Button" parent="Log/log_bts_container"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_wttmi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_s41e2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_jbfgp")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_jgpoe")
+theme_override_styles/focus = SubResource("StyleBoxFlat_06ppg")
+text = "Events"
+
+[node name="log_page" type="Control" parent="Log"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_t0typ")
+
+[node name="bg" type="ColorRect" parent="Log/log_page"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.196078, 0.196078, 0.196078, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Log/log_page"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_k372f")
+horizontal_scroll_mode = 0
+
+[node name="logs_container" type="VBoxContainer" parent="Log/log_page/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -60.0
+offset_right = 180.0
+grow_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 6
+
+[node name="Button" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button2" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button3" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button4" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button5" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button6" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button7" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button8" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button9" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button10" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="formation_button" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+text = "F"
+
+[node name="Button12" type="Button" parent="Control/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="FormationsButton" to="." method="_on_formations_button_pressed"]
+[connection signal="pressed" from="Log/log_bts_container/show_all_bt" to="Log" method="_on_show_all_bt_pressed"]
+[connection signal="pressed" from="Log/log_bts_container/filter_combat_bt" to="Log" method="_on_filter_combat_bt_pressed"]
+[connection signal="pressed" from="Log/log_bts_container/filter_events_bt" to="Log" method="_on_filter_events_bt_pressed"]
