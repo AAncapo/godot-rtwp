@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4x87o28sgsjs"]
+
+[ext_resource type="PackedScene" uid="uid://cimvhs5v3ifve" path="res://characters/character.tscn" id="1_tffxa"]
+[ext_resource type="Material" uid="uid://bqf4ilhu0y8am" path="res://materials/chars/team2material.tres" id="3_paby7"]
+[ext_resource type="PackedScene" uid="uid://blio3kf7nqplm" path="res://characters/npc/interaction_dialog.tscn" id="4_t7gkc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1ggr4"]
+resource_local_to_scene = true
+
+[node name="npc" instance=ExtResource("1_tffxa")]
+team = 2
+
+[node name="CollisionShape3D" parent="CharacterAI/DetectionArea" index="0"]
+shape = SubResource("SphereShape3D_1ggr4")
+
+[node name="MeshInstance3D" parent="Body" index="0"]
+surface_material_override/0 = ExtResource("3_paby7")
+
+[node name="InteractionDialog" parent="." index="6" instance=ExtResource("4_t7gkc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.54041, 0)
+visible = false
+billboard = 1
+shaded = true
+double_sided = false
+modulate = Color(0.823529, 0.996078, 0.215686, 1)
+font_size = 64
+
+[editable path="WeaponController"]

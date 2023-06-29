@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtplyp01mp17"]
+
+[ext_resource type="PackedScene" uid="uid://cimvhs5v3ifve" path="res://characters/character.tscn" id="1_csmnv"]
+[ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="2_eseoq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_8766x"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nivk7"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_eseoq")
+shader_parameter/albedoFrom = Color(1, 0.211765, 0.211765, 1)
+shader_parameter/albedoTo = Color(0.972549, 0.121569, 0.121569, 1)
+shader_parameter/albedoBG = Color(0.160784, 0.160784, 0.160784, 1)
+shader_parameter/progress = 0.2
+
+[node name="player" instance=ExtResource("1_csmnv")]
+detection_range = 15.0
+
+[node name="CollisionShape3D" parent="CharacterAI/DetectionArea" index="0"]
+shape = SubResource("SphereShape3D_8766x")
+
+[node name="HealthBar" parent="GUI" index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_nivk7")
+
+[editable path="CharacterAI/WeaponController"]

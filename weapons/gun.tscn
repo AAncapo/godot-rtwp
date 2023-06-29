@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxof1u14tfilt"]
+
+[ext_resource type="Script" path="res://weapons/gun.gd" id="1_pcte1"]
+
+[node name="gun" type="Node3D"]
+script = ExtResource("1_pcte1")
+firePoints = NodePath("firepoints")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="firepoints" type="Node3D" parent="."]
+
+[node name="Marker3D" type="Marker3D" parent="firepoints"]
+
+[node name="muzzle" type="Node3D" parent="."]
+
+[node name="shell_ejection" type="Marker3D" parent="."]

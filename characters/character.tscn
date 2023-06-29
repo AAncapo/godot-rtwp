@@ -1,0 +1,223 @@
+[gd_scene load_steps=33 format=3 uid="uid://cimvhs5v3ifve"]
+
+[ext_resource type="Script" path="res://characters/character.gd" id="1_cvhf5"]
+[ext_resource type="Script" path="res://characters/char_ai.gd" id="3_q4x40"]
+[ext_resource type="Script" path="res://characters/char_movement.gd" id="4_ld7y3"]
+[ext_resource type="Script" path="res://characters/detect_area.gd" id="5_eosxb"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_wander.gd" id="6_2qkc5"]
+[ext_resource type="Animation" uid="uid://dh8cw5r37xl02" path="res://animations/charactersshow_selection.tres" id="6_32ix8"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_idle.gd" id="6_u3bst"]
+[ext_resource type="Texture2D" uid="uid://j5ijg0glnqjo" path="res://selection_circle.png" id="7_ahfrc"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_follow.gd" id="7_ia2ka"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_combat.gd" id="8_ge4kv"]
+[ext_resource type="Script" path="res://characters/char_gui.gd" id="8_vg2pr"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_interact.gd" id="9_gp2p5"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_alert.gd" id="10_qlmcx"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_move.gd" id="13_f78c0"]
+[ext_resource type="PackedScene" uid="uid://iaqi4nhshkiq" path="res://characters/addons/weapon_controller.tscn" id="14_cq5mj"]
+[ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="16_ysk87"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_81acq"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ett3t"]
+resource_local_to_scene = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_6cql1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mljid"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_wl72u"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_o8yfu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oheyl"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.784314)
+albedo_texture = ExtResource("7_ahfrc")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vhyst"]
+size = Vector2(1, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6nx8"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("16_ysk87")
+shader_parameter/albedoFrom = Color(1, 0.211765, 0.211765, 1)
+shader_parameter/albedoTo = Color(0.972549, 0.121569, 0.121569, 1)
+shader_parameter/albedoBG = Color(0.160784, 0.160784, 0.160784, 1)
+shader_parameter/progress = 0.2
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fyd8o"]
+_data = {
+"show_selection": ExtResource("6_32ix8")
+}
+
+[sub_resource type="SphereMesh" id="SphereMesh_pggeh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck303"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.152941, 0.152941, 0.392157)
+
+[sub_resource type="SphereMesh" id="SphereMesh_mnjpy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yljl1"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.972549, 0.0823529, 0.392157)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pbdwy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jmptg"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.392157)
+
+[node name="Character" type="CharacterBody3D" groups=["units"]]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_cvhf5")
+max_health = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_81acq")
+
+[node name="CharacterAI" type="Node3D" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_q4x40")
+initial_state = NodePath("States/Idle")
+
+[node name="Movement" type="Node" parent="CharacterAI"]
+script = ExtResource("4_ld7y3")
+
+[node name="DetectionArea" type="Area3D" parent="CharacterAI"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("5_eosxb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterAI/DetectionArea"]
+shape = SubResource("SphereShape3D_ett3t")
+
+[node name="FieldOfView" type="RayCast3D" parent="CharacterAI/DetectionArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.929878, 0)
+visible = false
+collision_mask = 3
+
+[node name="WeaponController" parent="CharacterAI" instance=ExtResource("14_cq5mj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="States" type="Node" parent="CharacterAI"]
+
+[node name="Idle" type="Node" parent="CharacterAI/States"]
+script = ExtResource("6_u3bst")
+
+[node name="Wander" type="Node" parent="CharacterAI/States"]
+script = ExtResource("6_2qkc5")
+
+[node name="Follow" type="Node" parent="CharacterAI/States"]
+script = ExtResource("7_ia2ka")
+
+[node name="Alert" type="Node" parent="CharacterAI/States"]
+script = ExtResource("10_qlmcx")
+
+[node name="Combat" type="Node" parent="CharacterAI/States"]
+script = ExtResource("8_ge4kv")
+
+[node name="Interact" type="Node" parent="CharacterAI/States"]
+script = ExtResource("9_gp2p5")
+
+[node name="Move" type="Node" parent="CharacterAI/States"]
+script = ExtResource("13_f78c0")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_6cql1")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/MeshInstance3D"]
+transform = Transform3D(0.582465, 0, 0, 0, 0.315446, 0, 0, 0, 0.408904, 0, 0.283226, -0.392221)
+mesh = SubResource("BoxMesh_mljid")
+skeleton = NodePath("../..")
+
+[node name="wpn_holder" type="Node3D" parent="Body"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.947336, -0.684288)
+
+[node name="GUI" type="Node3D" parent="."]
+process_mode = 3
+script = ExtResource("8_vg2pr")
+
+[node name="SelectionIndicator" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 0.667, 0, -2, -2.91555e-08, 0, 0.02, 0)
+visible = false
+mesh = SubResource("QuadMesh_wl72u")
+
+[node name="target_pos" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(1.50676, 0, 0, 0, -6.58624e-08, 1.50676, 0, -1.50676, -6.58624e-08, 0, 0.02, 0)
+top_level = true
+visible = false
+mesh = SubResource("QuadMesh_o8yfu")
+surface_material_override/0 = SubResource("StandardMaterial3D_oheyl")
+
+[node name="char_name" type="Label3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35747, 0)
+visible = false
+billboard = 1
+double_sided = false
+text = "Player"
+font_size = 80
+outline_size = 100
+
+[node name="HealthBar" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3656, 0)
+mesh = SubResource("QuadMesh_vhyst")
+surface_material_override/0 = SubResource("ShaderMaterial_l6nx8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GUI"]
+libraries = {
+"character animations": SubResource("AnimationLibrary_fyd8o")
+}
+
+[node name="debug_mesh" type="Node3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0539866, 0)
+
+[node name="opt_range" type="MeshInstance3D" parent="GUI/debug_mesh"]
+transform = Transform3D(1, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 0.2, 0)
+visible = false
+mesh = SubResource("SphereMesh_pggeh")
+surface_material_override/0 = SubResource("StandardMaterial3D_ck303")
+
+[node name="hitrange" type="MeshInstance3D" parent="GUI/debug_mesh"]
+transform = Transform3D(1, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 0.162826, 0)
+visible = false
+mesh = SubResource("SphereMesh_mnjpy")
+surface_material_override/0 = SubResource("StandardMaterial3D_yljl1")
+
+[node name="detection_radius" type="MeshInstance3D" parent="GUI/debug_mesh"]
+transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.126821, 0)
+visible = false
+mesh = SubResource("CylinderMesh_pbdwy")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jmptg")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+unique_name_in_owner = true
+avoidance_enabled = true
+debug_enabled = true
+debug_use_custom = true
+
+[connection signal="damaged" from="." to="GUI" method="_on_character_damaged"]
+[connection signal="deselect_as_target" from="." to="GUI" method="_on_character_deselect_as_target"]
+[connection signal="deselected" from="." to="GUI" method="_on_character_deselected"]
+[connection signal="select_as_target" from="." to="GUI" method="_on_character_select_as_target"]
+[connection signal="selected" from="." to="GUI" method="_on_character_selected"]
+[connection signal="target_updated" from="." to="CharacterAI" method="_on_character_target_updated"]
+[connection signal="body_entered" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_exited"]
+[connection signal="equipped" from="CharacterAI/WeaponController" to="CharacterAI" method="_on_weapon_controller_equipped"]
+
+[editable path="CharacterAI/WeaponController"]

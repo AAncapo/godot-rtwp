@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnrvj8jfykvvr"]
+
+[ext_resource type="Script" path="res://characters/addons/char_anim_controller.gd" id="1_pj7pg"]
+
+[node name="AnimationController" type="Node"]
+script = ExtResource("1_pj7pg")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bncqqyqojb8oy"]
+
+[ext_resource type="Script" path="res://weapons/bullet.gd" id="1_ld5pg"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mnwnx"]
+radius = 0.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_2kkms"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_00hhk"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="Bullet" type="CharacterBody3D"]
+top_level = true
+collision_layer = 0
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1_ld5pg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_mnwnx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.256955, 0, 0, 0, 0.256955, 0, 0, 0, 0.256955, 0, 0, 0)
+mesh = SubResource("BoxMesh_2kkms")
+surface_material_override/0 = SubResource("StandardMaterial3D_00hhk")

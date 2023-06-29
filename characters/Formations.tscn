@@ -1,0 +1,104 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CubeMesh" id=20]
+
+[node name="Formations" type="Spatial"]
+
+[node name="f1" type="Spatial" parent="."]
+visible = false
+
+[node name="Position3D" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="f1/Position3D"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+
+[node name="Position3D4" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="f1/Position3D4"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D2" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="f1/Position3D2"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D5" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="f1/Position3D5"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D3" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="f1/Position3D3"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D6" type="Position3D" parent="f1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="f1/Position3D6"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="f2" type="Spatial" parent="."]
+visible = false
+
+[node name="Position3D" type="Position3D" parent="f2"]
+
+[node name="MeshInstance" type="MeshInstance" parent="f2/Position3D"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+
+[node name="Position3D4" type="Position3D" parent="f2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="f2/Position3D4"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D2" type="Position3D" parent="f2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="f2/Position3D2"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D5" type="Position3D" parent="f2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="f2/Position3D5"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D3" type="Position3D" parent="f2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6 )
+
+[node name="MeshInstance6" type="MeshInstance" parent="f2/Position3D3"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
+
+[node name="Position3D6" type="Position3D" parent="f2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="f2/Position3D6"]
+transform = Transform( 0.396378, 0, 0, 0, 0.396378, 0, 0, 0, 0.396378, 0, 0, 0 )
+mesh = SubResource( 20 )
+skeleton = NodePath("../../Position3D")
