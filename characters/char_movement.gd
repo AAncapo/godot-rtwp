@@ -19,9 +19,9 @@ func _physics_process(delta: float) -> void:
 		_char.move_and_slide()
 
 
-func move_to(target_pos: Vector3, rotate:bool = true) -> void:
+func move_to(target_pos: Vector3, _rotate:bool = true) -> void:
 	stopping_dist = _char.safe_dist
-	self.rotate = rotate
+	self.rotate = _rotate
 	agent.target_position = target_pos
 
 

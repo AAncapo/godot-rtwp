@@ -29,20 +29,16 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="bg_portrait" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(75, 90)
 layout_mode = 2
-size_flags_vertical = 3
-color = Color(0.25098, 0.25098, 0.25098, 1)
+color = Color(0.921569, 0, 0.129412, 0.588235)
 
 [node name="Portrait" type="TextureButton" parent="VBoxContainer/bg_portrait"]
 custom_minimum_size = Vector2(60, 40)
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = -2.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3

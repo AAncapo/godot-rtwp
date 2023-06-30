@@ -37,10 +37,13 @@ func _on_portrait_pressed():
 		_char.selected.emit()
 		GameEvents.focus_worldobject.emit(_char)
 
+
 func __on_character_died(character):
 	if _char && _char == character:
 		#set portrait as disabled
 		portrait.disabled = true
+		portrait.show_behind_parent = true
+
 
 func _on_health_bar_mouse_entered():
 	$VBoxContainer/HealthBar/health_counter.show()

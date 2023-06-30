@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cn67obdpe5atn" path="res://characters/portraits/Ryan.PNG" id="8_ef1ag"]
 [ext_resource type="Texture2D" uid="uid://bha3o4hdrfjhm" path="res://characters/portraits/Tony.jpg" id="9_c8wmh"]
 [ext_resource type="Script" path="res://enemy_team.gd" id="10_x0kho"]
+[ext_resource type="Script" path="res://debug_console.gd" id="13_t22yu"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_t4soq"]
 vertices = PackedVector3Array(-6, 0.02, -19.75, -3.75, 0.02, -20, -3.75, 0.02, -24.5, -14.25, 0.02, -24.5, -6, 0.02, -10, -6, 0.02, -19.75, -14.25, 0.02, -24.5, -24.5, 0.02, -17.25, -24.5, 0.02, -10, -14.25, 0.02, -24.5, -24.5, 0.02, -24.5, -24.5, 0.02, -17.25, -3.75, 0.02, -20, 4, 0.02, -20, 4, 0.02, -24.5, -3.75, 0.02, -24.5, 4, 0.02, -24.5, 4, 0.02, -20, 6.25, 0.02, -19.75, 14.25, 0.02, -24.5, 14.25, 0.02, -24.5, 6.25, 0.02, -19.75, 6.25, 0.02, -10, 24.5, 0.02, -9.75, 24.5, 0.02, -17.25, 24.5, 0.02, -17.25, 24.5, 0.02, -24.5, 14.25, 0.02, -24.5, 5, 3.02, -9.25, 1.75, 3.02, -8.75, 5.25, 3.02, -9, -5, 3.02, -8.75, -1.75, 3.02, -8.75, -4.75, 3.02, -9.25, -5, 3.02, -19, -5, 3.02, -8.75, -4.75, 3.02, -9.25, -4.5, 3.02, -18.75, 5.25, 3.02, -19, 4.75, 3.02, -18.75, 5, 3.02, -9.25, 5.25, 3.02, -9, -5, 3.02, -19, -4.5, 3.02, -18.75, 4.75, 3.02, -18.75, 5.25, 3.02, -19, -1, 0.02, -10, -0.75, 0.02, -8.75, 0.75, 0.02, -8.75, 1, 0.02, -10, -1.75, 0.02, -15.5, 4, 0.02, -17.75, -1, 0.02, -16.5, -1.75, 0.02, -15.5, 1, 0.02, -10, 4, 0.02, -10, 4, 0.02, -17.75, -1.5, 0.02, -17.75, -1, 0.02, -16.5, -1.75, 0.02, -15.5, -3.75, 0.02, -16, -3.75, 0.02, -10, -1, 0.02, -10, -24.5, 0.02, 15.75, -24.5, 0.02, 24.5, -15.5, 0.02, 24.5, -6, 0.02, -8, -6, 0.02, -10, -24.5, 0.02, -10, -24.5, 0.02, -1.5, -24.5, 0.02, 7.25, -24.5, 0.02, 15.75, -15.5, 0.02, 24.5, -6, 0.02, -8, -24.5, 0.02, -1.5, -24.5, 0.02, 7.25, -15.5, 0.02, 24.5, -6.25, 0.02, 24.5, 15.25, 0.02, 24.5, 24.5, 0.02, 24.5, 24.5, 0.02, 15.75, 24.5, 0.02, -9.75, 6.25, 0.02, -10, 6, 0.02, -8.25, 24.5, 0.02, -1.25, 15.25, 0.02, 24.5, 24.5, 0.02, 15.75, 24.5, 0.02, 7.25, 24.5, 0.02, 7.25, 24.5, 0.02, -1.25, 6, 0.02, -8.25, 6.25, 0.02, 24.5, 15.25, 0.02, 24.5, 1, 0.02, -7.75, 0.75, 0.02, -8.75, -0.75, 0.02, -8.75, -1, 0.02, -7.75, 0, 0.02, 24.5, -1, 0.02, -7.75, -6, 0.02, -8, -6.25, 0.02, 24.5, 0, 0.02, 24.5, 6.25, 0.02, 24.5, 6, 0.02, -8.25, 5.75, 0.02, -7.75, 6.25, 0.02, 24.5, 5.75, 0.02, -7.75, 1, 0.02, -7.75, 0, 0.02, 24.5)
@@ -49,8 +50,6 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 
 [sub_resource type="BoxMesh" id="BoxMesh_1ds4r"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_waaiy"]
-
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_cwiys"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
@@ -58,7 +57,7 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 
 [node name="CamBase" type="Node3D" parent="."]
 process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 0.299191, 0.954193, 0, -0.954193, 0.299191, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.16014, 0.987094, 0, -0.987094, 0.16014, 0, 0, 0)
 script = ExtResource("3_7oabq")
 
 [node name="Camera3D" type="Camera3D" parent="CamBase"]
@@ -67,6 +66,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 25.4181)
 [node name="SelectionSys" parent="." instance=ExtResource("2_pa5tv")]
 
 [node name="HUD" parent="." instance=ExtResource("6_goi0v")]
+unique_name_in_owner = true
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="PlayerTeam" type="Node" parent="."]
 script = ExtResource("5_3bb4d")
@@ -160,7 +164,6 @@ shape = SubResource("ConcavePolygonShape3D_gjflt")
 [node name="floor" type="MeshInstance3D" parent="NavigationRegion3D"]
 transform = Transform3D(50, 0, 0, 0, 1, 0, 0, 0, 50, 0, -0.5, 0)
 mesh = SubResource("BoxMesh_1ds4r")
-surface_material_override/0 = SubResource("StandardMaterial3D_waaiy")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/floor"]
 
@@ -182,8 +185,61 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -14.1514)
 [node name="Marker3D3" type="Marker3D" parent="EnemyTeam/SpawnPositions"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7839, 0, -17.794)
 
+[node name="debug_console" type="Control" parent="."]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("13_t22yu")
+
+[node name="bg" type="ColorRect" parent="debug_console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.372549, 0.372549, 0.372549, 0.423529)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="debug_console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="fps_counter" type="Label" parent="debug_console/VBoxContainer"]
+layout_mode = 2
+text = "fps: 0"
+
+[node name="option" type="HBoxContainer" parent="debug_console/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="hide_hud" type="CheckBox" parent="debug_console/VBoxContainer/option"]
+layout_mode = 2
+text = "hide HUD"
+
+[node name="option2" type="HBoxContainer" parent="debug_console/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="reset" type="Button" parent="debug_console/VBoxContainer/option2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "reset scene"
+
 [connection signal="command_units" from="SelectionSys" to="PlayerTeam" method="_on_selection_sys_command_units"]
 [connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
 [connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
+[connection signal="toggled" from="debug_console/VBoxContainer/option/hide_hud" to="debug_console" method="_on_hide_hud_toggled"]
+[connection signal="pressed" from="debug_console/VBoxContainer/option2/reset" to="debug_console" method="_on_reset_pressed"]
 
 [editable path="PlayerTeam/Formations"]

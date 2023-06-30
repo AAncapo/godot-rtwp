@@ -11,7 +11,6 @@ func _ready():
 
 func _process(_delta):
 	$Paused.visible = get_tree().paused
-	$fps_counter.text = str('fps: ',Engine.get_frames_per_second())
 
 
 func on_form_tab_toggle():

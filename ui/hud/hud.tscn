@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxsxmqyq2sivw"]
+[gd_scene load_steps=13 format=3 uid="uid://bxsxmqyq2sivw"]
 
 [ext_resource type="Script" path="res://ui/hud/hud.gd" id="1_awdab"]
 [ext_resource type="PackedScene" uid="uid://br0m6tlibup2j" path="res://ui/hud/character_card.tscn" id="2_ntgp2"]
@@ -6,9 +6,6 @@
 [ext_resource type="Script" path="res://ui/hud/hud_log_.gd" id="3_acuy0"]
 [ext_resource type="Script" path="res://ui/hud/hud_log_page.gd" id="4_t0typ"]
 [ext_resource type="Theme" uid="uid://q7j70qmrb65x" path="res://ui/hud/hud_modern_theme.tres" id="5_k372f"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4053a"]
-bg_color = Color(0.305882, 0.305882, 0.305882, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stiqf"]
 bg_color = Color(0.0823529, 0.0823529, 0.0823529, 1)
@@ -33,6 +30,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -68,12 +69,6 @@ theme_override_font_sizes/font_size = 23
 text = "GAME PAUSED"
 horizontal_alignment = 1
 
-[node name="fps_counter" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "fps:"
-
 [node name="PlayersControl" type="Control" parent="."]
 custom_minimum_size = Vector2(500, 120)
 layout_mode = 1
@@ -100,131 +95,13 @@ offset_top = -154.0
 offset_right = 235.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="char_actions_bts" type="Control" parent="PlayersControl/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="bg-actions" type="ColorRect" parent="PlayersControl/VBoxContainer/char_actions_bts"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.129412, 0.129412, 0.129412, 1)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayersControl/VBoxContainer/char_actions_bts"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = -2.0
-offset_bottom = -2.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 6
-alignment = 1
-
-[node name="Button" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button2" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button3" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button4" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button5" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button6" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button7" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button8" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button9" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
-
-[node name="Button10" type="Button" parent="PlayersControl/VBoxContainer/char_actions_bts/HBoxContainer"]
-clip_contents = true
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-theme_override_styles/normal = SubResource("StyleBoxFlat_4053a")
-text = "a"
+mouse_filter = 2
 
 [node name="CharacterCards" type="HBoxContainer" parent="PlayersControl/VBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 8
+size_flags_vertical = 10
 alignment = 1
 
 [node name="CharacterCard" parent="PlayersControl/VBoxContainer/CharacterCards" instance=ExtResource("2_ntgp2")]
