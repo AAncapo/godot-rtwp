@@ -70,7 +70,7 @@ func select_units(m_pos):
 
 func deselect_all_units():
 	for unit in selected_units:
-		unit.emit_signal('deselected')
+		unit.deselected.emit()
 	selected_units.clear()
 	
 	if target_unit:

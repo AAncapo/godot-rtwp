@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bwuxagjv3ppaa"]
+
+[ext_resource type="Shader" path="res://characters/radius_indicator.gdshader" id="1_agsyg"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_agsyg")
+shader_parameter/size = 1.0
+shader_parameter/width = 0.2
+shader_parameter/_color = Color(1, 1, 1, 0.72549)

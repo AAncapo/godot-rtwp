@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp2rqtffk4t2s"]
+[gd_scene load_steps=8 format=3 uid="uid://cp2rqtffk4t2s"]
 
 [ext_resource type="PackedScene" uid="uid://cimvhs5v3ifve" path="res://characters/character.tscn" id="1_nmnle"]
 [ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="2_vkpt2"]
@@ -6,7 +6,44 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_27w2q"]
 resource_local_to_scene = true
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sh0qp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1reda"]
+resource_local_to_scene = true
+
+[sub_resource type="Shader" id="Shader_xfgd1"]
+resource_local_to_scene = true
+code = "//https://godotshaders.com/shader/focus-circle-ring/
+shader_type spatial;
+render_mode unshaded, cull_disabled, depth_draw_opaque;
+
+uniform float size = 1.0;
+uniform float width = 0.2;
+//uniform vec4 inner_color: source_color;
+//uniform vec4 outer_color: source_color;
+uniform vec4 _color: source_color;
+
+void fragment() {
+	ALPHA = 0.0;
+	vec2 center = vec2(0.5);
+	float d = distance(UV, center);
+	float h = size * 0.5;
+	float l = h - (width * 0.5);
+	if (d <= h && d > l) {
+		vec4 color = _color;
+		//mix(inner_color, outer_color, smoothstep(l, h, d));
+		ALPHA = color.a;
+		ALBEDO = color.rgb;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4mx1"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_xfgd1")
+shader_parameter/size = 1.0
+shader_parameter/width = 0.2
+shader_parameter/_color = Color(1, 1, 1, 0.72549)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yw6xd"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_vkpt2")
@@ -18,14 +55,21 @@ shader_parameter/progress = 0.2
 [node name="enemy" instance=ExtResource("1_nmnle")]
 detection_range = 15.0
 team = 1
-
-[node name="CharacterAI" parent="." index="1" node_paths=PackedStringArray("initial_state")]
-initial_state = NodePath("States/Wander")
+team_color = Color(1, 0.203922, 0.203922, 1)
 
 [node name="CollisionShape3D" parent="CharacterAI/DetectionArea" index="0"]
 shape = SubResource("SphereShape3D_27w2q")
 
-[node name="HealthBar" parent="GUI" index="3"]
-surface_material_override/0 = SubResource("ShaderMaterial_sh0qp")
+[node name="MeshInstance3D" parent="Body" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_1reda")
+
+[node name="selection_indicator" parent="GUI" index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_e4mx1")
+
+[node name="head_healthbar" parent="GUI" index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_yw6xd")
+
+[node name="detection_radius" parent="GUI" index="5"]
+surface_material_override/0 = SubResource("ShaderMaterial_e4mx1")
 
 [editable path="CharacterAI/WeaponController"]

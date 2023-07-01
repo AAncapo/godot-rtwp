@@ -8,8 +8,8 @@ signal deselect_as_target
 signal target_updated(new_target,force_to)
 
 @export var team = 0
+@export var team_color: Color = Color(1,1,1,1)
 var force_to:bool
-
 ## assign the target here so the char has a reference to the latest command received
 ## use to exit the run&gun state: if Input doubleclick -> force_to=true charAI.target_char = null -> charAI.target_char = new_target(vector3/collisionObj3D)
 var target:

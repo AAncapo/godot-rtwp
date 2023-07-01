@@ -21,9 +21,9 @@ func update(delta:float):
 
 func randomize_wander():
 	var r = 5.0
-	move_direction = Vector3(randf_range(-r,r),owner.global_position.y,randf_range(-r,r))
+	move_direction = Vector3(randf_range(-r,r),_char.global_position.y,randf_range(-r,r))
 	wander_time = randf_range(4,6)
-	_char.target = move_direction
+	_char.target = _char.global_position + move_direction
 
 
 func exit():

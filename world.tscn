@@ -65,6 +65,57 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 25.4181)
 
 [node name="SelectionSys" parent="." instance=ExtResource("2_pa5tv")]
 
+[node name="debug_console" type="Control" parent="."]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(300, 500)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_right = 310.0
+offset_bottom = 500.0
+script = ExtResource("13_t22yu")
+
+[node name="bg" type="ColorRect" parent="debug_console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.372549, 0.372549, 0.372549, 0.423529)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="debug_console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="fps_counter" type="Label" parent="debug_console/VBoxContainer"]
+layout_mode = 2
+text = "fps: 0"
+
+[node name="option" type="HBoxContainer" parent="debug_console/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="hide_hud" type="CheckBox" parent="debug_console/VBoxContainer/option"]
+layout_mode = 2
+text = "hide HUD"
+
+[node name="option2" type="HBoxContainer" parent="debug_console/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="reset" type="Button" parent="debug_console/VBoxContainer/option2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "reset scene"
+
 [node name="HUD" parent="." instance=ExtResource("6_goi0v")]
 unique_name_in_owner = true
 offset_left = 0.0
@@ -185,61 +236,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3, 0, -14.1514)
 [node name="Marker3D3" type="Marker3D" parent="EnemyTeam/SpawnPositions"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7839, 0, -17.794)
 
-[node name="debug_console" type="Control" parent="."]
-process_mode = 3
-visible = false
-custom_minimum_size = Vector2(300, 500)
-layout_mode = 3
-anchors_preset = 0
-offset_left = 10.0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("13_t22yu")
-
-[node name="bg" type="ColorRect" parent="debug_console"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.372549, 0.372549, 0.372549, 0.423529)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="debug_console"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="fps_counter" type="Label" parent="debug_console/VBoxContainer"]
-layout_mode = 2
-text = "fps: 0"
-
-[node name="option" type="HBoxContainer" parent="debug_console/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-
-[node name="hide_hud" type="CheckBox" parent="debug_console/VBoxContainer/option"]
-layout_mode = 2
-text = "hide HUD"
-
-[node name="option2" type="HBoxContainer" parent="debug_console/VBoxContainer"]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-alignment = 1
-
-[node name="reset" type="Button" parent="debug_console/VBoxContainer/option2"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "reset scene"
-
 [connection signal="command_units" from="SelectionSys" to="PlayerTeam" method="_on_selection_sys_command_units"]
-[connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
-[connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
 [connection signal="toggled" from="debug_console/VBoxContainer/option/hide_hud" to="debug_console" method="_on_hide_hud_toggled"]
 [connection signal="pressed" from="debug_console/VBoxContainer/option2/reset" to="debug_console" method="_on_reset_pressed"]
+[connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
+[connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
 
 [editable path="PlayerTeam/Formations"]

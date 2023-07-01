@@ -1,7 +1,7 @@
 extends Unit
 class_name Character
 
-signal damaged
+signal damaged(cur_hp,max_hp)
 
 ## Base ##
 var is_dead = false
@@ -28,27 +28,21 @@ var hit_range: float = 2.0:
 	set(value):
 		hit_range = value
 		optimal_hr = hit_range * 0.75
-		
-		$GUI/debug_mesh/hitrange.global_scale(Vector3(value*2,0.02,value*2))
-		$GUI/debug_mesh/opt_range.global_scale(Vector3(optimal_hr*2,0.02,optimal_hr*2))
-		detection_range = hit_range+5
 var optimal_hr: float = 1.5
 @export var aim_speed : float = 1.5
 
 @onready var mov: CharacterMovement = $CharacterAI/Movement
 
-var team_materials = [
-	preload("res://materials/chars/team0material.tres"),
-	preload("res://materials/chars/team1material.tres")
-	]
-
 
 func _ready():
-	$Body/MeshInstance3D.set_surface_override_material(0,team_materials[team])
+	damaged.emit(current_health,max_health)
+	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
+	set_gui_indicators()
 
 
 func take_damage(_owner:Character, dmg:float):
 	current_health -= dmg
+	damaged.emit(current_health,max_health)
 	GameEvents.update_clg.emit(_owner,str('deals ',dmg,' damage to '),self)
 	GameEvents.update_char_ui.emit(self)
 	if current_health <= 0:
@@ -56,7 +50,7 @@ func take_damage(_owner:Character, dmg:float):
 		GameEvents.update_clg.emit(_owner,'killed',self)
 		GameEvents.character_died.emit(self)
 		
-		visible= false
+		visible = false
 		await get_tree().create_timer(0.5).timeout
 		queue_free()
 
@@ -73,3 +67,13 @@ func at_range_from(_target:Character) -> bool:
 	var _range = hit_range if is_enemy(_target) else interact_range
 	var dist: float = (_target.global_position - global_position).length()
 	return dist < _range
+
+
+func set_gui_indicators():
+	$GUI/detection_radius.scale=Vector3(detection_range*2,detection_range*2,1.0)
+	$GUI/char_name.text = name
+## trying to fix the !material errors when the character is freed (apparently a Godot 4 issue) ##
+func _on_tree_exited():
+	for i in $GUI.get_children():
+		if i is MeshInstance3D:
+			i.set_surface_override_material(0, null)

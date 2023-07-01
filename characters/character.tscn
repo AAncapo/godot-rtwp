@@ -15,7 +15,9 @@
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_alert.gd" id="10_qlmcx"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_move.gd" id="13_f78c0"]
 [ext_resource type="PackedScene" uid="uid://iaqi4nhshkiq" path="res://characters/addons/weapon_controller.tscn" id="14_cq5mj"]
+[ext_resource type="Material" uid="uid://bwuxagjv3ppaa" path="res://materials/chars/char_selection_material.tres" id="14_e0hy3"]
 [ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="16_ysk87"]
+[ext_resource type="Shader" path="res://characters/radius_indicator.gdshader" id="17_osxpo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_81acq"]
 
@@ -24,9 +26,12 @@ resource_local_to_scene = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6cql1"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0nb3"]
+resource_local_to_scene = true
+
 [sub_resource type="BoxMesh" id="BoxMesh_mljid"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_wl72u"]
+[sub_resource type="QuadMesh" id="QuadMesh_ptx2w"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o8yfu"]
 
@@ -48,43 +53,34 @@ shader_parameter/albedoTo = Color(0.972549, 0.121569, 0.121569, 1)
 shader_parameter/albedoBG = Color(0.160784, 0.160784, 0.160784, 1)
 shader_parameter/progress = 0.2
 
+[sub_resource type="QuadMesh" id="QuadMesh_uvnfu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mcyxf"]
+render_priority = 0
+shader = ExtResource("17_osxpo")
+shader_parameter/size = 1.0
+shader_parameter/width = 0.2
+shader_parameter/_color = Color(0.941176, 0, 0, 0.886275)
+
+[sub_resource type="QuadMesh" id="QuadMesh_3wax6"]
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fyd8o"]
 _data = {
 "show_selection": ExtResource("6_32ix8")
 }
 
-[sub_resource type="SphereMesh" id="SphereMesh_pggeh"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ck303"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0.152941, 0.152941, 0.392157)
-
-[sub_resource type="SphereMesh" id="SphereMesh_mnjpy"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yljl1"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0.972549, 0.0823529, 0.392157)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_pbdwy"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jmptg"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 1, 1, 0.392157)
-
 [node name="Character" type="CharacterBody3D" groups=["units"]]
+process_mode = 3
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cvhf5")
-max_health = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_81acq")
 
 [node name="CharacterAI" type="Node3D" parent="." node_paths=PackedStringArray("initial_state")]
+process_mode = 1
 script = ExtResource("3_q4x40")
 initial_state = NodePath("States/Idle")
 
@@ -137,6 +133,7 @@ script = ExtResource("13_f78c0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_6cql1")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_f0nb3")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/MeshInstance3D"]
 transform = Transform3D(0.582465, 0, 0, 0, 0.315446, 0, 0, 0, 0.408904, 0, 0.283226, -0.392221)
@@ -151,10 +148,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.947336, -0.684288)
 process_mode = 3
 script = ExtResource("8_vg2pr")
 
-[node name="SelectionIndicator" type="MeshInstance3D" parent="GUI"]
-transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 0.667, 0, -2, -2.91555e-08, 0, 0.02, 0)
+[node name="selection_indicator" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 2, 0, -2, -8.74228e-08, 0, 0.02, 0)
 visible = false
-mesh = SubResource("QuadMesh_wl72u")
+mesh = SubResource("QuadMesh_ptx2w")
+surface_material_override/0 = ExtResource("14_e0hy3")
 
 [node name="target_pos" type="MeshInstance3D" parent="GUI"]
 transform = Transform3D(1.50676, 0, 0, 0, -6.58624e-08, 1.50676, 0, -1.50676, -6.58624e-08, 0, 0.02, 0)
@@ -172,37 +170,29 @@ text = "Player"
 font_size = 80
 outline_size = 100
 
-[node name="HealthBar" type="MeshInstance3D" parent="GUI"]
+[node name="head_healthbar" type="MeshInstance3D" parent="GUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3656, 0)
+visible = false
 mesh = SubResource("QuadMesh_vhyst")
 surface_material_override/0 = SubResource("ShaderMaterial_l6nx8")
+
+[node name="hitrange_indicator" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0637552, 0)
+visible = false
+mesh = SubResource("QuadMesh_uvnfu")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_mcyxf")
+
+[node name="detection_radius" type="MeshInstance3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0539866, 0.02)
+visible = false
+mesh = SubResource("QuadMesh_3wax6")
+surface_material_override/0 = ExtResource("14_e0hy3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI"]
 libraries = {
 "character animations": SubResource("AnimationLibrary_fyd8o")
 }
-
-[node name="debug_mesh" type="Node3D" parent="GUI"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0539866, 0)
-
-[node name="opt_range" type="MeshInstance3D" parent="GUI/debug_mesh"]
-transform = Transform3D(1, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 0.2, 0)
-visible = false
-mesh = SubResource("SphereMesh_pggeh")
-surface_material_override/0 = SubResource("StandardMaterial3D_ck303")
-
-[node name="hitrange" type="MeshInstance3D" parent="GUI/debug_mesh"]
-transform = Transform3D(1, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 0.162826, 0)
-visible = false
-mesh = SubResource("SphereMesh_mnjpy")
-surface_material_override/0 = SubResource("StandardMaterial3D_yljl1")
-
-[node name="detection_radius" type="MeshInstance3D" parent="GUI/debug_mesh"]
-transform = Transform3D(1, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.126821, 0)
-visible = false
-mesh = SubResource("CylinderMesh_pbdwy")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_jmptg")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 unique_name_in_owner = true
@@ -213,9 +203,12 @@ debug_use_custom = true
 [connection signal="damaged" from="." to="GUI" method="_on_character_damaged"]
 [connection signal="deselect_as_target" from="." to="GUI" method="_on_character_deselect_as_target"]
 [connection signal="deselected" from="." to="GUI" method="_on_character_deselected"]
+[connection signal="mouse_entered" from="." to="GUI" method="_on_character_mouse_entered"]
+[connection signal="mouse_exited" from="." to="GUI" method="_on_character_mouse_exited"]
 [connection signal="select_as_target" from="." to="GUI" method="_on_character_select_as_target"]
 [connection signal="selected" from="." to="GUI" method="_on_character_selected"]
 [connection signal="target_updated" from="." to="CharacterAI" method="_on_character_target_updated"]
+[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="body_entered" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_exited"]
 [connection signal="equipped" from="CharacterAI/WeaponController" to="CharacterAI" method="_on_weapon_controller_equipped"]

@@ -31,8 +31,8 @@ func spawn_players():
 		if ph_portraits[p]:
 			player.portrait_texture = ph_portraits[p]
 		## Create save system for storing the last position
-		player.global_position = get_formation_positions()[p]
 		team.append(player)
+		player.global_position = get_formation_positions()[p]
 		players.add_child(player)
 		added_player.emit(player)
 
