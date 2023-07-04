@@ -95,16 +95,14 @@ func _on_detection_area_body_entered(body):
 		return
 	if ai_enabled && _char.is_enemy(body):
 		target_char = body
-		GameEvents.update_clg.emit(_char,'feels something kinda sus',body)
-		if _char.at_range_from(body):
-			stateMachine.current_state.changed.emit('alert') #is_inside_fov?
-		else:
-			stateMachine.current_state.changed.emit('follow')
+		stateMachine.current_state.changed.emit('alert')
+
 
 func _on_detection_area_body_exited(body):
 	if ai_enabled && _char.is_enemy(body):
 		if target_char && target_char==body:
-			target_char = null
+			pass
+#			target_char = null
 			## WANDER ##
-			stateMachine.current_state.changed.emit('wander')
+#			stateMachine.current_state.changed.emit('wander')
 ###########################################

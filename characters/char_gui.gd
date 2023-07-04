@@ -25,14 +25,21 @@ func set_hr_indicator_radius():
 	hr.get_surface_override_material(0).set_shader_parameter('width',0.2 / _char.hit_range)
 
 
+func set_location_indicator(new_pos:Vector3):
+	$location_pos.show()
+	$location_pos.global_position = new_pos + Vector3(0,0.2,0)
+
+
 func _on_character_selected():
 	is_selected = true
 	$AnimationPlayer.play("character animations/show_selection")
+
 
 func _on_character_deselected():
 	is_selected = false
 	$target_pos.hide()
 	selindicator.hide()
+
 
 func _on_character_select_as_target():
 	_on_character_selected()
@@ -80,6 +87,6 @@ func _on_state_machine_state_changed(state):
 			state_icon = '!'
 	
 	$state_indicator.text = state_icon
-	$state_indicator.visible = true
-	await get_tree().create_timer(2.0).timeout
-	$state_indicator.visible = false
+	$state_indicator.show()
+	await get_tree().create_timer(2.0, false).timeout
+	$state_indicator.hide()

@@ -6,7 +6,6 @@ var _char: Character
 var stopping_dist: float = 0.2
 var move_speed: float  ## by default is set to run_speed
 var rotate: bool = true
-var target_reached:bool
 
 
 func _physics_process(delta: float) -> void:
@@ -19,15 +18,18 @@ func _physics_process(delta: float) -> void:
 			rotate_to(agent.get_next_path_position(), delta)
 		
 		_char.move_and_slide()
-	else:
-		target_reached = true
+
+
+func has_reached_target() -> bool:
+	return _char.global_position.distance_to(agent.target_position) <= 0.5 
 
 
 func move_to(target_pos: Vector3, _rotate:bool = true) -> void:
-	target_reached = false
 	stopping_dist = _char.safe_dist
 	self.rotate = _rotate
 	agent.target_position = target_pos
+	
+	%GUI.set_location_indicator(target_pos)
 
 
 func rotate_to(target:Vector3, delta:float):

@@ -151,16 +151,16 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.947336, -0.684288)
 
 [node name="GUI" type="Node3D" parent="."]
+unique_name_in_owner = true
 process_mode = 3
 script = ExtResource("8_vg2pr")
 
 [node name="selection_indicator" type="MeshInstance3D" parent="GUI"]
 transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 2, 0, -2, -8.74228e-08, 0, 0.02, 0)
-visible = false
 mesh = SubResource("QuadMesh_ptx2w")
 surface_material_override/0 = ExtResource("14_e0hy3")
 
-[node name="target_pos" type="MeshInstance3D" parent="GUI"]
+[node name="location_pos" type="MeshInstance3D" parent="GUI"]
 transform = Transform3D(1.50676, 0, 0, 0, -6.58624e-08, 1.50676, 0, -1.50676, -6.58624e-08, 0, 0.02, 0)
 top_level = true
 visible = false
