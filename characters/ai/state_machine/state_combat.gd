@@ -11,11 +11,11 @@ func enter():
 
 
 func update(delta:float):
+	## search for enemies if target died and no new position is given
 	if !target_char || target_char.is_dead:
 		if target_pos != Vector3.ZERO:
 			changed.emit('move')
 			return
-		# search for enemies if target died and no new position is given
 		var enemies_left = da.get_units_in_area(_char,true)
 		if enemies_left.size() > 0:
 			if _char.at_range_from(enemies_left[0]):
@@ -29,27 +29,17 @@ func update(delta:float):
 		if da.is_inside_fov(target_char):
 			if wpn_ctrl.pointing_at_target(target_char):
 				wpn_ctrl.attack(delta)
-		else:
-			changed.emit('follow')
 	else:
-		if wait_time < 0:
-			changed.emit('alert')
+		changed.emit('alert')
 
 
 func update_physics(delta:float):
-	var tchar_pos = target_char.position
-	
 	## rotation and movement while rungun is active ##
 	if rungun: 
 		# rotate towards current target if no new targetpos
-		# chase current target if escapes hit_range
-		if target_pos==Vector3.ZERO:
-			mov.rotate_to(tchar_pos,delta)
-			if !_char.at_range_from(target_char):
-				wait_time -= delta
-				if wait_time < 0:
-					wait_time = 1.0
-					mov.move_to(tchar_pos)
+		mov.rotate_to(target_char.position,delta)
+		if target_pos == Vector3.ZERO:
+			mov.move_to(target_char.position)
 		else:
 			# if new targetpos
 			# keep looking at target until is not inside hit_range or visible

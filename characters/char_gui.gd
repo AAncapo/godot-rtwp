@@ -37,7 +37,7 @@ func _on_character_selected():
 
 func _on_character_deselected():
 	is_selected = false
-	$target_pos.hide()
+	$location_pos.hide()
 	selindicator.hide()
 
 
