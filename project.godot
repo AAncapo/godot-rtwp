@@ -18,15 +18,13 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameEvents="*res://globals/GameEvents.gd"
+BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
+BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
 [editor]
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
-
-[editor_plugins]
-
-enabled=PackedStringArray()
 
 [input]
 

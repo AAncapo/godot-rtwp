@@ -125,7 +125,6 @@ offset_bottom = 0.0
 
 [node name="PlayerTeam" type="Node" parent="."]
 script = ExtResource("5_3bb4d")
-players_in_team = 4
 ph_portraits = Array[CompressedTexture2D]([ExtResource("5_f0ihv"), ExtResource("6_6vbr5"), ExtResource("7_s6oam"), ExtResource("8_ef1ag"), ExtResource("9_c8wmh")])
 
 [node name="Players" type="Node3D" parent="PlayerTeam"]
@@ -223,7 +222,6 @@ shape = SubResource("ConcavePolygonShape3D_cwiys")
 
 [node name="EnemyTeam" type="Node" parent="."]
 script = ExtResource("10_x0kho")
-enemies_in_team = 3
 
 [node name="SpawnPositions" type="Node" parent="EnemyTeam"]
 
