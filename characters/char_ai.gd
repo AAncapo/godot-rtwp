@@ -54,18 +54,16 @@ func _ready():
 
 func _on_character_target_updated(new_target, force_to:bool):
 	if new_target is CollisionObject3D:
+		if new_target == target_char:
+			return
 		#if player dbl_clck run&gun is disabled
 		rungun = !force_to
 		target_char = new_target
 		
 		if !_char.is_enemy(new_target):
-			stateMachine.current_state.changed.emit('interact')  #or interact idk
+			stateMachine.current_state.changed.emit('interact')
 		else:
-			#at_range?
-			if _char.at_range_from(new_target):
-				stateMachine.current_state.changed.emit('alert') #is_inside_fov?
-			else:
-				stateMachine.current_state.changed.emit('follow')
+			stateMachine.current_state.changed.emit('alert')
 	
 	## the new target is a position vector
 	if new_target is Vector3:

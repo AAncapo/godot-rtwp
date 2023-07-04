@@ -68,11 +68,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 25.4181)
 
 [node name="debug_console" type="Control" parent="."]
 process_mode = 3
-custom_minimum_size = Vector2(300, 500)
+custom_minimum_size = Vector2(250, 500)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 10.0
-offset_right = 310.0
+offset_right = 260.0
 offset_bottom = 500.0
 script = ExtResource("13_t22yu")
 

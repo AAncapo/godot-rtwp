@@ -4,6 +4,8 @@ class_name Combat
 var wait_time:float
 
 func enter():
+	randomize()
+	
 	mov.move_speed = _char.walk_spd
 	_char.safe_dist = _char.optimal_hr
 	
@@ -40,7 +42,14 @@ func update_physics(delta:float):
 		# rotate towards current target if no new targetpos
 		mov.rotate_to(target_char.position,delta)
 		if target_pos == Vector3.ZERO:
-			mov.move_to(target_char.position)
+			## move away from target if its too close ##
+			var dist: float = (_char.global_position - target_char.global_position).length()
+			if dist < _char.safe_dist - 0.5:
+				## TODO: check if position is reachable for mov.agent ##
+				var safe_pos: Vector3 = _char.global_position + (_char.transform.basis.z * 10.0)
+				mov.move_to(safe_pos, false)
+			else:
+				mov.move_to(target_char.position, true)
 		else:
 			# if new targetpos
 			# keep looking at target until is not inside hit_range or visible
@@ -48,6 +57,13 @@ func update_physics(delta:float):
 			if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
 				rotate = false
 			else:
+				target_char = null
 				rotate = true
 				changed.emit('move')
 			mov.move_to(target_pos, rotate)
+
+
+func get_random_dir(start_pos:Vector3):
+	var __range:float = randf_range(-1.0,1.0)
+	var rdir:Vector3 = Vector3(__range,start_pos.y,__range)
+	return (rdir-start_pos).normalized()
