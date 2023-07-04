@@ -89,7 +89,6 @@ func _on_character_died(_character):
 		target_char = null
 
 
-############# AI ENABLED ONLY #############
 func _on_detection_area_body_entered(body):
 	if target_char:
 		return
@@ -102,7 +101,11 @@ func _on_detection_area_body_exited(body):
 	if ai_enabled && _char.is_enemy(body):
 		if target_char && target_char==body:
 			pass
-#			target_char = null
-			## WANDER ##
-#			stateMachine.current_state.changed.emit('wander')
-###########################################
+
+
+func _on_character_damaged(attacker, _cur_hp, _max_hp):
+	if (stateMachine.current_state.name != 'combat' 
+	|| stateMachine.current_state.name != 'move'
+	|| stateMachine.current_state.name != 'alert'):
+		if attacker:
+			_char.target = attacker

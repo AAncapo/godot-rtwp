@@ -1,7 +1,7 @@
 extends Unit
 class_name Character
 
-signal damaged(cur_hp,max_hp)
+signal damaged(attacker,cur_hp,max_hp)
 
 ## Base ##
 var is_dead = false
@@ -34,17 +34,20 @@ var optimal_hr: float = 1.5
 
 @onready var mov: CharacterMovement = $CharacterAI/Movement
 
+var damageable:bool = true
 
 func _ready():
 	top_level = true #por alguna razon desde que movi la posicion de Players en playerteam se jodio la rotacion cuando se mueven y esto lo arregla :|
-	damaged.emit(current_health,max_health)
+	damaged.emit(null,current_health,max_health)
 	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
 	set_gui_indicators()
 
 
 func take_damage(_owner:Character, dmg:float):
+	if !damageable:
+		return
 	current_health -= dmg
-	damaged.emit(current_health,max_health)
+	damaged.emit(_owner,current_health,max_health)
 	GameEvents.update_clg.emit(_owner,str('deals ',dmg,' damage to '),self)
 	GameEvents.update_char_ui.emit(self)
 	if current_health <= 0:

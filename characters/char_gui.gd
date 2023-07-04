@@ -1,7 +1,7 @@
 extends Node3D
 
 @onready var char_name: Label3D = $char_name
-@onready var selindicator = $selection_indicator
+@onready var selindicator: MeshInstance3D = $selection_indicator
 @onready var detectRadius = $detection_radius
 @onready var hr: MeshInstance3D = $hitrange_indicator
 @onready var head_hp = $head_healthbar
@@ -10,6 +10,7 @@ var is_selected:bool
 
 
 func _ready():
+#	$selection_indicator.get_surface_override_material(0).set_shader_parameter('color',)
 	selindicator.hide()
 	GameEvents.hover_target.connect(__on_target_hover)
 
@@ -47,7 +48,7 @@ func _on_character_select_as_target():
 func _on_character_deselect_as_target():
 	_on_character_deselected()
 
-func _on_character_damaged(current_health,max_health):
+func _on_character_damaged(_attacker,current_health,max_health):
 	update_head_healthbar(current_health,max_health)
 
 

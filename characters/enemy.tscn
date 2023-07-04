@@ -9,7 +9,7 @@ resource_local_to_scene = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1reda"]
 resource_local_to_scene = true
 
-[sub_resource type="Shader" id="Shader_xfgd1"]
+[sub_resource type="Shader" id="Shader_n46lp"]
 resource_local_to_scene = true
 code = "//https://godotshaders.com/shader/focus-circle-ring/
 shader_type spatial;
@@ -38,10 +38,10 @@ void fragment() {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e4mx1"]
 resource_local_to_scene = true
 render_priority = 0
-shader = SubResource("Shader_xfgd1")
+shader = SubResource("Shader_n46lp")
 shader_parameter/size = 1.0
 shader_parameter/width = 0.2
-shader_parameter/_color = Color(1, 1, 1, 0.72549)
+shader_parameter/_color = Color(1, 0.113725, 0.113725, 0.980392)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yw6xd"]
 resource_local_to_scene = true
@@ -68,6 +68,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_e4mx1")
 
 [node name="head_healthbar" parent="GUI" index="3"]
 surface_material_override/0 = SubResource("ShaderMaterial_yw6xd")
+
+[node name="hitrange_indicator" parent="GUI" index="4"]
+visible = true
 
 [node name="detection_radius" parent="GUI" index="5"]
 surface_material_override/0 = SubResource("ShaderMaterial_e4mx1")

@@ -157,6 +157,7 @@ script = ExtResource("8_vg2pr")
 
 [node name="selection_indicator" type="MeshInstance3D" parent="GUI"]
 transform = Transform3D(2, 0, 0, 0, -8.74228e-08, 2, 0, -2, -8.74228e-08, 0, 0.02, 0)
+visible = false
 mesh = SubResource("QuadMesh_ptx2w")
 surface_material_override/0 = ExtResource("14_e0hy3")
 
@@ -213,6 +214,7 @@ avoidance_enabled = true
 debug_enabled = true
 debug_use_custom = true
 
+[connection signal="damaged" from="." to="CharacterAI" method="_on_character_damaged"]
 [connection signal="damaged" from="." to="GUI" method="_on_character_damaged"]
 [connection signal="deselect_as_target" from="." to="GUI" method="_on_character_deselect_as_target"]
 [connection signal="deselected" from="." to="GUI" method="_on_character_deselected"]

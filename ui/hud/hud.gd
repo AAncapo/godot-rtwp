@@ -1,7 +1,7 @@
 extends Control
 class_name HUD
 
-@onready var char_cards = $PlayersControl/VBoxContainer/CharacterCards.get_children()
+@onready var char_cards = %CharacterCards.get_children()
 @onready var formEditor = $FormationsButton/FormationEditor
 
 
@@ -21,7 +21,7 @@ func _on_formations_button_pressed():
 
 
 func _on_player_team_added_player(unit):
-	#add reference to character cards
+	# add reference to character cards
 	for card in char_cards:
 		if card._char == null:
 			card._char = unit

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtplyp01mp17"]
+[gd_scene load_steps=7 format=3 uid="uid://dtplyp01mp17"]
 
 [ext_resource type="PackedScene" uid="uid://cimvhs5v3ifve" path="res://characters/character.tscn" id="1_csmnv"]
+[ext_resource type="Material" uid="uid://b2f663tn0ni80" path="res://characters/materials/player_sel_shadermaterial.tres" id="2_74bh0"]
 [ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="2_eseoq"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8766x"]
@@ -9,41 +10,7 @@ resource_local_to_scene = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4fyg4"]
 resource_local_to_scene = true
 
-[sub_resource type="Shader" id="Shader_6rxkf"]
-resource_local_to_scene = true
-code = "//https://godotshaders.com/shader/focus-circle-ring/
-shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_opaque;
-
-uniform float size = 1.0;
-uniform float width = 0.2;
-//uniform vec4 inner_color: source_color;
-//uniform vec4 outer_color: source_color;
-uniform vec4 _color: source_color;
-
-void fragment() {
-	ALPHA = 0.0;
-	vec2 center = vec2(0.5);
-	float d = distance(UV, center);
-	float h = size * 0.5;
-	float l = h - (width * 0.5);
-	if (d <= h && d > l) {
-		vec4 color = _color;
-		//mix(inner_color, outer_color, smoothstep(l, h, d));
-		ALPHA = color.a;
-		ALBEDO = color.rgb;
-	}
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h6frq"]
-resource_local_to_scene = true
-render_priority = 0
-shader = SubResource("Shader_6rxkf")
-shader_parameter/size = 1.0
-shader_parameter/width = 0.2
-shader_parameter/_color = Color(0, 0.858824, 0, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nivk7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mxb8c"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_eseoq")
@@ -62,10 +29,13 @@ shape = SubResource("SphereShape3D_8766x")
 [node name="MeshInstance3D" parent="Body" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_4fyg4")
 
-[node name="SelectionIndicator" parent="GUI" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_h6frq")
+[node name="selection_indicator" parent="GUI" index="0"]
+surface_material_override/0 = ExtResource("2_74bh0")
 
-[node name="HealthBar" parent="GUI" index="3"]
-surface_material_override/0 = SubResource("ShaderMaterial_nivk7")
+[node name="head_healthbar" parent="GUI" index="3"]
+surface_material_override/0 = SubResource("ShaderMaterial_mxb8c")
+
+[node name="detection_radius" parent="GUI" index="5"]
+surface_material_override/0 = ExtResource("2_74bh0")
 
 [editable path="CharacterAI/WeaponController"]

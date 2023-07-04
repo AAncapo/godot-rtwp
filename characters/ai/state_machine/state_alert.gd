@@ -10,7 +10,7 @@ func enter():
 	last_target_pos = target_char.global_position
 
 
-func update(delta:float):
+func update(_delta:float):
 	if !target_char || target_char.is_dead:
 		return
 	
@@ -22,7 +22,7 @@ func update(delta:float):
 		changed.emit('combat')
 
 
-func update_physics(delta:float):
+func update_physics(_delta:float):
 	mov.move_to(last_target_pos)
 	
 	## move to last known target position

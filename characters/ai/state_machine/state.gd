@@ -10,7 +10,7 @@ var da: DetectionArea
 
 var target_char: Character
 var target_pos: Vector3
-var rungun: bool
+var rungun: bool = true
 
 func enter():
 	pass

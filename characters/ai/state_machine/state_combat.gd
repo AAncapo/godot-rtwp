@@ -4,7 +4,7 @@ class_name Combat
 var wait_time:float
 
 func enter():
-	mov.move_speed = _char.alert_spd
+	mov.move_speed = _char.walk_spd
 	_char.safe_dist = _char.optimal_hr
 	
 	wait_time = 2.0
@@ -25,12 +25,13 @@ func update(delta:float):
 		return
 	
 	# checking if can attack
-	if _char.at_range_from(target_char):
-		if da.is_inside_fov(target_char):
-			if wpn_ctrl.pointing_at_target(target_char):
-				wpn_ctrl.attack(delta)
-	else:
-		changed.emit('alert')
+	if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
+		if wpn_ctrl.pointing_at_target(target_char):
+			wpn_ctrl.attack(delta)
+	elif !da.is_inside_fov(target_char):
+		wait_time -= delta
+		if wait_time < 0:
+			changed.emit('alert')
 
 
 func update_physics(delta:float):

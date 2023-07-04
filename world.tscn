@@ -1,14 +1,14 @@
-[gd_scene load_steps=29 format=3 uid="uid://b8dolup07qmam"]
+[gd_scene load_steps=29 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://input_manager.gd" id="1_ko6fh"]
 [ext_resource type="PackedScene" uid="uid://co07r7ktfvc1p" path="res://unit_selection_system/selection_sys.tscn" id="2_pa5tv"]
 [ext_resource type="Script" path="res://camera.gd" id="3_7oabq"]
-[ext_resource type="Theme" uid="uid://q7j70qmrb65x" path="res://ui/hud/hud_modern_theme.tres" id="4_3g4e1"]
+[ext_resource type="Theme" uid="uid://q7j70qmrb65x" path="res://ui/themes/hud_modern_theme.tres" id="4_snadx"]
 [ext_resource type="Script" path="res://player_team.gd" id="5_3bb4d"]
 [ext_resource type="Texture2D" uid="uid://5rqjwl3yaoqs" path="res://characters/portraits/Bale.jpg" id="5_f0ihv"]
 [ext_resource type="Texture2D" uid="uid://86aycy8chjb8" path="res://characters/portraits/No Old Man.jpg" id="6_6vbr5"]
 [ext_resource type="PackedScene" path="res://characters/Formations.tscn" id="6_56u2j"]
-[ext_resource type="PackedScene" uid="uid://bxsxmqyq2sivw" path="res://ui/hud/hud.tscn" id="6_goi0v"]
+[ext_resource type="PackedScene" uid="uid://cwk70us4lgjef" path="res://ui/hud/hud.tscn" id="6_goi0v"]
 [ext_resource type="Texture2D" uid="uid://dka1bxqtoamfm" path="res://characters/portraits/Mike.jpg" id="7_s6oam"]
 [ext_resource type="Texture2D" uid="uid://cn67obdpe5atn" path="res://characters/portraits/Ryan.PNG" id="8_ef1ag"]
 [ext_resource type="Texture2D" uid="uid://bha3o4hdrfjhm" path="res://characters/portraits/Tony.jpg" id="9_c8wmh"]
@@ -106,20 +106,33 @@ text = "fps: 0"
 custom_minimum_size = Vector2(150, 15)
 layout_mode = 2
 size_flags_horizontal = 5
-theme = ExtResource("4_3g4e1")
+theme = ExtResource("4_snadx")
 text = "refill units health"
 
-[node name="reset" type="Button" parent="debug_console/VBoxContainer"]
-custom_minimum_size = Vector2(200, 10)
+[node name="infinite_hp" type="CheckButton" parent="debug_console/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 5
-theme = ExtResource("4_3g4e1")
-text = "reset scene"
+theme = ExtResource("4_snadx")
+text = "infinite health"
+alignment = 1
 
 [node name="hide_hud" type="CheckBox" parent="debug_console/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 5
 text = "Hide HUD"
+
+[node name="reset" type="Button" parent="debug_console/VBoxContainer"]
+custom_minimum_size = Vector2(200, 10)
+layout_mode = 2
+size_flags_horizontal = 5
+theme = ExtResource("4_snadx")
+text = "reset scene"
+
+[node name="reset_confirm_dialog" type="ConfirmationDialog" parent="debug_console/VBoxContainer/reset"]
+process_mode = 3
+position = Vector2i(500, 350)
+ok_button_text = "YES"
+dialog_text = "Restart scene??"
+cancel_button_text = "NO"
 
 [node name="HUD" parent="." instance=ExtResource("6_goi0v")]
 unique_name_in_owner = true
@@ -243,8 +256,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7839, 0, -17.794)
 
 [connection signal="command_units" from="SelectionSys" to="PlayerTeam" method="_on_selection_sys_command_units"]
 [connection signal="pressed" from="debug_console/VBoxContainer/refill_hp" to="debug_console" method="_on_refill_hp_pressed"]
-[connection signal="pressed" from="debug_console/VBoxContainer/reset" to="debug_console" method="_on_reset_pressed"]
+[connection signal="toggled" from="debug_console/VBoxContainer/infinite_hp" to="debug_console" method="_on_infinite_hp_toggled"]
 [connection signal="toggled" from="debug_console/VBoxContainer/hide_hud" to="debug_console" method="_on_hide_hud_toggled"]
+[connection signal="pressed" from="debug_console/VBoxContainer/reset" to="debug_console" method="_on_reset_pressed"]
+[connection signal="canceled" from="debug_console/VBoxContainer/reset/reset_confirm_dialog" to="debug_console" method="_on_reset_confirm_dialog_canceled"]
+[connection signal="confirmed" from="debug_console/VBoxContainer/reset/reset_confirm_dialog" to="debug_console" method="_on_reset_confirm_dialog_confirmed"]
 [connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
 [connection signal="player_team_initialized" from="PlayerTeam" to="EnemyTeam" method="_on_player_team_player_team_initialized"]
 [connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
