@@ -10,6 +10,7 @@ var current_health : float = max_health:
 	set(value):
 		clamp(value,0,max_health)
 		current_health = value
+		GameEvents.update_char_ui.emit(self)
 @export var detection_range: float = 10.0:
 	set(value):
 		detection_range = value
