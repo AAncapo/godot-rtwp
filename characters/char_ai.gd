@@ -1,11 +1,16 @@
 extends Node3D
 
+@onready var _char: Character = get_parent()
 @onready var mov: CharacterMovement = $Movement
 @onready var wpn_controller: WeaponController = $WeaponController
 @onready var detectArea: DetectionArea = $DetectionArea
-@onready var stateMachine = $StateMachine
-@onready var _char:Character = get_parent()
+@onready var stateMachine:StateMachine = $StateMachine
 @onready var ai_enabled: bool = _char.team != 0
+
+### HOW IT WORKS ###
+# all states get access to movement, wpnCtrl & character nodes at ready()
+# the targets (char/pos) are assigned in their setters
+# before starting a new state load_state() sets all the main nodes props
 
 
 var target_char: Character:
@@ -36,14 +41,15 @@ var rungun: bool:
 func _ready():
 	mov._char = _char
 	detectArea.radius = _char.detection_range
-	GameEvents.character_died.connect(_on_character_died)
-	##### init state machine ####
+	###### init state machine ######
 	for child in stateMachine.get_children():
-		child._char = _char
-		child.mov = mov
-		child.wpn_ctrl = wpn_controller
-		child.da = detectArea
-	#############################
+		if child is State:
+			child._char = _char
+			child.mov = mov
+			child.wpn_ctrl = wpn_controller
+			child.da = detectArea
+	################################
+	GameEvents.character_died.connect(_on_character_died)
 
 
 func _on_character_target_updated(new_target, force_to:bool):
@@ -53,35 +59,29 @@ func _on_character_target_updated(new_target, force_to:bool):
 		target_char = new_target
 		
 		if !_char.is_enemy(new_target):
-			stateMachine.current_state.changed.emit('interact')
-			pass
+			stateMachine.current_state.changed.emit('interact')  #or interact idk
 		else:
 			#at_range?
 			if _char.at_range_from(new_target):
 				stateMachine.current_state.changed.emit('alert') #is_inside_fov?
-				pass
 			else:
 				stateMachine.current_state.changed.emit('follow')
-				pass
+	
 	## the new target is a position vector
 	if new_target is Vector3:
 		target_pos = new_target
-#		print(target_pos)
 		rungun = !force_to
 		
 		_char.safe_dist = _char.base_safe_dist
 		mov.move_speed = _char.alert_spd
 		if !rungun:
 			stateMachine.current_state.changed.emit('move')
-#			print(target_pos)
-			return
 		mov.move_to(new_target)
 
 
 func _on_weapon_controller_equipped(new_equipped_wpn:Weapon):
 	_char.hit_range = new_equipped_wpn.wpn_range
 	new_equipped_wpn.wpn_owner = _char
-	detectArea.radius = _char.hit_range
 
 
 func _on_character_died(_character):
@@ -95,12 +95,11 @@ func _on_detection_area_body_entered(body):
 		return
 	if ai_enabled && _char.is_enemy(body):
 		target_char = body
+		GameEvents.update_clg.emit(_char,'feels something kinda sus',body)
 		if _char.at_range_from(body):
 			stateMachine.current_state.changed.emit('alert') #is_inside_fov?
-			pass
 		else:
 			stateMachine.current_state.changed.emit('follow')
-			pass
 
 func _on_detection_area_body_exited(body):
 	if ai_enabled && _char.is_enemy(body):
@@ -108,5 +107,4 @@ func _on_detection_area_body_exited(body):
 			target_char = null
 			## WANDER ##
 			stateMachine.current_state.changed.emit('wander')
-			pass
 ###########################################

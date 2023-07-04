@@ -1,8 +1,9 @@
 extends Node
 class_name StateMachine
 
-@export var initial_state: State
+signal state_changed(state)
 
+@export var initial_state: State
 var states: Dictionary = {}
 var current_state: State:
 	set(new_state):
@@ -18,7 +19,6 @@ func _ready():
 			states[child.name.to_lower()] = child
 			child.changed.connect(change_state)
 	
-	await get_tree().create_timer(1.0,true).timeout
 	if initial_state:
 		current_state = initial_state
 
@@ -26,7 +26,6 @@ func _ready():
 func _process(delta):
 	if current_state:
 		current_state.update(delta)
-
 
 func _physics_process(delta):
 	if current_state:
@@ -38,5 +37,8 @@ func change_state(new_state_name:String):
 	if !new_state:
 		print('ERROR: Cannot find a State.',new_state_name)
 		new_state = states.get('idle')
+	
+	GameEvents.update_clg.emit(get_parent()._char,str('entered ',new_state.name,' state'),get_parent()._char)
+	state_changed.emit(new_state_name)
 	
 	current_state = new_state

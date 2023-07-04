@@ -1,23 +1,28 @@
 extends State
 class_name Alert
 
-var timer
 
 func enter():
-	timer = 1.0
+	mov.move_speed = _char.alert_spd
+	_char.safe_dist = _char.base_safe_dist
 
 
 func update(delta:float):
 	if !target_char || target_char.is_dead:
 		return
-	timer -= delta
+	
 	if target_pos != Vector3.ZERO:
 		target_char = null
 		return
 	
-	if timer > 0:
-		if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
-			changed.emit('combat')
-	else:
-		timer = 1.0
-		changed.emit('follow')
+	mov.move_to(target_char.global_position)
+	
+	if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
+		changed.emit('combat')
+	
+	if mov.target_reached:
+		var enemies_in_area = da.get_units_in_area(_char)
+		if enemies_in_area.size() > 0:
+			_char.target = enemies_in_area[0]
+			return
+		changed.emit('wander')

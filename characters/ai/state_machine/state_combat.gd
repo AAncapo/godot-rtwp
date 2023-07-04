@@ -4,10 +4,10 @@ class_name Combat
 var wait_time:float
 
 func enter():
+	mov.move_speed = _char.alert_spd
+	_char.safe_dist = _char.optimal_hr
+	
 	wait_time = 2.0
-	mov.stopping_dist = _char.optimal_hr
-# the mov.stopping_dist only updates when the move_to func is used
-# when Combat is entered there is a posibility that the character dont call move_to() so its good to assign the value from enter()
 
 
 func update(delta:float):

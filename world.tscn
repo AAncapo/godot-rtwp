@@ -128,9 +128,10 @@ script = ExtResource("5_3bb4d")
 ph_portraits = Array[CompressedTexture2D]([ExtResource("5_f0ihv"), ExtResource("6_6vbr5"), ExtResource("7_s6oam"), ExtResource("8_ef1ag"), ExtResource("9_c8wmh")])
 
 [node name="Players" type="Node3D" parent="PlayerTeam"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.0738)
 
 [node name="Formations" parent="PlayerTeam" instance=ExtResource("6_56u2j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.6475)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.0738)
 
 [node name="InputManager" type="Node" parent="."]
 process_mode = 3
@@ -220,7 +221,8 @@ mesh = SubResource("BoxMesh_1ds4r")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_cwiys")
 
-[node name="EnemyTeam" type="Node" parent="."]
+[node name="EnemyTeam" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14.4181)
 script = ExtResource("10_x0kho")
 
 [node name="SpawnPositions" type="Node" parent="EnemyTeam"]
@@ -238,6 +240,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7839, 0, -17.794)
 [connection signal="toggled" from="debug_console/VBoxContainer/option/hide_hud" to="debug_console" method="_on_hide_hud_toggled"]
 [connection signal="pressed" from="debug_console/VBoxContainer/option2/reset" to="debug_console" method="_on_reset_pressed"]
 [connection signal="added_player" from="PlayerTeam" to="HUD" method="_on_player_team_added_player"]
+[connection signal="player_team_initialized" from="PlayerTeam" to="EnemyTeam" method="_on_player_team_player_team_initialized"]
 [connection signal="removed_player" from="PlayerTeam" to="HUD" method="_on_player_team_removed_player"]
 
 [editable path="PlayerTeam/Formations"]

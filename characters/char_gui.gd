@@ -69,3 +69,17 @@ func __on_target_hover(target:Character,is_hovered:bool):
 		# display hitrange
 		set_hr_indicator_radius()
 		hr.show()
+
+
+func _on_state_machine_state_changed(state):
+	var state_icon:String
+	match state:
+		'alert':
+			state_icon = '?'
+		'combat':
+			state_icon = '!'
+	
+	$state_indicator.text = state_icon
+	$state_indicator.visible = true
+	await get_tree().create_timer(2.0).timeout
+	$state_indicator.visible = false

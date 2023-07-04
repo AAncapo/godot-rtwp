@@ -1,10 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://cimvhs5v3ifve"]
+[gd_scene load_steps=34 format=3 uid="uid://cimvhs5v3ifve"]
 
 [ext_resource type="Script" path="res://characters/character.gd" id="1_cvhf5"]
 [ext_resource type="Script" path="res://characters/char_ai.gd" id="3_q4x40"]
 [ext_resource type="Script" path="res://characters/char_movement.gd" id="4_ld7y3"]
 [ext_resource type="Script" path="res://characters/detect_area.gd" id="5_eosxb"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_wander.gd" id="6_2qkc5"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_machine.gd" id="6_6m6f7"]
 [ext_resource type="Animation" uid="uid://dh8cw5r37xl02" path="res://animations/charactersshow_selection.tres" id="6_32ix8"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_idle.gd" id="6_u3bst"]
 [ext_resource type="Texture2D" uid="uid://j5ijg0glnqjo" path="res://selection_circle.png" id="7_ahfrc"]
@@ -71,6 +72,7 @@ _data = {
 
 [node name="Character" type="CharacterBody3D" groups=["units"]]
 process_mode = 3
+top_level = true
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_cvhf5")
@@ -79,10 +81,9 @@ script = ExtResource("1_cvhf5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_81acq")
 
-[node name="CharacterAI" type="Node3D" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="CharacterAI" type="Node3D" parent="."]
 process_mode = 1
 script = ExtResource("3_q4x40")
-initial_state = NodePath("States/Idle")
 
 [node name="Movement" type="Node" parent="CharacterAI"]
 script = ExtResource("4_ld7y3")
@@ -104,27 +105,32 @@ collision_mask = 3
 [node name="WeaponController" parent="CharacterAI" instance=ExtResource("14_cq5mj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="States" type="Node" parent="CharacterAI"]
+[node name="RayCast3D" parent="CharacterAI/WeaponController" index="1"]
+visible = true
 
-[node name="Idle" type="Node" parent="CharacterAI/States"]
+[node name="StateMachine" type="Node" parent="CharacterAI" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_6m6f7")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("6_u3bst")
 
-[node name="Wander" type="Node" parent="CharacterAI/States"]
+[node name="Wander" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("6_2qkc5")
 
-[node name="Follow" type="Node" parent="CharacterAI/States"]
+[node name="Follow" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("7_ia2ka")
 
-[node name="Alert" type="Node" parent="CharacterAI/States"]
+[node name="Alert" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("10_qlmcx")
 
-[node name="Combat" type="Node" parent="CharacterAI/States"]
+[node name="Combat" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("8_ge4kv")
 
-[node name="Interact" type="Node" parent="CharacterAI/States"]
+[node name="Interact" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("9_gp2p5")
 
-[node name="Move" type="Node" parent="CharacterAI/States"]
+[node name="Move" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("13_f78c0")
 
 [node name="Body" type="Node3D" parent="."]
@@ -189,6 +195,13 @@ visible = false
 mesh = SubResource("QuadMesh_3wax6")
 surface_material_override/0 = ExtResource("14_e0hy3")
 
+[node name="state_indicator" type="Label3D" parent="GUI"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.43212, 0)
+visible = false
+billboard = 1
+text = "?"
+font_size = 120
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="GUI"]
 libraries = {
 "character animations": SubResource("AnimationLibrary_fyd8o")
@@ -212,5 +225,6 @@ debug_use_custom = true
 [connection signal="body_entered" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_exited"]
 [connection signal="equipped" from="CharacterAI/WeaponController" to="CharacterAI" method="_on_weapon_controller_equipped"]
+[connection signal="state_changed" from="CharacterAI/StateMachine" to="GUI" method="_on_state_machine_state_changed"]
 
 [editable path="CharacterAI/WeaponController"]

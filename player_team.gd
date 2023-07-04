@@ -1,5 +1,6 @@
 extends Node
 
+signal player_team_initialized
 signal added_player(unit)
 signal removed_player(unit)
 
@@ -8,7 +9,7 @@ var player_tscn = preload("res://characters/player.tscn")
 @onready var formations = $Formations
 @onready var players = $Players
 const TEAM = 0
-var current_formation = 0 #index in $Formations/f?
+var current_formation = 0  #index in $Formations/f?
 @export_range(1,6) var players_in_team = 1
 var target_unit:Unit
 var team:Array[Character]
@@ -22,6 +23,7 @@ func _ready():
 	GameEvents.character_died.connect(remove_player)
 	GameEvents.form_selected.connect(on_formation_selected)
 	spawn_players()
+	player_team_initialized.emit()
 
 
 func spawn_players():
@@ -32,8 +34,8 @@ func spawn_players():
 			player.portrait_texture = ph_portraits[p]
 		## Create save system for storing the last position
 		team.append(player)
-		player.global_position = get_formation_positions()[p]
 		players.add_child(player)
+		player.global_position = get_formation_positions()[p]
 		added_player.emit(player)
 
 

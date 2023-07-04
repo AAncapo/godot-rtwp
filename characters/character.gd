@@ -31,16 +31,14 @@ var hit_range: float = 2.0:
 var optimal_hr: float = 1.5
 @export var aim_speed : float = 1.5
 
-@onready var mov: CharacterMovement = $Movement
-@onready var da: DetectionArea = $DetectionArea
+@onready var mov: CharacterMovement = $CharacterAI/Movement
 
 
 func _ready():
-	$CharacterAI._char = self
+	top_level = true #por alguna razon desde que movi la posicion de Players en playerteam se jodio la rotacion cuando se mueven y esto lo arregla :|
 	damaged.emit(current_health,max_health)
 	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
 	set_gui_indicators()
-#	$BehaviourRoot.actor = self
 
 
 func take_damage(_owner:Character, dmg:float):
