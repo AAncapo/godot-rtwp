@@ -35,7 +35,7 @@ func _on_portrait_pressed():
 	if _char:
 		print(_char.name, 'selected')
 		_char.selected.emit()
-		GameEvents.focus_worldobject.emit(_char)
+		GameEvents.focus_world_object.emit(_char)
 
 
 func __on_character_died(character):

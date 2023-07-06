@@ -9,7 +9,7 @@ signal hover_target(target:Character, is_hovered:bool)
 signal ui_toggle_form_tab
 signal form_selected(formation_index)
 #Camera
-signal focus_worldobject(obj, center_cam)
+signal focus_world_object(obj, center_cam)
 #Debug Console
 signal ui_toggle_combat_log
 signal update_clg(autor, new_info, target)

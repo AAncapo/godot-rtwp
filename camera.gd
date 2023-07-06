@@ -1,47 +1,64 @@
 extends Node3D
 
-const MOVE_MARGIN = 0 
-const MOVE_SPEED = 30
+@export_range(5.0,30.0) var move_speed: float = 10.0
+@export var zoom_amount: float = 10.0
+@export var min_zoom: float = 5.0
+@export var max_zoom: float = 50.0
+
 @onready var cam = $Camera3D
+@onready var new_pos: Vector3 = self.position
+@onready var new_zoom: float = cam.position.z
+
+@onready var new_rotation_y: float = self.global_rotation.y
+
+var mouse_sensitivity: float = 0.05
 
 
-func _ready():
-	GameEvents.focus_worldobject.connect(on_worldobject_focused)
+func _ready() -> void:
+	GameEvents.focus_world_object.connect(on_world_object_focused)
 
 
-func _process(delta):
-	var m_pos = get_viewport().get_mouse_position()
-	calc_move(m_pos,delta)
+func _process(delta: float) -> void:
+	calc_move(delta)
 
 
-func _unhandled_input(event):
-	if event is InputEventMouseButton:
-		match event.button_index:
-			MOUSE_BUTTON_WHEEL_UP:
-				cam.position.z -= 1
-			MOUSE_BUTTON_WHEEL_DOWN:
-				cam.position.z += 1
+func _unhandled_input(event: InputEvent) -> void:
+	## Zoom camera w mouse wheel ##
+	if event is InputEventMouseButton && event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+			new_zoom -= zoom_amount
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			new_zoom += zoom_amount
+		new_zoom = clamp(new_zoom, min_zoom, max_zoom)
+	
+	if event is InputEventMouseMotion:
+#		## Pan camera w middle mouse button ##
+		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+			new_pos -= Vector3(
+				event.relative.x * mouse_sensitivity,
+				0,
+				event.relative.y * mouse_sensitivity)
+		## Rotate w middle mouse button ##
+#		if event.button_mask == MOUSE_BUTTON_MASK_MIDDLE:
+#			new_rotation_y = deg_to_rad(event.relative.x) * mouse_sensitivity
+#			self.global_rotate(Vector3.UP,new_rotation_y)
 
 
-func calc_move(_m_pos, delta):
-#	var v_size = get_viewport().size
-	var move_vec = Vector3()
-#	if m_pos.x < MOVE_MARGIN || 
+func calc_move(delta:float) -> void:
+	## Move camera using WASD/arrow keys ##
 	if Input.is_action_pressed("cam_left"):
-		move_vec.x -= 1
-#	if m_pos.y < MOVE_MARGIN || 	
+		new_pos += Vector3.LEFT
 	if Input.is_action_pressed("cam_fwd"):
-		move_vec.z -= 1
-#	if m_pos.x > v_size.x - MOVE_MARGIN || 
+		new_pos += Vector3.FORWARD
 	if Input.is_action_pressed("cam_right"):
-		move_vec.x += 1
-#	if m_pos.y > v_size.y - MOVE_MARGIN || 
+		new_pos += Vector3.RIGHT
 	if Input.is_action_pressed("cam_bwd"):
-		move_vec.z += 1
-	move_vec = move_vec.rotated(Vector3.UP, rotation_degrees.y)
-	global_translate(move_vec * delta * MOVE_SPEED)
+		new_pos += Vector3.BACK
+	
+	global_position = lerp(global_position,new_pos, delta * move_speed)
+	cam.position.z = lerp(cam.position.z, new_zoom, delta * move_speed)
 
 
-func on_worldobject_focused(obj, focus=true):
+func on_world_object_focused(obj, focus=true):
 	if focus:
 		global_transform.origin = obj.global_position

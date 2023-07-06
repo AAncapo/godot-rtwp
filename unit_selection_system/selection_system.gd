@@ -16,7 +16,7 @@ var target_unit: Unit
 
 
 func _ready():
-	GameEvents.focus_worldobject.connect(__on_unit_selected)
+	GameEvents.focus_world_object.connect(__on_unit_selected)
 	GameEvents.character_died.connect(on_unit_died)
 
 var dbl_clck_timer:float = 0

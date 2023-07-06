@@ -60,6 +60,9 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.16014, 0.987094, 0, -0.987094, 0.16014, 0, 0, 0)
 script = ExtResource("3_7oabq")
+move_speed = 7.0
+zoom_amount = 5.0
+min_zoom = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="CamBase"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.53674e-07, 25.4181)
