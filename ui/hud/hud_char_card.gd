@@ -8,11 +8,12 @@ var _char: Character:
 	set(value):
 		_char = value
 		portrait.disabled = value==null
+		self.visible = value != null
 		if value != null:
 			healthBar.show()
 			portrait.texture_normal = _char.portrait_texture
-			healthBar.max_value = _char.max_health
-			healthBar.value = _char.current_health
+			healthBar.max_value = _char.max_hp
+			healthBar.value = _char.curr_hp
 			hp_counter.text = str(healthBar.value,'/',healthBar.max_value)
 
 
@@ -26,14 +27,13 @@ func _ready():
 
 func on_character_ui_updated(character: Character):
 	if _char && _char == character:
-		healthBar.value = character.current_health
+		healthBar.value = character.curr_hp
 		hp_counter.text = str(healthBar.value,'/',healthBar.max_value)
 
 
 func _on_portrait_pressed():
 	#select character
 	if _char:
-		print(_char.name, 'selected')
 		_char.selected.emit()
 		GameEvents.focus_world_object.emit(_char)
 

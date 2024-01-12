@@ -1,8 +1,7 @@
-[gd_scene load_steps=33 format=3 uid="uid://cimvhs5v3ifve"]
+[gd_scene load_steps=34 format=3 uid="uid://cimvhs5v3ifve"]
 
 [ext_resource type="Script" path="res://characters/character.gd" id="1_cvhf5"]
 [ext_resource type="Script" path="res://characters/char_ai.gd" id="3_q4x40"]
-[ext_resource type="Script" path="res://characters/addons/char_wpn_controller.gd" id="4_ikygc"]
 [ext_resource type="Script" path="res://characters/char_movement.gd" id="4_ld7y3"]
 [ext_resource type="Script" path="res://characters/detect_area.gd" id="5_eosxb"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_wander.gd" id="6_2qkc5"]
@@ -13,8 +12,10 @@
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_combat.gd" id="8_ge4kv"]
 [ext_resource type="Script" path="res://characters/char_gui.gd" id="8_vg2pr"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_search.gd" id="9_a0pi5"]
+[ext_resource type="Script" path="res://characters/ai/state_machine/state_interact.gd" id="9_gp2p5"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_cover.gd" id="12_4hvwo"]
 [ext_resource type="Script" path="res://characters/ai/state_machine/state_move.gd" id="13_f78c0"]
+[ext_resource type="PackedScene" uid="uid://iaqi4nhshkiq" path="res://characters/addons/weapon_controller.tscn" id="14_cq5mj"]
 [ext_resource type="Material" uid="uid://bwuxagjv3ppaa" path="res://materials/chars/char_selection_material.tres" id="14_e0hy3"]
 [ext_resource type="Shader" path="res://characters/progress_bar_3d.gdshader" id="16_ysk87"]
 [ext_resource type="Shader" path="res://characters/radius_indicator.gdshader" id="17_osxpo"]
@@ -76,7 +77,6 @@ top_level = true
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_cvhf5")
-detection_range = 15.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -85,6 +85,9 @@ shape = SubResource("CapsuleShape3D_81acq")
 [node name="CharacterAI" type="Node3D" parent="."]
 process_mode = 1
 script = ExtResource("3_q4x40")
+
+[node name="Movement" type="Node" parent="CharacterAI"]
+script = ExtResource("4_ld7y3")
 
 [node name="DetectionArea" type="Area3D" parent="CharacterAI"]
 collision_layer = 0
@@ -96,45 +99,37 @@ script = ExtResource("5_eosxb")
 shape = SubResource("SphereShape3D_ett3t")
 
 [node name="FieldOfView" type="RayCast3D" parent="CharacterAI/DetectionArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-target_position = Vector3(0, 0, 0)
-collision_mask = 23
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.929878, 0)
+collision_mask = 7
 debug_shape_custom_color = Color(0.00784314, 0.219608, 0.92549, 1)
 
-[node name="WeaponController" type="Node3D" parent="CharacterAI"]
-script = ExtResource("4_ikygc")
-
-[node name="AimBar" type="MeshInstance3D" parent="CharacterAI/WeaponController"]
-
-[node name="RayCast3D" type="RayCast3D" parent="CharacterAI/WeaponController"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-collision_mask = 23
+[node name="WeaponController" parent="CharacterAI" instance=ExtResource("14_cq5mj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="StateMachine" type="Node" parent="CharacterAI" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("6_6m6f7")
 initial_state = NodePath("Idle")
 
-[node name="Combat" type="Node" parent="CharacterAI/StateMachine"]
-script = ExtResource("8_ge4kv")
-
-[node name="Cover" type="Node" parent="CharacterAI/StateMachine"]
-script = ExtResource("12_4hvwo")
-
 [node name="Idle" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("6_u3bst")
-
-[node name="Move" type="Node" parent="CharacterAI/StateMachine"]
-script = ExtResource("13_f78c0")
-
-[node name="Search" type="Node" parent="CharacterAI/StateMachine"]
-script = ExtResource("9_a0pi5")
 
 [node name="Wander" type="Node" parent="CharacterAI/StateMachine"]
 script = ExtResource("6_2qkc5")
 
-[node name="Movement" type="Node" parent="CharacterAI"]
-unique_name_in_owner = true
-script = ExtResource("4_ld7y3")
+[node name="Search" type="Node" parent="CharacterAI/StateMachine"]
+script = ExtResource("9_a0pi5")
+
+[node name="Combat" type="Node" parent="CharacterAI/StateMachine"]
+script = ExtResource("8_ge4kv")
+
+[node name="Interact" type="Node" parent="CharacterAI/StateMachine"]
+script = ExtResource("9_gp2p5")
+
+[node name="Cover" type="Node" parent="CharacterAI/StateMachine"]
+script = ExtResource("12_4hvwo")
+
+[node name="Move" type="Node" parent="CharacterAI/StateMachine"]
+script = ExtResource("13_f78c0")
 
 [node name="Body" type="Node3D" parent="."]
 
@@ -151,7 +146,7 @@ skeleton = NodePath("../..")
 
 [node name="wpn_holder" type="Node3D" parent="Body"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44734, -1.18429)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.947336, -0.684288)
 
 [node name="GUI" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -204,7 +199,6 @@ surface_material_override/0 = ExtResource("14_e0hy3")
 
 [node name="state_indicator" type="Label3D" parent="GUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.43212, 0)
-visible = false
 pixel_size = 0.01
 billboard = 1
 text = "IDLE"
@@ -217,12 +211,9 @@ libraries = {
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 unique_name_in_owner = true
-process_mode = 1
 avoidance_enabled = true
 debug_enabled = true
 debug_use_custom = true
-debug_path_custom_color = Color(1, 1, 1, 0.392157)
-debug_path_custom_point_size = 0.0
 
 [connection signal="damaged" from="." to="CharacterAI" method="_on_character_damaged"]
 [connection signal="damaged" from="." to="GUI" method="_on_character_damaged"]
@@ -237,4 +228,3 @@ debug_path_custom_point_size = 0.0
 [connection signal="body_exited" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_exited"]
 [connection signal="equipped" from="CharacterAI/WeaponController" to="CharacterAI" method="_on_weapon_controller_equipped"]
 [connection signal="state_changed" from="CharacterAI/StateMachine" to="GUI" method="_on_state_machine_state_changed"]
-[connection signal="target_reached" from="NavigationAgent3D" to="CharacterAI/Movement" method="_on_navigation_agent_3d_target_reached"]

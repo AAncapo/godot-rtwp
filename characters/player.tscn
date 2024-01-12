@@ -20,7 +20,6 @@ shader_parameter/albedoBG = Color(0.160784, 0.160784, 0.160784, 1)
 shader_parameter/progress = 0.2
 
 [node name="player" instance=ExtResource("1_csmnv")]
-detection_range = 15.0
 team_color = Color(0.235294, 0.282353, 1, 1)
 
 [node name="CollisionShape3D" parent="CharacterAI/DetectionArea" index="0"]

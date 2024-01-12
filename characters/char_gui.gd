@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var char_name: Label3D = $char_name
 @onready var selindicator: MeshInstance3D = $selection_indicator
-@onready var detectRadius = $detection_radius
+#@onready var detectRadius = $detection_radius
 @onready var hr: MeshInstance3D = $hitrange_indicator
 @onready var head_hp = $head_healthbar
 @onready var animPlayer = $AnimationPlayer
@@ -15,14 +15,14 @@ func _ready():
 	GameEvents.hover_target.connect(__on_target_hover)
 
 
-func update_head_healthbar(cur_hp:float,max_hp:float):
+func update_head_healthbar(cur_hp:float,_max_hp:float):
 	var hp_mat = head_hp.get_surface_override_material(0)
 	hp_mat.set_shader_parameter("progress", cur_hp/10)
 
 
 func set_hr_indicator_radius():
 	var _char:Character = owner
-	hr.scale = Vector3(_char.hit_range * 2,_char.hit_range * 2 ,1.0)
+	hr.scale = Vector3(_char.hit_range*2,_char.hit_range*2,1.0)
 	hr.get_surface_override_material(0).set_shader_parameter('width',0.2 / _char.hit_range)
 
 
@@ -80,14 +80,15 @@ func __on_target_hover(target:Character,is_hovered:bool):
 
 
 func _on_state_machine_state_changed(state):
-	var state_icon:String
-	match state:
-		'alert':
-			state_icon = '?'
-		'combat':
-			state_icon = '!'
-	
-	$state_indicator.text = state_icon
-	$state_indicator.show()
-	await get_tree().create_timer(2.0, false).timeout
-	$state_indicator.hide()
+#	var state_icon:String
+#	match state:
+#		'idle': state_icon = 'IDLE'
+#		'search': state_icon = 'SEARCH'
+#		'combat': state_icon = 'COMBAT'
+#		'cover': state_icon = 'COVER'
+#
+#	$state_indicator.text = state_icon
+#	$state_indicator.show()
+#	await get_tree().create_timer(2.0, false).timeout
+#	$state_indicator.hide()
+	pass

@@ -1,58 +1,86 @@
-extends Unit
-class_name Character
+class_name Character extends Unit
 
-signal damaged(attacker,cur_hp,max_hp)
+signal damaged(attacker, cur_hp, max_hp)
 
-## Base ##
-var is_dead = false
-@export var max_health : float = 10
-var current_health : float = max_health:
+var dead:bool = false
+var damageable:bool = true
+@export var max_hp:float = 10
+var curr_hp:float = max_hp:
 	set(value):
-		clamp(value,0,max_health)
-		current_health = value
+		clamp(value, 0, max_hp)
+		curr_hp = value
 		GameEvents.update_char_ui.emit(self)
-@export var detection_range: float = 10.0:
-	set(value):
-		detection_range = value
-@export var portrait_texture : CompressedTexture2D
-## Movement ##
-@export var speed : float = 10.0
-var run_spd : float = speed * 1.2
-var alert_spd : float = speed * 0.75
-var walk_spd : float = speed * 0.5
-var safe_dist: float = 0.2
-var base_safe_dist: float = 0.2
-var interact_range: float = 1.5
-var rot_spd : float = 25.0
-## Combat ##
-var hit_range: float = 2.0:
+@export var detection_range:float = 30.0
+@export var portrait_texture:CompressedTexture2D
+
+@export var speed: float = 10.0
+var run_sp:float = speed * 1.2
+var alert_sp:float = speed * 0.75
+var walk_sp:float = speed * 0.5
+var curr_safdist:float = 1.0:
+	set(val):
+		curr_safdist = val
+		update_safdist(curr_safdist)  # Nav agent stopping distance.
+var base_safdist:float = 1.0
+var combat_safdist:float = 1.5  ##TODO: RENAME to optimal_safdist. a number between the hit range limit and the 75% of it. 
+var rot_sp:float = 25.0
+
+var hit_range:float = 2.0:
 	set(value):
 		hit_range = value
-		optimal_hr = hit_range * 0.75
-var optimal_hr: float = 1.5
-@export var aim_speed : float = 1.5
+		combat_safdist = hit_range * 0.75
+@export var aim_speed:float = 1.5
 
-@onready var mov: CharacterMovement = $CharacterAI/Movement
+@onready var controller = $CharacterAI
+@onready var mov:CharacterMovement = %Movement
+@onready var wpnCtr = $CharacterAI/WeaponController
+@onready var da = $CharacterAI/DetectionArea
 
-var damageable:bool = true
+@export var ai_enabled:bool = false
+
+var curr_cspot:CoverSpot:
+	set(val):
+		if curr_cspot: curr_cspot.deselect()
+		curr_cspot = val
+		if !curr_cspot:
+			is_behind_cover = false
+			shootBehindCoverPos = Vector3()
+			return
+		curr_cspot.select()
+var is_behind_cover:bool = false:
+	set(val):
+		if val: shootBehindCoverPos = curr_cspot.prefShootSpot
+		is_behind_cover = val
+var shootBehindCoverPos:Vector3
+
 
 func _ready():
+	mov._char = self
+	da.radius = detection_range
+	target_updated.connect(controller._on_target_updated)
 	top_level = true #por alguna razon desde que movi la posicion de Players en playerteam se jodio la rotacion cuando se mueven y esto lo arregla :|
-	damaged.emit(null,current_health,max_health)
-	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
 	set_gui_indicators()
+
+
+func _process(delta):
+	if team == 0:
+		self.curr_hp = lerp(curr_hp, max_hp, delta)
+
+
+func attack():
+	wpnCtr.attack()
 
 
 func take_damage(_owner:Character, dmg:float):
 	if !damageable:
 		return
-	current_health -= dmg
-	damaged.emit(_owner,current_health,max_health)
-	GameEvents.update_clg.emit(_owner,str('deals ',dmg,' damage to '),self)
+	curr_hp -= dmg
+	damaged.emit(_owner, curr_hp, max_hp)
+	GameEvents.update_clg.emit(_owner, str('deals ',dmg,' damage to '), self)
 	GameEvents.update_char_ui.emit(self)
-	if current_health <= 0:
-		is_dead = true
-		GameEvents.update_clg.emit(_owner,'killed',self)
+	if curr_hp <= 0:
+		dead = true
+		GameEvents.update_clg.emit(_owner, 'killed', self)
 		GameEvents.character_died.emit(self)
 		
 		visible = false
@@ -60,22 +88,19 @@ func take_damage(_owner:Character, dmg:float):
 		queue_free()
 
 
-func interact():
-	var int_dialog = get_node_or_null('InteractionDialog')
-	if int_dialog: 
-		int_dialog.visible = true
-		await get_tree().create_timer(3,false).timeout
-		int_dialog.visible = false
-
-
 func at_range_from(_target:Character) -> bool:
-	var _range = hit_range if is_enemy(_target) else interact_range
-	var dist: float = (_target.global_position - global_position).length()
+	var _range = hit_range if is_enemy(_target) else base_safdist
+	var dist:float = (_target.global_position - global_position).length()
 	return dist < _range
 
 
+func update_safdist(safdist):
+	mov.agent.target_desired_distance = safdist
+
+
 func set_gui_indicators():
-	$GUI/detection_radius.scale=Vector3(detection_range*2,detection_range*2,1.0)
+	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
+#	$GUI/detection_radius.scale=Vector3(detection_range,detection_range,1.0)
 	$GUI/char_name.text = name
 ## trying to fix the !material errors when the character is freed (apparently a Godot 4 issue) ##
 func _on_tree_exited():

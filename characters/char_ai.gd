@@ -1,109 +1,76 @@
 extends Node3D
 
-@onready var _char: Character = get_parent()
-@onready var mov: CharacterMovement = $Movement
-@onready var wpn_controller: WeaponController = $WeaponController
-@onready var detectArea: DetectionArea = $DetectionArea
-@onready var stateMachine:StateMachine = $StateMachine
-@onready var ai_enabled: bool = _char.team != 0
-
-### HOW IT WORKS ###
-# all states get access to movement, wpnCtrl & character nodes at ready()
-# the targets (char/pos) are assigned in their setters
-# before starting a new state load_state() sets all the main nodes props
-
-
-var target_char: Character:
-	set(value):
-		if value != null:
-			target_pos = Vector3.ZERO
-		target_char = value
-		
-		for state in stateMachine.get_children():
-			state.target_char = value
-var target_pos: Vector3:
-	set(value):
-		target_pos = value
-		
-		for state in stateMachine.get_children():
-			state.target_pos = value
-
-var rungun: bool:
-	set(value):
-		rungun = value
-		if !rungun:
-			target_char = null
-			
-		for state in stateMachine.get_children():
-			state.rungun = value
+@onready var _char:Character = get_parent()
+@onready var sm:StateMachine = $StateMachine
 
 
 func _ready():
-	mov._char = _char
-	detectArea.radius = _char.detection_range
-	###### init state machine ######
-	for child in stateMachine.get_children():
-		if child is State:
-			child._char = _char
-			child.mov = mov
-			child.wpn_ctrl = wpn_controller
-			child.da = detectArea
-	################################
 	GameEvents.character_died.connect(_on_character_died)
 
 
-func _on_character_target_updated(new_target, force_to:bool):
-	if new_target is CollisionObject3D:
-		if new_target == target_char:
-			return
-		#if player dbl_clck run&gun is disabled
-		rungun = !force_to
-		target_char = new_target
-		
-		if !_char.is_enemy(new_target):
-			stateMachine.current_state.changed.emit('interact')
-		else:
-			stateMachine.current_state.changed.emit('alert')
+func _on_target_updated(new_target, player_input:bool):
+	if !new_target: sm.curr_state.changed.emit('idle')
 	
-	## the new target is a position vector
+#	_char.ai_enabled = !player_input
+	
+	if new_target is CollisionObject3D:
+		if new_target is CoverSpot:  #target is cover
+			sm.curr_state.changed.emit('cover')
+			sm.curr_state.curr_cspot = new_target
+			return
+		if !_char.is_enemy(new_target):  #target is ally unit
+			sm.curr_state.changed.emit('interact',new_target)
+		else:
+			sm.curr_state.changed.emit('search',new_target)
+	
 	if new_target is Vector3:
-		target_pos = new_target
-		rungun = !force_to
-		
-		_char.safe_dist = _char.base_safe_dist
-		mov.move_speed = _char.alert_spd
-		if !rungun:
-			stateMachine.current_state.changed.emit('move')
-		mov.move_to(new_target)
+		#target is a position
+		sm.curr_state.changed.emit('move',new_target)
+		#TODO: if rungun -> use mov.move_to directly?
+#		mov.move_to(new_target)
 
 
 func _on_weapon_controller_equipped(new_equipped_wpn:Weapon):
-	_char.hit_range = new_equipped_wpn.wpn_range
+	_char.hit_range = new_equipped_wpn._range
 	new_equipped_wpn.wpn_owner = _char
 
 
 func _on_character_died(_character):
-	if target_char && _character == target_char:
-		target_char = null
+	if !_char.target is Vector3 && _character == _char.target:
+		_char.set_target(null)
+		if _char.ai_enabled:
+			#search new targets
+			var enemies_left = _char.da.get_units_in_area(true)
+			if enemies_left.size() > 0:
+				if _char.at_range_from(enemies_left[0]):
+					_char.set_target(enemies_left[0])
+		else:
+			sm.curr_state.changed.emit('idle')
 
 
 func _on_detection_area_body_entered(body):
-	if target_char:
-		return
-	if ai_enabled && _char.is_enemy(body):
-		target_char = body
-		stateMachine.current_state.changed.emit('alert')
+	if !_char.ai_enabled: return
+	
+	if _char.is_enemy(body):
+		if !_char.is_behind_cover:
+			sm.curr_state.changed.emit('cover',body)
+			_char.set_target(body, false)  #set unit.target without emitting the target_updated signal
 
 
-func _on_detection_area_body_exited(body):
-	if ai_enabled && _char.is_enemy(body):
-		if target_char && target_char==body:
-			pass
+func _on_detection_area_body_exited(_body):
+#	if !ai_enabled: return
+#
+#	if _char.is_enemy(body):
+#		if _char.target && _char.target == body:
+#			pass
+	pass
 
 
-func _on_character_damaged(attacker, _cur_hp, _max_hp):
-	if (stateMachine.current_state.name != 'combat' 
-	|| stateMachine.current_state.name != 'move'
-	|| stateMachine.current_state.name != 'alert'):
+func _on_character_damaged(attacker,_curr_hp,_max_hp):
+	if !_char.ai_enabled: return
+	
+	if (sm.curr_state.name != 'combat' 
+	|| sm.curr_state.name != 'cover'):
 		if attacker:
-			_char.target = attacker
+			print(_char.name,' under attack! Searching for cover..')
+			sm.curr_state.changed.emit('cover',attacker)

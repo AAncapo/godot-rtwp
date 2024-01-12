@@ -1,69 +1,80 @@
-extends State
-class_name Combat
+class_name Combat extends State
 
 var wait_time:float
+var relocating:bool = false
+var newpos:Vector3:
+	set(val):
+		newpos = val
+		character.mov.move_to(newpos, false) #move without rotating toward newpos
+var cspot_shoot_pos:Vector3
+
 
 func enter():
+	super.enter()
+	
+	cspot_shoot_pos = Vector3()
+	relocating = false
 	randomize()
-	
-	mov.move_speed = _char.walk_spd
-	_char.safe_dist = _char.optimal_hr
-	
-	wait_time = 2.0
+	wait_time = 3.0
 
 
 func update(delta:float):
-	## search for enemies if target died and no new position is given
-	if !target_char || target_char.is_dead:
-		if target_pos != Vector3.ZERO:
-			changed.emit('move')
-			return
-		var enemies_left = da.get_units_in_area(_char,true)
-		if enemies_left.size() > 0:
-			if _char.at_range_from(enemies_left[0]):
-				_char.target = enemies_left[0]
-				return
-		changed.emit('idle')
-		return
+	if !target || target.dead: return
 	
+	if character.is_behind_cover && cspot_shoot_pos == Vector3.ZERO:
+		cspot_shoot_pos = character.shootBehindCoverPos
 	# checking if can attack
-	if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
-		if wpn_ctrl.pointing_at_target(target_char):
-			wpn_ctrl.attack(delta)
-	elif !da.is_inside_fov(target_char):
+	if character.at_range_from(target) && character.da.is_inside_fov(target):
+		#TODO: perform lean/stand animation
+		if character.wpnCtr.pointing_at_target(target):
+			character.attack()
+	
+	elif character.ai_enabled && !character.da.is_inside_fov(target):
 		wait_time -= delta
 		if wait_time < 0:
-			changed.emit('alert')
+			character.curr_cspot = null
+			changed.emit('search',target)
 
 
 func update_physics(delta:float):
-	## rotation and movement while rungun is active ##
-	if rungun: 
-		# rotate towards current target if no new targetpos
-		mov.rotate_to(target_char.position,delta)
-		if target_pos == Vector3.ZERO:
-			## move away from target if its too close ##
-			var dist: float = (_char.global_position - target_char.global_position).length()
-			if dist < _char.safe_dist - 0.5:
-				## TODO: check if position is reachable for mov.agent ##
-				var safe_pos: Vector3 = _char.global_position + (_char.transform.basis.z * 10.0)
-				mov.move_to(safe_pos, false)
-			else:
-				mov.move_to(target_char.position, true)
-		else:
-			# if new targetpos
-			# keep looking at target until is not inside hit_range or visible
-			var rotate:bool
-			if _char.at_range_from(target_char) && da.is_inside_fov(target_char):
-				rotate = false
-			else:
-				target_char = null
-				rotate = true
-				changed.emit('move')
-			mov.move_to(target_pos, rotate)
+	#look/aim at target
+	character.mov.rotate_to(target.position, delta)
+	
+	if !character.is_behind_cover: 
+		if !character.ai_enabled: return
+		#check and move away from target if its too close
+		var currdist:float = character.global_position.distance_to(target.global_position)
+		if currdist <= character.curr_safdist/2 && !relocating:
+			relocating = true
+			character.curr_safdist = 1  #set to base_safdist before calling move_to
+			self.newpos = target.global_position + (character.transform.basis.z * (character.combat_safdist + 1))
+			##TODO: check if newpos is reachable by agent.
+			##TODO: change direction from basis.z to somewhere random behind the unit.
+		if relocating && newpos != Vector3.ZERO && character.global_position.distance_to(newpos) < 0.1:
+			newpos = Vector3()
+			relocating = false
+			character.curr_safdist = character.combat_safdist
+		
+		
+#	#handle rungun in controller before set next state when target updated
+#	#example: if target==vector3 and curr state = combat dont go directly to state move?
+#
+#	### THIS CODE NEVER RUNS now bc when target != vector3 its already in state.move
+#		if target is Vector3:
+#			# if new targetpos keep looking at target until is not inside hit_range or visible
+#			var rotate:bool
+#			if character.at_range_from(target) && character.da.is_inside_fov(target):
+#				rotate = false
+#			else:
+#				target = null
+#				rotate = true
+#				changed.emit('move',target.position)
+#
+#		## avoid calling move_to inside process ##
+#			character.mov.move_to(target, rotate)
 
 
-func get_random_dir(start_pos:Vector3):
-	var __range:float = randf_range(-1.0,1.0)
-	var rdir:Vector3 = Vector3(__range,start_pos.y,__range)
-	return (rdir-start_pos).normalized()
+#func get_random_dir(start_pos:Vector3):
+#	var __range: float = randf_range(-1.0, 1.0)
+#	var rdir: Vector3 = Vector3(__range, start_pos.y, __range)
+#	return (rdir - start_pos).normalized()

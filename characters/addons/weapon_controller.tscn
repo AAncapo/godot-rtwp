@@ -9,4 +9,4 @@ script = ExtResource("1_qv141")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 visible = false
-collision_mask = 3
+collision_mask = 23

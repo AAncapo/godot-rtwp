@@ -53,7 +53,7 @@ shader_parameter/albedoBG = Color(0.160784, 0.160784, 0.160784, 1)
 shader_parameter/progress = 0.2
 
 [node name="enemy" instance=ExtResource("1_nmnle")]
-detection_range = 15.0
+ai_enabled = true
 team = 1
 team_color = Color(1, 0.203922, 0.203922, 1)
 

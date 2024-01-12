@@ -1,13 +1,12 @@
-extends State
-class_name Move
+class_name Move extends State
+
 
 func enter():
-	mov.move_speed = _char.run_spd
-	_char.safe_dist = _char.base_safe_dist
-	
-	mov.move_to(target_pos)
+	super.enter()
+	character.mov.move_to(target)
 
 
 func update(_delta:float):
-	if mov.has_reached_target():
+	if character.mov.is_target_reached():
 		changed.emit('idle')
+		return

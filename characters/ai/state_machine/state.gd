@@ -1,19 +1,46 @@
-extends Node
-class_name State
+class_name State extends Node
 
-signal changed(new_state:String)
+signal changed(new_state:String, target, character)
 
-var _char: Character
-var mov: CharacterMovement
-var wpn_ctrl: WeaponController
-var da: DetectionArea
+var character: Character
+var target
 
-var target_char: Character
-var target_pos: Vector3
-var rungun: bool = true
 
 func enter():
-	pass
+	var ms
+	var walk = character.walk_sp
+	var run = character.run_sp
+	var alert = character.alert_sp
+	
+	var sd
+	var base = character.base_safdist
+	var cmbtsd = character.combat_safdist
+	
+	match name.to_lower():
+		'idle':
+			ms=walk
+			sd=base
+		'combat':
+			ms=walk
+			sd=cmbtsd
+		'search':
+			ms=alert
+			sd=base
+		'cover':
+			ms=run
+			sd=base
+		'move':
+			ms=run
+			sd=base
+		'wander':
+			ms=walk
+			sd=base
+	
+	character.mov.move_speed = ms
+	character.curr_safdist = sd
+	
+	print(character.name," entered ",name," state. Target = ",target if !target is Vector3 else "Vector3")
+
 
 func exit():
 	pass

@@ -1,17 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxof1u14tfilt"]
+[gd_scene load_steps=3 format=3 uid="uid://dxof1u14tfilt"]
 
 [ext_resource type="Script" path="res://weapons/gun.gd" id="1_pcte1"]
+[ext_resource type="PackedScene" uid="uid://bncqqyqojb8oy" path="res://weapons/bullet.tscn" id="2_sm40v"]
 
 [node name="gun" type="Node3D"]
 script = ExtResource("1_pcte1")
-firePoints = NodePath("firepoints")
+barrels = NodePath("barrels")
+projectile_packedScene = ExtResource("2_sm40v")
+_range = 25.0
 timer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="firepoints" type="Node3D" parent="."]
+[node name="barrels" type="Node3D" parent="."]
 
-[node name="Marker3D" type="Marker3D" parent="firepoints"]
+[node name="Marker3D" type="Marker3D" parent="barrels"]
 
 [node name="muzzle" type="Node3D" parent="."]
 

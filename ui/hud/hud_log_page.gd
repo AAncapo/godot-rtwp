@@ -33,7 +33,7 @@ func create_label(autor: Character, text: String, target: Character):
 	
 	var a_color
 	var t_color
-	var player_color = '[color=green]'
+	var player_color = '[color=blue]'
 	var enemy_color = '[color=red]'
 	a_color=player_color if autor.team==0 else enemy_color
 	t_color=player_color if target.team==0 else enemy_color

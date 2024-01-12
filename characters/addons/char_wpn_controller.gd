@@ -3,19 +3,11 @@ class_name WeaponController
 
 signal equipped(new_equipped_wpn:Weapon)
 
-var starting_gun = preload("res://weapons/pistol.tscn")
-
-## load a character stats resource to get all the combat data ##
-@export var aim_spd: float = 0.5
-
+##TODO: load a character stats resource to get all the combat data ##
 @onready var wpnHolder = $"%wpn_holder"
 @onready var ray = $RayCast3D
-@onready var aim_timer: float
-
-var equipped_wpn: Gun
-var aimed = false
-var ammo: int
-#var target: Character
+var starting_gun = preload("res://weapons/pistol.tscn")
+var equipped_wpn:Gun
 
 
 func _ready():
@@ -25,20 +17,11 @@ func _ready():
 		equip_wpn(gun)
 
 
-func attack(delta):
-	aim_timer -= delta
-	if aim_timer <= 0:
-		if equipped_wpn:
-			aim_timer = aim_spd
-			#### adaptar gun.shoot a este tipo de jugabilidad ####
-			equipped_wpn.attack()
-			equipped_wpn.hold()
-		else:
-			#unarmed animations
-			pass
+func attack():
+	if equipped_wpn: 
+		equipped_wpn.attack()
 	else:
-		#the target escaped hit range
-		
+		#unarmed animations
 		pass
 
 
@@ -49,18 +32,15 @@ func equip_wpn(wpn_to_equip:Gun):
 	equipped_wpn = wpn_to_equip
 	wpnHolder.add_child(equipped_wpn)
 	equipped_wpn.on_equipped()
-	equipped_wpn.has_shoot.connect(_on_equipped_has_shoot)
 	
-	ray.target_position = Vector3(0,0,-equipped_wpn.wpn_range)
+	ray.target_position = Vector3(0,0.5,-equipped_wpn._range)
 	
 	equipped.emit(equipped_wpn)
 
 
 func pointing_at_target(_target):
-	var collidr = ray.get_collider()
-	return collidr && collidr == _target
-
-
-func _on_equipped_has_shoot():
-#	aimed = false
-	pass
+	if !ray.is_colliding() && ray.get_collider() != _target:
+#		owner.look_at(_target.global_position,Vector3.UP)
+		#is doing the same shit in Combat process_physics
+		return false
+	return true

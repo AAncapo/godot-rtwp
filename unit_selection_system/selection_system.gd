@@ -1,6 +1,6 @@
 extends Node3D
 
-signal command_units(units,target_obj,dbl_clickd)
+signal command_units(units,target_obj)
 
 @export_node_path("Camera3D") var camera
 @onready var cam = get_node(camera)
@@ -19,20 +19,12 @@ func _ready():
 	GameEvents.focus_world_object.connect(__on_unit_selected)
 	GameEvents.character_died.connect(on_unit_died)
 
-var dbl_clck_timer:float = 0
-func _process(delta):
-	if dbl_clck_timer > 0:
-		dbl_clck_timer -= delta
-
 
 func _unhandled_input(_event):
 	var m_pos = get_viewport().get_mouse_position()
 	
-	var dbl_clck=false
 	if Input.is_action_just_pressed("main_command"): #right click
-		dbl_clck = dbl_clck_timer > 0
-		dbl_clck_timer = 0.2
-		command_selected_units(m_pos, dbl_clck)
+		command_selected_units(m_pos)
 	if Input.is_action_just_pressed("alt_command"):
 		selection_box.start_sel_pos = m_pos
 		start_sel_pos = m_pos
@@ -46,10 +38,10 @@ func _unhandled_input(_event):
 		select_units(m_pos)
 
 
-func command_selected_units(m_pos:Vector2,dbl_clickd:bool):
+func command_selected_units(m_pos:Vector2):
 	var result = raycast_from_mouse(m_pos, 1)
 	if result:
-		command_units.emit(selected_units, result, dbl_clickd)
+		command_units.emit(selected_units, result)
 		return result
 
 
@@ -80,7 +72,6 @@ func deselect_all_units():
 func get_unit_under_mouse(m_pos):
 	var result = raycast_from_mouse(m_pos, 3)
 	if result and result.collider.is_in_group('units'):
-		## allow !player_team units if selected independent
 		return result.collider
 
 

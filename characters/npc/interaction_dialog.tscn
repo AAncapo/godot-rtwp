@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://blio3kf7nqplm"]
-
-[node name="InteractionDialog" type="Label3D"]
-text = "Hello, im just an NPC!"

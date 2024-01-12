@@ -1,38 +1,39 @@
-extends Node
-class_name StateMachine
+class_name StateMachine extends Node 
 
-signal state_changed(state)
+signal state_changed(state)  #connected manually to GUI
 
 @export var initial_state: State
 var states: Dictionary = {}
-var current_state: State:
+var curr_state: State:
 	set(new_state):
-		if current_state:
-			current_state.exit()
+		if curr_state:
+			curr_state.exit()
+		if !new_state.character: new_state.character = owner
 		new_state.enter()
-		current_state = new_state
+		curr_state = new_state
 
 
 func _ready():
-	for child in get_children():
-		if child is State:
-			states[child.name.to_lower()] = child
-			child.changed.connect(change_state)
+	for state in get_children():
+		if state is State:
+			states[state.name.to_lower()] = state
+			state.changed.connect(change_state)
 	
+	await owner.ready
 	if initial_state:
-		current_state = initial_state
+		self.curr_state = initial_state
 
 
 func _process(delta):
-	if current_state:
-		current_state.update(delta)
+	if curr_state:
+		curr_state.update(delta)
 
 func _physics_process(delta):
-	if current_state:
-		current_state.update_physics(delta)
+	if curr_state:
+		curr_state.update_physics(delta)
 
 
-func change_state(new_state_name:String):
+func change_state(new_state_name:String, target=null, character=owner):
 	var new_state: State = states.get(new_state_name.to_lower())
 	if !new_state:
 		print('ERROR: Cannot find a State.',new_state_name)
@@ -41,4 +42,6 @@ func change_state(new_state_name:String):
 	GameEvents.update_clg.emit(get_parent()._char,str('entered ',new_state.name,' state'),get_parent()._char)
 	state_changed.emit(new_state_name)
 	
-	current_state = new_state
+	new_state.target = target
+	new_state.character = character
+	self.curr_state = new_state

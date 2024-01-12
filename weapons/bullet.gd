@@ -1,9 +1,8 @@
-extends CharacterBody3D
-class_name Bullet
+class_name Bullet extends CharacterBody3D
 
-var __owner
+var __owner: Character
 var speed: float
-var max_dist:float
+var max_dist: float
 var starting_pos: Vector3
 
 
@@ -24,8 +23,8 @@ func _physics_process(delta):
 		queue_free()
 
 
-func init(_owner:Character, spd:float, _max_dist:float):
-	__owner = _owner
-	speed = spd
+func init(_owner:Character, sp:float, _max_dist:float):
+	__owner = _owner.duplicate()
+	speed = sp
 	max_dist = _max_dist
 	

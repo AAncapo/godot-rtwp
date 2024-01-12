@@ -1,3 +1,5 @@
-extends State
-class_name Idle
+class_name Idle extends State
 
+func enter():
+	super.enter()
+	target = null

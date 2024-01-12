@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://unit_selection_system/selection_system.gd" id="1_tbkl7"]
 [ext_resource type="Script" path="res://unit_selection_system/selection_box.gd" id="2_dc5ge"]
 
-[node name="SelectionSys" type="Node3D"]
+[node name="unit_sel_sys" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_tbkl7")
 camera = NodePath("../CamBase/Camera3D")
