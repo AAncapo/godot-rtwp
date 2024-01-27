@@ -104,8 +104,6 @@ debug_shape_custom_color = Color(0.00784314, 0.219608, 0.92549, 1)
 [node name="WeaponController" type="Node3D" parent="CharacterAI"]
 script = ExtResource("4_ikygc")
 
-[node name="AimBar" type="MeshInstance3D" parent="CharacterAI/WeaponController"]
-
 [node name="RayCast3D" type="RayCast3D" parent="CharacterAI/WeaponController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 collision_mask = 23
@@ -234,7 +232,6 @@ debug_path_custom_point_size = 0.0
 [connection signal="selected" from="." to="GUI" method="_on_character_selected"]
 [connection signal="tree_exited" from="." to="." method="_on_tree_exited"]
 [connection signal="body_entered" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_entered"]
-[connection signal="body_exited" from="CharacterAI/DetectionArea" to="CharacterAI" method="_on_detection_area_body_exited"]
 [connection signal="equipped" from="CharacterAI/WeaponController" to="CharacterAI" method="_on_weapon_controller_equipped"]
 [connection signal="state_changed" from="CharacterAI/StateMachine" to="GUI" method="_on_state_machine_state_changed"]
 [connection signal="target_reached" from="NavigationAgent3D" to="CharacterAI/Movement" method="_on_navigation_agent_3d_target_reached"]

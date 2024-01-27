@@ -22,7 +22,7 @@ var curr_safdist:float = 1.0:
 		curr_safdist = val
 		update_safdist(curr_safdist)  # Nav agent stopping distance.
 var base_safdist:float = 1.0
-var combat_safdist:float = 1.5  ##TODO: RENAME to optimal_safdist. a number between the hit range limit and the 75% of it. 
+var combat_safdist:float = 1.5  #a number between the hit range limit and the 75% of it. 
 var rot_sp:float = 25.0
 
 var hit_range:float = 2.0:

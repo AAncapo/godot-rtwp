@@ -24,6 +24,7 @@ func update(delta:float):
 	if character.is_behind_cover && cspot_shoot_pos == Vector3.ZERO:
 		cspot_shoot_pos = character.shootBehindCoverPos
 	# checking if can attack
+	#TODO: check if !is_inside_fov && target is behind cover && at_range -> shoot anyways
 	if character.at_range_from(target) && character.da.is_inside_fov(target):
 		#TODO: perform lean/stand animation
 		if character.wpnCtr.pointing_at_target(target):
