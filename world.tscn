@@ -76,14 +76,13 @@ shadow_enabled = true
 
 [node name="CamBase" type="Node3D" parent="."]
 process_mode = 3
-transform = Transform3D(1, 0, 0, 0, -5.96046e-08, 0.999999, 0, -0.999999, -5.96046e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.499999, 0.866025, 0, -0.866025, 0.499999, 0, 0, 0)
 script = ExtResource("3_7oabq")
 move_speed = 7.0
 zoom_amount = 5.0
 
 [node name="Camera3D" type="Camera3D" parent="CamBase"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.4181)
-projection = 1
 current = true
 size = 40.0
 
