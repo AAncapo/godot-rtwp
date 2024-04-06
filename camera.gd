@@ -22,14 +22,14 @@ var cam_settings = {
 
 
 func _ready() -> void:
-#	set_tactical_mode(true)
+	set_tactical_mode(false)
 	GameEvents.focus_world_object.connect(on_world_object_focused)
 
 
 func _process(delta: float) -> void:
 	calc_move(delta)
 	
-	if Input.is_action_just_pressed("tactical_mode"):
+	if Input.is_action_just_pressed("tactical_mode"): # T
 		set_tactical_mode(!isset_tactical)
 
 
