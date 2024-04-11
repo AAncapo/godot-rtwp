@@ -76,11 +76,9 @@ func take_damage(_owner:Character, dmg:float):
 		return
 	curr_hp -= dmg
 	damaged.emit(_owner, curr_hp, max_hp)
-	GameEvents.update_clg.emit(_owner, str('deals ',dmg,' damage to '), self)
 	GameEvents.update_char_ui.emit(self)
 	if curr_hp <= 0:
 		dead = true
-		GameEvents.update_clg.emit(_owner, 'killed', self)
 		GameEvents.character_died.emit(self)
 		
 		visible = false

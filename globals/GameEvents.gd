@@ -12,4 +12,3 @@ signal form_selected(formation_index)
 signal focus_world_object(obj, center_cam)
 #Debug Console
 signal ui_toggle_combat_log
-signal update_clg(autor, new_info, target)

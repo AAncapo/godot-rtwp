@@ -5,10 +5,8 @@ extends Control
 @onready var logs_container = $ScrollContainer/logs_container
 
 
-
 func _ready():
 	GameEvents.ui_toggle_combat_log.connect(toggle_combat_log)
-	GameEvents.update_clg.connect(on_combat_log_updated)
 
 
 func on_combat_log_updated(autor, new_info, target):

@@ -39,7 +39,6 @@ func change_state(new_state_name:String, target=null, character=owner):
 		print('ERROR: Cannot find a State.',new_state_name)
 		new_state = states.get('idle')
 	
-	GameEvents.update_clg.emit(get_parent().character,str('entered ',new_state.name,' state'),get_parent().character)
 	state_changed.emit(new_state_name)
 	
 	new_state.target = target
