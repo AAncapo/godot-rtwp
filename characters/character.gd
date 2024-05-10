@@ -53,7 +53,6 @@ var is_behind_cover:bool = false:
 		is_behind_cover = val
 var shootBehindCoverPos:Vector3
 
-
 func _ready():
 	mov._char = self
 	da.radius = detection_range
@@ -61,15 +60,12 @@ func _ready():
 	top_level = true #por alguna razon desde que movi la posicion de Players en playerteam se jodio la rotacion cuando se mueven y esto lo arregla :|
 	set_gui_indicators()
 
-
 func _process(delta):
 	if team == 0:
 		self.curr_hp = lerp(curr_hp, max_hp, delta)
 
-
 func attack():
 	wpnCtr.attack()
-
 
 func take_damage(_owner:Character, dmg:float):
 	if !damageable:
@@ -85,19 +81,16 @@ func take_damage(_owner:Character, dmg:float):
 		await get_tree().create_timer(0.5).timeout
 		queue_free()
 
-
 func at_range_from(_target:Character) -> bool:
 	var _range = hit_range if is_enemy(_target) else base_safdist
 	var dist:float = (_target.global_position - global_position).length()
 	return dist < _range
 
-
 func update_safdist(safdist):
 	mov.agent.target_desired_distance = safdist
 
-
 func set_gui_indicators():
-	$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
+	#$Body/MeshInstance3D.get_surface_override_material(0).albedo_color = team_color
 #	$GUI/detection_radius.scale=Vector3(detection_range,detection_range,1.0)
 	$GUI/char_name.text = name
 ## trying to fix the !material errors when the character is freed (apparently a Godot 4 issue) ##

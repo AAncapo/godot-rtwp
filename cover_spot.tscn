@@ -14,7 +14,7 @@ material = SubResource("StandardMaterial3D_him8x")
 size = Vector2(1, 1)
 
 [node name="cspot" type="StaticBody3D" groups=["cover"]]
-collision_layer = 16
+collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_qgxii")
 
@@ -29,23 +29,23 @@ mesh = SubResource("PlaneMesh_6hgdb")
 
 [node name="DefaultCoverRay" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-collision_mask = 22
+collision_mask = 6
 
 [node name="HighCoverRay" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 exclude_parent = false
 target_position = Vector3(0, 0, -1)
-collision_mask = 22
+collision_mask = 6
 
 [node name="ShootSpots" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.5, 0)
 
 [node name="ShootPosition1" type="RayCast3D" parent="ShootSpots"]
-collision_mask = 22
+collision_mask = 6
 
 [node name="ShootPosition2" type="RayCast3D" parent="ShootSpots"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-collision_mask = 22
+collision_mask = 6
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt3yeud88yqnf"]
+
+[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://beehave_unit.tscn" id="1_c2fxy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_643ox"]
+albedo_color = Color(1, 0.0823529, 0.0823529, 1)
+
+[node name="enemy_test" instance=ExtResource("1_c2fxy")]
+team = 1
+
+[node name="BeehaveTree" parent="." index="1" node_paths=PackedStringArray("blackboard")]
+blackboard = NodePath("@Node@34820")
+
+[node name="AnimationTree" parent="." index="4"]
+parameters/IsArmed/blend_amount = 1.0
+parameters/State/blend_amount = 1.0
+
+[node name="Skeleton3D" parent="Character2/metarig" index="0"]
+bones/0/position = Vector3(0, 0.891901, -0.0552)
+bones/0/rotation = Quaternion(0.12547, -0.0738611, 0.00936762, 0.9893)
+bones/2/rotation = Quaternion(-0.0774642, 0, 0, 0.996995)
+bones/3/rotation = Quaternion(0.00162715, 0, 0, 0.999999)
+bones/4/rotation = Quaternion(0.201738, 0, 0, 0.97944)
+bones/8/rotation = Quaternion(-0.0887231, 0.625059, -0.718522, 0.291815)
+bones/9/rotation = Quaternion(0.429191, 0.00122639, -0.0956121, 0.898138)
+bones/13/rotation = Quaternion(0.180085, -0.648855, 0.706333, 0.21829)
+bones/14/rotation = Quaternion(0.491765, -0.0011795, 0.109552, 0.863808)
+bones/15/rotation = Quaternion(-0.0905718, 0.0471697, -0.0235842, 0.994493)
+bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
+bones/19/rotation = Quaternion(0.883847, 0.0530264, -0.199947, 0.419552)
+bones/20/rotation = Quaternion(0.433973, 0.000399212, -0.041947, 0.899949)
+bones/21/rotation = Quaternion(-0.587384, -0.0618836, 0.0491354, 0.805442)
+bones/25/rotation = Quaternion(0.933773, -0.0697164, 0.126257, 0.327517)
+bones/26/rotation = Quaternion(0.468915, -0.000391301, 0.0453243, 0.882079)
+bones/27/rotation = Quaternion(-0.659479, 0.277909, -0.0650548, 0.69543)
+
+[node name="base_character_model" parent="Character2/metarig/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_643ox")
+
+[node name="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
+transform = Transform3D(0.230181, 0.714148, 0.661066, 0.356611, 0.570152, -0.740105, -0.905453, 0.406102, -0.123434, -0.093989, 1.09091, 0.31267)
+
+[node name="lmg" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" index="1"]
+visible = true
+
+[editable path="Character2"]
+[editable path="Character2/metarig/Skeleton3D/BoneAttachment3D/lmg"]
