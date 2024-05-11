@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=17 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://selector.gd" id="2_pyn2i"]
 [ext_resource type="Script" path="res://camera.gd" id="3_7oabq"]
@@ -19,6 +19,24 @@ sky_material = SubResource("ProceduralSkyMaterial_ppise")
 background_mode = 2
 sky = SubResource("Sky_sjls7")
 tonemap_mode = 2
+
+[sub_resource type="InputEventKey" id="InputEventKey_vbnnp"]
+device = -1
+pressed = true
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_shymv"]
+events = [SubResource("InputEventKey_vbnnp")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_gbihw"]
+device = -1
+pressed = true
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_rllhb"]
+events = [SubResource("InputEventKey_gbihw")]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_t4soq"]
 vertices = PackedVector3Array(-29.5, 0.02, -29.5, -29.5, 0.02, 29.5, 29.5, 0.02, 29.5, 29.5, 0.02, -29.5)
@@ -113,24 +131,27 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="stealth" type="Button" parent="GUI/Control/HBoxContainer"]
+[node name="unit1" type="Button" parent="GUI/Control/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 toggle_mode = true
-text = "stealth
-[c]"
+text = "unit1
+[F1]"
 
 [node name="equip_hgun" type="Button" parent="GUI/Control/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-toggle_mode = true
-text = "pistol"
+shortcut = SubResource("Shortcut_shymv")
+text = "pistol
+[1]"
 
 [node name="equip_lmg" type="Button" parent="GUI/Control/HBoxContainer"]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-toggle_mode = true
-text = "rifle"
+shortcut = SubResource("Shortcut_rllhb")
+text = "rifle
+[2]"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_t4soq")

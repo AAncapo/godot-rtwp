@@ -8,11 +8,11 @@
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_4b8e5"]
 [ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://gun.tscn" id="4_55hnd"]
 [ext_resource type="Script" path="res://weapon_controller.gd" id="5_7dwy5"]
-[ext_resource type="Script" path="res://bt_target_valid.gd" id="5_tpqme"]
-[ext_resource type="Script" path="res://action_move.gd" id="6_iudnv"]
+[ext_resource type="Script" path="res://beehave_nodes/bt_target_valid.gd" id="5_amjxh"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_45of8"]
-[ext_resource type="Script" path="res://target_at_range.gd" id="8_s0rps"]
-[ext_resource type="Script" path="res://action_attack.gd" id="9_rmrqc"]
+[ext_resource type="Script" path="res://beehave_nodes/action_move.gd" id="7_pllmv"]
+[ext_resource type="Script" path="res://beehave_nodes/target_at_range.gd" id="8_orbsd"]
+[ext_resource type="Script" path="res://beehave_nodes/action_attack.gd" id="9_nxqt7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 
@@ -1646,7 +1646,7 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@48034")
+blackboard = NodePath("@Node@50981")
 actor = NodePath("..")
 
 [node name="main" type="Node" parent="BeehaveTree"]
@@ -1656,7 +1656,7 @@ script = ExtResource("3_ng0gg")
 script = ExtResource("7_45of8")
 
 [node name="has_target" type="Node" parent="BeehaveTree/main/Inverter"]
-script = ExtResource("5_tpqme")
+script = ExtResource("5_amjxh")
 
 [node name="target_type" type="Node" parent="BeehaveTree/main"]
 script = ExtResource("3_ng0gg")
@@ -1665,11 +1665,11 @@ script = ExtResource("3_ng0gg")
 script = ExtResource("4_4b8e5")
 
 [node name="is_position_valid" type="Node" parent="BeehaveTree/main/target_type/move"]
-script = ExtResource("5_tpqme")
+script = ExtResource("5_amjxh")
 check_for = 1
 
 [node name="move" type="Node" parent="BeehaveTree/main/target_type/move"]
-script = ExtResource("6_iudnv")
+script = ExtResource("7_pllmv")
 
 [node name="SelectorComposite" type="Node" parent="BeehaveTree/main/target_type"]
 script = ExtResource("3_ng0gg")
@@ -1678,17 +1678,17 @@ script = ExtResource("3_ng0gg")
 script = ExtResource("7_45of8")
 
 [node name="is_enemy" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/InverterDecorator"]
-script = ExtResource("5_tpqme")
+script = ExtResource("5_amjxh")
 check_for = 2
 
 [node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
 script = ExtResource("4_4b8e5")
 
 [node name="target_at_range" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
-script = ExtResource("8_s0rps")
+script = ExtResource("8_orbsd")
 
 [node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
-script = ExtResource("9_rmrqc")
+script = ExtResource("9_nxqt7")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 debug_enabled = true
@@ -1719,29 +1719,29 @@ script = ExtResource("3_roqug")
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.97262, -0.0552)
-bones/2/rotation = Quaternion(-0.0423266, 0, 0, 0.999104)
-bones/3/rotation = Quaternion(0.0252987, 0, 0, 0.99968)
-bones/4/rotation = Quaternion(0.147779, 0, 0, 0.98902)
-bones/8/rotation = Quaternion(-0.132764, 0.702729, -0.575677, 0.396411)
-bones/9/rotation = Quaternion(0.189152, 0.00133959, -0.0421379, 0.981042)
+bones/0/position = Vector3(0, 0.972222, -0.0552)
+bones/2/rotation = Quaternion(-0.0403669, 0, 0, 0.999185)
+bones/3/rotation = Quaternion(0.0266188, 0, 0, 0.999646)
+bones/4/rotation = Quaternion(0.144757, 0, 0, 0.989467)
+bones/8/rotation = Quaternion(-0.131001, 0.69965, -0.577241, 0.400152)
+bones/9/rotation = Quaternion(0.187826, 0.00133995, -0.0418425, 0.98131)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.152682, -0.76131, 0.478493, 0.410048)
-bones/14/rotation = Quaternion(0.408732, -0.00123999, 0.0910543, 0.9081)
+bones/13/rotation = Quaternion(-0.152074, -0.759332, 0.479298, 0.412991)
+bones/14/rotation = Quaternion(0.409525, -0.00123948, 0.0912311, 0.907725)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/19/rotation = Quaternion(0.951656, 0.0401666, -0.134391, 0.273269)
-bones/20/rotation = Quaternion(0.285109, 0.000425019, -0.0275581, 0.958099)
-bones/21/rotation = Quaternion(-0.611004, -0.0883344, 0.0507372, 0.785046)
+bones/19/rotation = Quaternion(0.951606, 0.0401793, -0.134405, 0.273435)
+bones/20/rotation = Quaternion(0.285467, 0.000424969, -0.0275927, 0.957991)
+bones/21/rotation = Quaternion(-0.611452, -0.0884155, 0.0505873, 0.784698)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.967203, -0.042602, 0.131636, 0.213013)
-bones/26/rotation = Quaternion(0.244909, -0.00042996, 0.0236724, 0.969257)
-bones/27/rotation = Quaternion(-0.629072, 0.0976094, -0.0584789, 0.768974)
+bones/25/rotation = Quaternion(0.966965, -0.0427169, 0.131547, 0.214127)
+bones/26/rotation = Quaternion(0.247317, -0.000429687, 0.0239051, 0.96864)
+bones/27/rotation = Quaternion(-0.630203, 0.0968549, -0.0582076, 0.768164)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
 unique_name_in_owner = true
-transform = Transform3D(0.627364, 0.394147, 0.671612, 0.604958, 0.296387, -0.73904, -0.490347, 0.869944, -0.0524995, -0.353275, 1.04693, 0.136605)
+transform = Transform3D(0.62866, 0.393764, 0.670624, 0.603235, 0.297331, -0.740069, -0.49081, 0.869795, -0.0506121, -0.354233, 1.04698, 0.138319)
 bone_name = "weapon_holder.R"
 bone_idx = 17
 

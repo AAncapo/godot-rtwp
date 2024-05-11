@@ -1,9 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cwi2hrni5at1j"]
-
-[ext_resource type="Texture2D" uid="uid://j5ijg0glnqjo" path="res://selection_circle.png" id="1_bq5mk"]
-
-[resource]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0.0588235, 0.870588, 0.109804, 1)
-albedo_texture = ExtResource("1_bq5mk")

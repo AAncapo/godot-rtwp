@@ -21,7 +21,7 @@ func tick(actor, blackboard):
 		print("updating new pos")
 	
 	#if agent.target_pos set and is not fixed_pos = is a player command -> remove target
-	if actor.nav_agent.target_position.length() > 0 and fixed_pos.length() <= 0:
-		actor.target = null
+	#if actor.nav_agent.target_position.length() > 0 and fixed_pos.length() <= 0:
+		#actor.target = null
 	
 	return FAILURE
