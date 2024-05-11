@@ -2,14 +2,19 @@ extends Unit
 
 @onready var btree:BeehaveTree = $BeehaveTree
 @onready var nav_agent:NavigationAgent3D = $NavigationAgent3D
-@onready var animationTree:AnimationTree = %AnimationTree
+@onready var anim:AnimationTree = %AnimationTree
 
 @export var walk_speed:float = 1.5
 @export var ROTATION_SPEED = 0.2
 
+var fist_range:float = 1.5
+var hit_range:float = fist_range:
+	set(value):
+		hit_range = value
+		using_fists = hit_range == fist_range
+var using_fists:bool = hit_range == fist_range
+
 func _ready() -> void:
-	#btree.blackboard.set("nav_agent", nav_agent)
-	
 	selected.connect(_on_selected)
 	deselected.connect(_on_deselected)
 
@@ -32,9 +37,11 @@ func _on_deselected():
 
 
 func _on_target_updated(new_target: Variant) -> void:
-	nav_agent.target_position = new_target.position
+	if not new_target.collider.is_in_group("units"):
+		nav_agent.target_position = new_target.position
 
 
 func _on_detection_area_body_entered(body: Node3D) -> void:
-	if body.is_in_group("units") and body.team != 1:
-		print("enemy detected")
+	pass
+	#if body.is_in_group("units") and body.team != 1:
+		#print("enemy detected")

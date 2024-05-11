@@ -16,9 +16,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 
-[sub_resource type="TorusMesh" id="TorusMesh_3smfa"]
-inner_radius = 0.96
-outer_radius = 1.386
+[sub_resource type="PlaneMesh" id="PlaneMesh_pfgfk"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqcnk"]
 albedo_color = Color(1, 0.243137, 0.243137, 1)
@@ -1616,6 +1614,7 @@ blend_point_2/pos = 1.0
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_6qo53"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
+graph_offset = Vector2(-414.144, 112.78)
 nodes/Aim/node = SubResource("AnimationNodeBlendSpace1D_ye2sk")
 nodes/Aim/position = Vector2(40, 420)
 nodes/Alert/node = SubResource("AnimationNodeBlendSpace1D_2n03j")
@@ -1647,16 +1646,16 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@66245")
+blackboard = NodePath("@Node@48034")
 actor = NodePath("..")
 
 [node name="main" type="Node" parent="BeehaveTree"]
 script = ExtResource("3_ng0gg")
 
-[node name="no_target" type="Node" parent="BeehaveTree/main"]
+[node name="Inverter" type="Node" parent="BeehaveTree/main"]
 script = ExtResource("7_45of8")
 
-[node name="has_target" type="Node" parent="BeehaveTree/main/no_target"]
+[node name="has_target" type="Node" parent="BeehaveTree/main/Inverter"]
 script = ExtResource("5_tpqme")
 
 [node name="target_type" type="Node" parent="BeehaveTree/main"]
@@ -1665,28 +1664,39 @@ script = ExtResource("3_ng0gg")
 [node name="move" type="Node" parent="BeehaveTree/main/target_type"]
 script = ExtResource("4_4b8e5")
 
-[node name="is_target_valid" type="Node" parent="BeehaveTree/main/target_type/move"]
+[node name="is_position_valid" type="Node" parent="BeehaveTree/main/target_type/move"]
 script = ExtResource("5_tpqme")
+check_for = 1
 
 [node name="move" type="Node" parent="BeehaveTree/main/target_type/move"]
 script = ExtResource("6_iudnv")
 
-[node name="attack" type="Node" parent="BeehaveTree/main/target_type"]
+[node name="SelectorComposite" type="Node" parent="BeehaveTree/main/target_type"]
+script = ExtResource("3_ng0gg")
+
+[node name="InverterDecorator" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
+script = ExtResource("7_45of8")
+
+[node name="is_enemy" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/InverterDecorator"]
+script = ExtResource("5_tpqme")
+check_for = 2
+
+[node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
 script = ExtResource("4_4b8e5")
 
-[node name="target_at_range" type="Node" parent="BeehaveTree/main/target_type/attack"]
+[node name="target_at_range" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
 script = ExtResource("8_s0rps")
-hit_range = 20.0
 
-[node name="attack" type="Node" parent="BeehaveTree/main/target_type/attack"]
+[node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
 script = ExtResource("9_rmrqc")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 debug_enabled = true
 
 [node name="SelectedRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
 visible = false
-mesh = SubResource("TorusMesh_3smfa")
+mesh = SubResource("PlaneMesh_pfgfk")
 surface_material_override/0 = SubResource("StandardMaterial3D_pqcnk")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -1709,54 +1719,61 @@ script = ExtResource("3_roqug")
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.975989, -0.0552)
-bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
-bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0588568, 0, 0, 0.998267)
-bones/3/rotation = Quaternion(0.0141721, 0, 0, 0.9999)
-bones/4/rotation = Quaternion(0.173224, 0, 0, 0.984882)
-bones/8/rotation = Quaternion(-0.146975, 0.727884, -0.56221, 0.36401)
-bones/9/rotation = Quaternion(0.199517, 0.00133666, -0.0444469, 0.978885)
+bones/0/position = Vector3(0, 0.97262, -0.0552)
+bones/2/rotation = Quaternion(-0.0423266, 0, 0, 0.999104)
+bones/3/rotation = Quaternion(0.0252987, 0, 0, 0.99968)
+bones/4/rotation = Quaternion(0.147779, 0, 0, 0.98902)
+bones/8/rotation = Quaternion(-0.132764, 0.702729, -0.575677, 0.396411)
+bones/9/rotation = Quaternion(0.189152, 0.00133959, -0.0421379, 0.981042)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.157638, -0.77778, 0.471273, 0.384851)
-bones/14/rotation = Quaternion(0.402694, -0.00124387, 0.0897092, 0.910927)
+bones/13/rotation = Quaternion(-0.152682, -0.76131, 0.478493, 0.410048)
+bones/14/rotation = Quaternion(0.408732, -0.00123999, 0.0910543, 0.9081)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/19/rotation = Quaternion(0.952082, 0.04006, -0.134274, 0.271857)
-bones/20/rotation = Quaternion(0.282057, 0.000425407, -0.027263, 0.95901)
-bones/21/rotation = Quaternion(-0.607216, -0.0876405, 0.0519963, 0.787975)
+bones/19/rotation = Quaternion(0.951656, 0.0401666, -0.134391, 0.273269)
+bones/20/rotation = Quaternion(0.285109, 0.000425019, -0.0275581, 0.958099)
+bones/21/rotation = Quaternion(-0.611004, -0.0883344, 0.0507372, 0.785046)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.969251, -0.0416181, 0.132404, 0.2032)
-bones/26/rotation = Quaternion(0.223557, -0.00043226, 0.0216085, 0.974451)
-bones/27/rotation = Quaternion(-0.619471, 0.103963, -0.0607606, 0.775729)
+bones/25/rotation = Quaternion(0.967203, -0.042602, 0.131636, 0.213013)
+bones/26/rotation = Quaternion(0.244909, -0.00042996, 0.0236724, 0.969257)
+bones/27/rotation = Quaternion(-0.629072, 0.0976094, -0.0584789, 0.768974)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
 unique_name_in_owner = true
-transform = Transform3D(0.615642, 0.398718, 0.679712, 0.619064, 0.288996, -0.730234, -0.487591, 0.870348, -0.0689139, -0.345119, 1.04659, 0.122198)
+transform = Transform3D(0.627364, 0.394147, 0.671612, 0.604958, 0.296387, -0.73904, -0.490347, 0.869944, -0.0524995, -0.353275, 1.04693, 0.136605)
 bone_name = "weapon_holder.R"
 bone_idx = 17
 
 [node name="handgun" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" instance=ExtResource("4_55hnd")]
 transform = Transform3D(-0.210484, -0.00370033, 0.213735, -0.0709115, 0.284179, -0.064913, -0.201663, -0.0960649, -0.200259, -8.11219e-05, 0.00883794, 0.00681585)
 visible = false
+hit_range = 5.0
 
 [node name="lmg" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" instance=ExtResource("4_55hnd")]
 transform = Transform3D(-0.210484, -0.00370033, 0.213735, -0.0709115, 0.284179, -0.0649131, -0.201663, -0.0960648, -0.200259, -8.11219e-05, 0.00883794, 0.00681585)
 visible = false
+hit_range = 10.0
 
 [node name="MeshInstance3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/lmg" index="0"]
 transform = Transform3D(0.183735, 0, 0, 0, 0.331492, 0, 0, 0, 2.9795, 0, 0.231895, -0.659711)
 
-[node name="WeaponController" type="Node" parent="."]
+[node name="WeaponController" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 script = ExtResource("5_7dwy5")
 
+[node name="RayCast3D" type="RayCast3D" parent="WeaponController"]
+target_position = Vector3(0, 0, -1)
+collision_mask = 3
+
 [node name="DetectionArea" type="Area3D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
+visible = false
 shape = SubResource("SphereShape3D_1kbjy")
 
 [connection signal="target_updated" from="." to="." method="_on_target_updated"]

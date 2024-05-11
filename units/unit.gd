@@ -11,7 +11,6 @@ var target
 
 func set_target(target):
 	self.target = target
-	print(self.name,".target: ",target.collider.name)
 	target_updated.emit(target)
 #func set_target(value, emit_updated_signal=true):
 	#target = value
