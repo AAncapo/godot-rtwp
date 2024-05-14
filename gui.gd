@@ -44,3 +44,9 @@ func _on_equip_lmg_pressed() -> void:
 	if Global.selected_units.size() > 0:
 		var unit = Global.selected_units[0]
 		if unit and unit.team == Global.PLAYER_TEAM: unit.equip("lmg")
+
+
+func _on_stealth_pressed() -> void:
+	for unit in Global.selected_units:
+		if unit.team == Global.PLAYER_TEAM:
+			unit.stealth_active = !unit.stealth_active

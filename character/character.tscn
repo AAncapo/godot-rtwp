@@ -1614,6 +1614,7 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
+graph_offset = Vector2(-119.042, 207.537)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
 nodes/IsArmed/position = Vector2(540, 100)
 nodes/State/node = SubResource("AnimationNodeBlend2_6qo53")
@@ -1708,57 +1709,59 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_p4co3")
 anim_player = NodePath("../Character2/AnimationPlayer")
-parameters/IsArmed/blend_amount = 0.0
+parameters/IsArmed/blend_amount = 1.0
 parameters/State/blend_amount = 0.0
 parameters/alert/blend_position = 0.0
-parameters/hold_aim/blend_position = Vector2(0, 0)
+parameters/hold_aim/blend_position = Vector2(0, 1)
 parameters/normal/blend_position = 0.0
 script = ExtResource("3_roqug")
 
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.978383, -0.0552)
-bones/2/rotation = Quaternion(-0.070652, 0, 0, 0.997501)
-bones/3/rotation = Quaternion(0.00622254, 0, 0, 0.999981)
-bones/4/rotation = Quaternion(0.191317, 0, 0, 0.981528)
-bones/8/rotation = Quaternion(-0.156205, 0.744942, -0.552471, 0.339761)
-bones/9/rotation = Quaternion(0.206165, 0.00133467, -0.0459279, 0.977438)
-bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.160926, -0.789386, 0.465567, 0.366361)
-bones/14/rotation = Quaternion(0.399265, -0.001246, 0.0889453, 0.91251)
-bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
-bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/19/rotation = Quaternion(0.952337, 0.0399962, -0.134204, 0.271005)
-bones/20/rotation = Quaternion(0.279875, 0.000425711, -0.0270521, 0.959655)
-bones/21/rotation = Quaternion(-0.604549, -0.0871424, 0.0528745, 0.79002)
+bones/0/position = Vector3(0, 0.971854, -0.0552)
+bones/4/rotation = Quaternion(0.20051, 0.0191363, 0.108505, 0.973476)
+bones/8/rotation = Quaternion(0.0121512, 0.246181, -0.873435, 0.41995)
+bones/9/rotation = Quaternion(0.431919, 0.00122449, -0.0962199, 0.896764)
+bones/10/rotation = Quaternion(-0.00935825, 0.00788473, -0.0767872, 0.996972)
+bones/13/rotation = Quaternion(0.283457, -0.221359, 0.812008, 0.459668)
+bones/14/rotation = Quaternion(0.319079, -0.00129043, 0.0710822, 0.945058)
+bones/15/rotation = Quaternion(-0.212018, 0.198254, -0.166527, 0.942344)
+bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
+bones/19/rotation = Quaternion(0.951561, 0.0401906, -0.134418, 0.273584)
+bones/20/rotation = Quaternion(0.285793, 0.000424922, -0.0276241, 0.957893)
+bones/21/rotation = Quaternion(-0.611863, -0.0884897, 0.0504497, 0.784378)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.97078, -0.040887, 0.132978, 0.19553)
-bones/26/rotation = Quaternion(0.206853, -0.000433908, 0.019994, 0.978168)
-bones/27/rotation = Quaternion(-0.612544, 0.10849, -0.0623835, 0.780467)
+bones/25/rotation = Quaternion(0.966748, -0.0428217, 0.131465, 0.215133)
+bones/26/rotation = Quaternion(0.249503, -0.000429435, 0.0241164, 0.968074)
+bones/27/rotation = Quaternion(-0.631239, 0.0961626, -0.0579587, 0.767419)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
-unique_name_in_owner = true
-transform = Transform3D(0.60626, 0.403617, 0.685232, 0.628697, 0.284421, -0.723771, -0.48702, 0.869596, -0.0813199, -0.339207, 1.04639, 0.111927)
-bone_name = "weapon_holder.R"
-bone_idx = 17
+transform = Transform3D(-0.962465, 0.00612655, 0.271337, 0.270956, 0.079232, 0.959325, -0.0156212, 0.996837, -0.0779179, -0.0778222, 1.59164, 0.50823)
+bone_name = "hand.R"
+bone_idx = 15
 
-[node name="handgun" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" instance=ExtResource("4_55hnd")]
-transform = Transform3D(-0.210484, -0.00370033, 0.213735, -0.0709115, 0.284179, -0.064913, -0.201663, -0.0960649, -0.200259, -8.11219e-05, 0.00883794, 0.00681585)
+[node name="Weapon1" type="Node3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="handgun" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 visible = false
 hit_range = 5.0
 
-[node name="lmg" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" instance=ExtResource("4_55hnd")]
-transform = Transform3D(-0.210484, -0.00370033, 0.213735, -0.0709115, 0.284179, -0.0649131, -0.201663, -0.0960648, -0.200259, -8.11219e-05, 0.00883794, 0.00681585)
+[node name="lmg" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 visible = false
 item_class = "lmg"
 hit_range = 10.0
 
-[node name="MeshInstance3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/lmg" index="0"]
+[node name="MeshInstance3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1/lmg" index="0"]
 transform = Transform3D(0.183735, 0, 0, 0, 0.331492, 0, 0, 0, 2.9795, 0, 0.231895, -0.659711)
 
-[node name="melee" parent="Character2/metarig/Skeleton3D/BoneAttachment3D" instance=ExtResource("4_55hnd")]
+[node name="melee" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 visible = false
 item_class = "melee"
 
@@ -1770,13 +1773,13 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea"]
 shape = SubResource("SphereShape3D_1kbjy")
 
-[node name="FOV" type="Area3D" parent="."]
+[node name="FieldOfView" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.5)
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="FOV"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FieldOfView"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 shape = SubResource("BoxShape3D_xm84w")
 
@@ -1789,10 +1792,12 @@ collision_mask = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_mask = 3
 
+[connection signal="detected" from="." to="." method="_on_detected"]
 [connection signal="target_updated" from="." to="." method="_on_target_updated"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="FieldOfView" to="." method="_on_field_of_view_body_entered"]
 
 [editable path="Character2"]
-[editable path="Character2/metarig/Skeleton3D/BoneAttachment3D/lmg"]
+[editable path="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1/lmg"]
