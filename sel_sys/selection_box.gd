@@ -26,8 +26,7 @@ func _process(_delta: float) -> void:
 
 
 func get_generated_box():
-	if m_pos.distance_squared_to(start_sel_pos) < 4:
-		return null
+	if m_pos.distance_squared_to(start_sel_pos) < 4: return null
 	
 	var top_left = start_sel_pos
 	var bottom_right = m_pos

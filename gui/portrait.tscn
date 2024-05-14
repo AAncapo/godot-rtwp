@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgltkspjoccnx"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_cij7y"]
+device = -1
+keycode = 4194332
+
+[sub_resource type="Shortcut" id="Shortcut_eq3a4"]
+events = [SubResource("InputEventKey_cij7y")]
+
+[node name="portrait" type="Button"]
+tooltip_text = "Select Payer 1
+F1"
+toggle_mode = true
+shortcut = SubResource("Shortcut_eq3a4")
+text = "player1"

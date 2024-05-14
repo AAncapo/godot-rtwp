@@ -1,12 +1,12 @@
 [gd_scene load_steps=17 format=3 uid="uid://drj02j3p1ncdt"]
 
-[ext_resource type="Script" path="res://selector.gd" id="2_pyn2i"]
+[ext_resource type="Script" path="res://sel_sys/selector.gd" id="2_pyn2i"]
 [ext_resource type="Script" path="res://camera.gd" id="3_7oabq"]
-[ext_resource type="Script" path="res://selection_box.gd" id="3_igfxy"]
+[ext_resource type="Script" path="res://sel_sys/selection_box.gd" id="3_igfxy"]
 [ext_resource type="Script" path="res://gui.gd" id="4_tnhci"]
 [ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="4_xw032"]
-[ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://enemy_test.tscn" id="7_tmcp4"]
-[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://beehave_unit.tscn" id="11_j8bu4"]
+[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="6_3ctr0"]
+[ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="7_v38ir"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppise"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -92,6 +92,8 @@ mouse_filter = 2
 script = ExtResource("4_tnhci")
 
 [node name="Paused" type="Label" parent="GUI"]
+visible = false
+modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -115,43 +117,53 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="bg" type="ColorRect" parent="GUI/Control"]
+layout_mode = 2
+offset_right = 1024.0
+offset_bottom = 80.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
+color = Color(0.145098, 0.145098, 0.145098, 1)
 
-[node name="unit1" type="Button" parent="GUI/Control/HBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(80, 80)
-layout_mode = 2
-toggle_mode = true
-text = "unit1
-[F1]"
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Control"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 1019.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="equip_hgun" type="Button" parent="GUI/Control/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="portraits" type="HBoxContainer" parent="GUI/Control/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="actions" type="HBoxContainer" parent="GUI/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="equip_hgun" type="Button" parent="GUI/Control/HBoxContainer/actions"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_vertical = 4
 shortcut = SubResource("Shortcut_shymv")
-text = "pistol
-[1]"
+text = "pistol"
 
-[node name="equip_lmg" type="Button" parent="GUI/Control/HBoxContainer"]
-custom_minimum_size = Vector2(80, 80)
+[node name="equip_lmg" type="Button" parent="GUI/Control/HBoxContainer/actions"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_vertical = 4
 shortcut = SubResource("Shortcut_rllhb")
-text = "rifle
-[2]"
+text = "rifle"
+
+[node name="placeholder" type="HBoxContainer" parent="GUI/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_t4soq")
@@ -163,11 +175,11 @@ collision_mask = 0
 size = Vector3(60, 1, 60)
 material = SubResource("StandardMaterial3D_t314k")
 
-[node name="beehave_unit" parent="." instance=ExtResource("11_j8bu4")]
+[node name="player" parent="." instance=ExtResource("6_3ctr0")]
 
-[node name="enemy_test" parent="." groups=["unit"] instance=ExtResource("7_tmcp4")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -6.5443)
+[node name="enemy" parent="." instance=ExtResource("7_v38ir")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -10)
+walk_speed = 1.5
 
-[connection signal="command_units" from="UnitSelector" to="beehave_unit" method="_on_unit_selector_command_units"]
-[connection signal="pressed" from="GUI/Control/HBoxContainer/equip_hgun" to="GUI" method="_on_equip_hgun_pressed"]
-[connection signal="pressed" from="GUI/Control/HBoxContainer/equip_lmg" to="GUI" method="_on_equip_lmg_pressed"]
+[connection signal="pressed" from="GUI/Control/HBoxContainer/actions/equip_hgun" to="GUI" method="_on_equip_hgun_pressed"]
+[connection signal="pressed" from="GUI/Control/HBoxContainer/actions/equip_lmg" to="GUI" method="_on_equip_lmg_pressed"]

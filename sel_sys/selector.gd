@@ -1,20 +1,17 @@
 extends Node
 
-signal command_units(units,target_obj)
-
 @onready var cam = %Camera3D
 @onready var selection_box = $SelectionBox  #Only handles the selection box's rendering
 
-const PLAYER_TEAM = 0
 const RAY_LENGTH = 1000
 
-var selected_units = []
 var target_unit: Unit
 
 
 func _ready():
-	GameEvents.focus_world_object.connect(__on_unit_selected)
-	GameEvents.character_died.connect(on_unit_died)
+	Global.gui_select_unit.connect(_on_gui_select_unit)
+	#GameEvents.focus_world_object.connect(__on_unit_selected)
+	#GameEvents.character_died.connect(on_unit_died)
 
 
 func _unhandled_input(ev):
@@ -48,14 +45,14 @@ func select_units(m_pos):
 	if new_selected_units.size() != 0:
 		deselect_all_units()
 		for unit in new_selected_units:
-			unit.selected.emit()
-		selected_units = new_selected_units
+			unit.selected.emit(true)
+		Global.selected_units = new_selected_units
 
 
 func deselect_all_units():
-	for unit in selected_units:
-		unit.deselected.emit()
-	selected_units.clear()
+	for unit in Global.selected_units:
+		unit.selected.emit(false)
+	Global.selected_units.clear()
 	
 	if target_unit:
 		target_unit.deselect_as_target.emit()
@@ -74,13 +71,19 @@ func raycast_from_mouse(m_pos, _collision_mask = null):
 	var params = PhysicsRayQueryParameters3D.create(ray_start,ray_end)
 	return space_state.intersect_ray(params)
 
+
+func _on_gui_select_unit(unit):
+	if not Global.selected_units.has(unit):
+		unit.selected.emit(true)
+		Global.selected_units.append(unit)
+
 ## callback for selecting units using elements outside the SelectionSystem node tools (e.g. character portraits) ##
 func __on_unit_selected(unit):
 	if unit.is_in_group("units"):
 		deselect_all_units()
-		selected_units.append(unit)
+		Global.selected_units.append(unit)
 
 
 func on_unit_died(unit):
-	if selected_units.has(unit):
-		selected_units.remove_at(selected_units.find(unit))
+	if Global.selected_units.has(unit):
+		Global.selected_units.remove_at(Global.selected_units.find(unit))

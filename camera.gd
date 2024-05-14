@@ -12,7 +12,6 @@ extends Node3D
 
 var mouse_sensitivity: float = 0.05
 var rotation_speed: float = 0.2
-var isset_tactical:bool = false
 
 
 func _ready() -> void:
