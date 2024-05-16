@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7gf0yqj8ytrq"]
+
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_lmx2i"]
+
+[node name="Knife" instance=ExtResource("1_lmx2i")]
+name_ = "Knife"
+reliabl = 3
+cost = 20.0

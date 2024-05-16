@@ -12,6 +12,7 @@ var selected_units = []
 signal gui_select_unit(unit)
 signal added_unit(unit)
 #signal removed_unit(unit)
+signal unit_died(unit)
 
 
 func add_unit(unit):
@@ -24,3 +25,7 @@ func add_unit(unit):
 func remove_unit(unit):
 	print("Global.remove_unit not implemented yet")
 	#removed_unit.emit(unit)
+
+
+#func throw_dice(amount:int, drange:int, extra:int):
+	#return (randi_range(1, drange) * amount) + extra

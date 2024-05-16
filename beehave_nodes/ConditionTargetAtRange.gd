@@ -7,7 +7,7 @@ func tick(actor, blackboard):
 	var min_desired_dist:float = actor.melee_range * 2.0
 	var max_desired_dist:float = actor.hit_range * .8
 	var dist:Vector3 = (actor.target_unit.global_position - actor.global_position)
-	var is_using_melee = not actor.equipped_weapon or actor.equipped_weapon.item_class == "melee"
+	var is_using_melee = not actor.equipped_weapon or actor.equipped_weapon.type == "melee"
 	
 	if dist.length() < actor.hit_range:
 		#(!) Do NOT check min_desired_dist if using melee or unarmed

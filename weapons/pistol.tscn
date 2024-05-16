@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1tnp4ysdrxih"]
+[gd_scene load_steps=2 format=3 uid="uid://cis8tnc05d1wg"]
 
-[ext_resource type="PackedScene" uid="uid://dxof1u14tfilt" path="res://weapons/gun.tscn" id="1_5rw5j"]
-[ext_resource type="PackedScene" uid="uid://dn67exckqloj1" path="res://weapons/placeholder_models/handgun_mesh.tscn" id="2_u7bqj"]
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_f36ou"]
 
-[node name="gun" instance=ExtResource("1_5rw5j")]
+[node name="Pistol" instance=ExtResource("1_f36ou")]
+name_ = "BudgetArms C13"
+type = 1
+accuracy = -1
+clip_size = 8
+rof = 2
+reliabl = 1
+range = 10.0
+cost = 75.0
 
-[node name="muzzle" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166521, -0.446582)
-
-[node name="shell_ejection" parent="." index="3"]
-transform = Transform3D(0.941981, -0.335665, 0, 0.335665, 0.941981, 0, 0, 0, 1, 0.0997907, 0.220462, -0.193305)
-
-[node name="handgun_mesh" parent="." index="4" instance=ExtResource("2_u7bqj")]
+[node name="pistol" parent="mesh" index="0"]
+visible = true

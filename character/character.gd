@@ -1,35 +1,53 @@
 extends Unit
 
 signal detected
+signal damaged
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var anim:AnimationController = %AnimationTree
-@onready var weaponsHolder = %Weapon1
+@onready var weapons = %Weapon1
 @onready var detection_area:Area3D = $DetectionArea  #more like awareness/perception
 @onready var fov:Area3D = $FieldOfView
 @onready var crosshair:RayCast3D = $crosshair
 #@onready var visibility_chkr = $VisibilityChecker
+@onready var info = $Info
+@onready var action_timer:Timer = $ActionTimer
+
+var next_action:float = 3.2:
+	set(val):
+		next_action = max(val, 0)
+		action_timer.wait_time = next_action
+var time_left:float:
+	get: return action_timer.time_left
 
 @export var visibility_range:float = 10.0
 @export var walk_speed:float = 1.5
 @export var min_desired_dist:float = .2
 
 #TODO: mover esto al animationController q es el unico q trabaja con states
-enum state { NORMAL, ALERT, COMBAT, DOWNED } 
+enum state { NORMAL, ALERT, DOWNED, DEAD } 
 var current_state = state.NORMAL:
 	set(value):
 		if current_state != value:
 			print(self.name," entered state: ", state.find_key(value))
 		current_state = value
 		anim.state = state.find_key(current_state).to_lower()
-
+var is_dead:bool = false:
+	set(val):
+		is_dead = val
+		$CollisionShape3D.disabled = is_dead
+		if is_dead: 
+			print(self.name, " died")
+			self.current_state = state.DEAD
+@export var max_health:float = 10.0
+@export var health:float = max_health:
+	set(val):
+		health = val
+		$Info.update(max_health,health)
 var melee_range:float = 1.5
 var hit_range:float = melee_range
-var equipped_weapon:
-	set(value):
-		equipped_weapon = value
-		hit_range = melee_range if not value else value.hit_range
-		crosshair.target_position = crosshair.transform.basis.z * -hit_range
+
+var equipped_weapon:Weapon
 var is_moving:bool = false:
 	set(val):
 		is_moving = val
@@ -50,7 +68,6 @@ var target_unit:
 		target_unit = val
 		if target_unit: self.current_state = state.ALERT
 		#(!) Do NOT change state to NORMAL if null - only when no enemies left in detection area
-
 var stealth_active:bool = false:
 	set(val):
 		stealth_active = val
@@ -59,18 +76,21 @@ var stealth_active:bool = false:
 
 
 func _ready() -> void:
+	self.next_action = 3.2
 	Global.add_unit(self)
+	Global.unit_died.connect(_on_unit_died)
 	self.current_state = state.NORMAL
 	anim.disarm()
 	update_fov()
 	
-	init_nodes()
-	selected.connect(_on_selected)
-
-
-func init_nodes():
 	nav.target_desired_distance = min_desired_dist
 	nav.path_desired_distance = min_desired_dist
+	selected.connect(_on_selected)
+	self.health = max_health
+
+func _process(delta: float) -> void:
+		info.visible = time_left < next_action and time_left > 0
+		if info.visible: info.update(time_left,next_action)
 
 
 func move_to(pos:Vector3, speed:float, look_at_path:bool = true):
@@ -90,22 +110,36 @@ func rotate_to(target:Vector3, rotation_speed:float = .2):
 	self.transform = self.transform.interpolate_with(new_transform, rotation_speed)
 
 
-func equip(wname):
-	var wpns = weaponsHolder.get_children()
-	if equipped_weapon and equipped_weapon.name == wname:
+func equip(new_wpn:Weapon):
+	if equipped_weapon and equipped_weapon == new_wpn:
 		anim.disarm()
 		equipped_weapon.visible = false
 		equipped_weapon = null
 		return
 	
+	var wpns = weapons.get_children()
 	for w in wpns:
-		if w.name == wname:
+		if w == new_wpn:
 			w.visible = true
-			equipped_weapon = w
+			self.equipped_weapon = w
 		else:
 			w.visible = false
-	
-	anim.equip(wname)
+	hit_range = melee_range if not equipped_weapon else equipped_weapon.range
+	crosshair.target_position = crosshair.transform.basis.z * -hit_range
+	anim.equip(new_wpn.type)
+
+
+func attack(target:Unit):
+	var dmg = equipped_weapon.damage if equipped_weapon else 1
+	print(self.name," deals ",dmg," to ",target.name)
+	target.take_damage(self, dmg)
+
+
+func take_damage(actor, dmg):
+	damaged.emit()
+	self.health -= dmg
+	if health <= 0:
+		Global.unit_died.emit(self)
 
 
 func _on_target_updated(new_target) -> void:
@@ -116,6 +150,12 @@ func _on_target_updated(new_target) -> void:
 	else:
 		if new_target.collider.team != team:
 			self.target_unit = new_target.collider
+
+
+func _on_unit_died(unit):
+	if unit == self: self.is_dead = true
+	if target_unit == unit:
+		self.target_unit = null
 
 
 func update_fov():
@@ -130,14 +170,12 @@ func get_enemies_in_area(area:Area3D):
 			detected_units.append(b)
 	return detected_units
 
-
 func _on_detection_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group(Global.UNIT_GROUP) and body.team != team and not body.stealth_active:
 		self.current_state = state.ALERT
 		#all units enter alert, only AIDriven ones assign it as target
 		if team != Global.PLAYER_TEAM and not target_unit:
 			self.target_unit = body
-
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
 	#no hace nada si ya existe un target_unit. la secuencia de attack en btree ya esta comprobando si el target sale del area ;)

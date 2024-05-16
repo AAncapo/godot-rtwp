@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=49 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_stryv"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -6,15 +6,28 @@
 [ext_resource type="Script" path="res://character/animation_controller.gd" id="3_roqug"]
 [ext_resource type="PackedScene" uid="uid://cym8f5smc7dsv" path="res://character/character_rig.tscn" id="3_uwfat"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="4_4b8e5"]
-[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://gun.tscn" id="4_55hnd"]
-[ext_resource type="Script" path="res://beehave_nodes/bt_target_valid.gd" id="5_amjxh"]
-[ext_resource type="Script" path="res://beehave_nodes/BThas_target.gd" id="5_v51yo"]
+[ext_resource type="Script" path="res://beehave_nodes/ConditionHasTarget.gd" id="5_pxm5x"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_45of8"]
-[ext_resource type="Script" path="res://beehave_nodes/action_move.gd" id="7_pllmv"]
-[ext_resource type="Script" path="res://beehave_nodes/target_at_range.gd" id="8_orbsd"]
-[ext_resource type="Script" path="res://beehave_nodes/action_attack.gd" id="9_nxqt7"]
+[ext_resource type="Script" path="res://beehave_nodes/ActionMove.gd" id="7_ha5bc"]
+[ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="9_ios28"]
+[ext_resource type="Script" path="res://beehave_nodes/ConditionTargetAtRange.gd" id="9_ygwli"]
+[ext_resource type="Script" path="res://beehave_nodes/ActionAttack.gd" id="10_nix71"]
+[ext_resource type="PackedScene" uid="uid://cis8tnc05d1wg" path="res://weapons/pistol.tscn" id="13_2f0r6"]
+[ext_resource type="Script" path="res://character/info.gd" id="14_7biw7"]
+[ext_resource type="PackedScene" uid="uid://d0mosry6wp8qq" path="res://weapons/rifle.tscn" id="14_kpnoo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
+
+[sub_resource type="GDScript" id="GDScript_dlt1k"]
+script/source = "extends ConditionLeaf
+
+@export var desired_class:String
+
+func tick(actor,blackboard):
+	if desired_class == \"vector\" and actor.target_vec: return SUCCESS
+	if desired_class == \"enemy\" and actor.target_unit: return SUCCESS
+	return FAILURE
+"
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pfgfk"]
 
@@ -1614,18 +1627,18 @@ min_space = 0.0
 max_space = 2.0
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
-graph_offset = Vector2(-119.042, 207.537)
+graph_offset = Vector2(-256.692, -101.32)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
-nodes/IsArmed/position = Vector2(540, 100)
+nodes/IsArmed/position = Vector2(460, 80)
 nodes/State/node = SubResource("AnimationNodeBlend2_6qo53")
-nodes/State/position = Vector2(260, 0)
+nodes/State/position = Vector2(280, 20)
 nodes/alert/node = SubResource("AnimationNodeBlendSpace1D_2n03j")
-nodes/alert/position = Vector2(40, 120)
+nodes/alert/position = Vector2(80, 140)
 nodes/hold_aim/node = SubResource("AnimationNodeBlendSpace2D_wy7w8")
-nodes/hold_aim/position = Vector2(280, 300)
+nodes/hold_aim/position = Vector2(280, 220)
 nodes/normal/node = SubResource("AnimationNodeBlendSpace1D_4oa50")
-nodes/normal/position = Vector2(40, -40)
-nodes/output/position = Vector2(760, 160)
+nodes/normal/position = Vector2(80, -20)
+nodes/output/position = Vector2(632.465, 103.014)
 node_connections = [&"IsArmed", 0, &"State", &"IsArmed", 1, &"hold_aim", &"State", 0, &"normal", &"State", 1, &"alert", &"output", 0, &"IsArmed"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1kbjy"]
@@ -1634,9 +1647,12 @@ radius = 5.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_xm84w"]
 size = Vector3(10, 2, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_agfg7"]
+bg_color = Color(0.917647, 0.917647, 0.917647, 1)
+
 [node name="player" type="CharacterBody3D" groups=["units"]]
 collision_layer = 2
-collision_mask = 7
+collision_mask = 3
 script = ExtResource("1_stryv")
 walk_speed = 5.0
 
@@ -1646,7 +1662,7 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17488")
+blackboard = NodePath("@Node@247657")
 actor = NodePath("..")
 
 [node name="main" type="Node" parent="BeehaveTree"]
@@ -1655,21 +1671,23 @@ script = ExtResource("3_ng0gg")
 [node name="Inverter" type="Node" parent="BeehaveTree/main"]
 script = ExtResource("7_45of8")
 
-[node name="has_target" type="Node" parent="BeehaveTree/main/Inverter"]
-script = ExtResource("5_v51yo")
+[node name="HasTarget" type="Node" parent="BeehaveTree/main/Inverter"]
+script = ExtResource("5_pxm5x")
+vector = true
+enemy = true
 
 [node name="target_type" type="Node" parent="BeehaveTree/main"]
 script = ExtResource("3_ng0gg")
 
-[node name="move" type="Node" parent="BeehaveTree/main/target_type"]
+[node name="MoveSequence" type="Node" parent="BeehaveTree/main/target_type"]
 script = ExtResource("4_4b8e5")
 
-[node name="is_position_valid" type="Node" parent="BeehaveTree/main/target_type/move"]
-script = ExtResource("5_amjxh")
-desired_class = "vector"
+[node name="HasPositionTarget" type="Node" parent="BeehaveTree/main/target_type/MoveSequence"]
+script = ExtResource("5_pxm5x")
+vector = true
 
-[node name="move" type="Node" parent="BeehaveTree/main/target_type/move"]
-script = ExtResource("7_pllmv")
+[node name="Move" type="Node" parent="BeehaveTree/main/target_type/MoveSequence"]
+script = ExtResource("7_ha5bc")
 
 [node name="SelectorComposite" type="Node" parent="BeehaveTree/main/target_type"]
 script = ExtResource("3_ng0gg")
@@ -1678,17 +1696,21 @@ script = ExtResource("3_ng0gg")
 script = ExtResource("7_45of8")
 
 [node name="is_enemy" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/InverterDecorator"]
-script = ExtResource("5_amjxh")
+script = SubResource("GDScript_dlt1k")
 desired_class = "enemy"
 
-[node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
-script = ExtResource("4_4b8e5")
+[node name="AttackSequence" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
+script = ExtResource("9_ios28")
 
-[node name="target_at_range" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
-script = ExtResource("8_orbsd")
+[node name="HasEnemyTarget" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/AttackSequence"]
+script = ExtResource("5_pxm5x")
+enemy = true
 
-[node name="attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/attack"]
-script = ExtResource("9_nxqt7")
+[node name="TargetAtRange" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/AttackSequence"]
+script = ExtResource("9_ygwli")
+
+[node name="Attack" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/AttackSequence"]
+script = ExtResource("10_nix71")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 path_desired_distance = 0.2
@@ -1709,7 +1731,7 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_p4co3")
 anim_player = NodePath("../Character2/AnimationPlayer")
-parameters/IsArmed/blend_amount = 1.0
+parameters/IsArmed/blend_amount = 0.0
 parameters/State/blend_amount = 0.0
 parameters/alert/blend_position = 0.0
 parameters/hold_aim/blend_position = Vector2(0, 1)
@@ -1719,51 +1741,41 @@ script = ExtResource("3_roqug")
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.971854, -0.0552)
-bones/4/rotation = Quaternion(0.20051, 0.0191363, 0.108505, 0.973476)
-bones/8/rotation = Quaternion(0.0121512, 0.246181, -0.873435, 0.41995)
-bones/9/rotation = Quaternion(0.431919, 0.00122449, -0.0962199, 0.896764)
-bones/10/rotation = Quaternion(-0.00935825, 0.00788473, -0.0767872, 0.996972)
-bones/13/rotation = Quaternion(0.283457, -0.221359, 0.812008, 0.459668)
-bones/14/rotation = Quaternion(0.319079, -0.00129043, 0.0710822, 0.945058)
-bones/15/rotation = Quaternion(-0.212018, 0.198254, -0.166527, 0.942344)
-bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
-bones/19/rotation = Quaternion(0.951561, 0.0401906, -0.134418, 0.273584)
-bones/20/rotation = Quaternion(0.285793, 0.000424922, -0.0276241, 0.957893)
-bones/21/rotation = Quaternion(-0.611863, -0.0884897, 0.0504497, 0.784378)
+bones/0/position = Vector3(0, 0.968879, -0.0552)
+bones/2/rotation = Quaternion(-0.0239565, 0, 0, 0.999713)
+bones/3/rotation = Quaternion(0.0376552, 0, 0, 0.999291)
+bones/4/rotation = Quaternion(0.119414, 0, 0, 0.992845)
+bones/8/rotation = Quaternion(-0.11525, 0.67304, -0.590302, 0.43044)
+bones/9/rotation = Quaternion(0.175737, 0.00134316, -0.0391495, 0.983657)
+bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
+bones/13/rotation = Quaternion(-0.146776, -0.742676, 0.48551, 0.437229)
+bones/14/rotation = Quaternion(0.416779, -0.00123471, 0.092847, 0.904253)
+bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
+bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
+bones/19/rotation = Quaternion(0.951291, 0.0402586, -0.134494, 0.274473)
+bones/20/rotation = Quaternion(0.288432, 0.000424577, -0.0278792, 0.957094)
+bones/21/rotation = Quaternion(-0.615152, -0.0890768, 0.0493418, 0.781805)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.966748, -0.0428217, 0.131465, 0.215133)
-bones/26/rotation = Quaternion(0.249503, -0.000429435, 0.0241164, 0.968074)
-bones/27/rotation = Quaternion(-0.631239, 0.0961626, -0.0579587, 0.767419)
+bones/25/rotation = Quaternion(0.965018, -0.0436612, 0.130815, 0.222984)
+bones/26/rotation = Quaternion(0.266554, -0.000427405, 0.0257645, 0.963476)
+bones/27/rotation = Quaternion(-0.639601, 0.0905314, -0.0559322, 0.761306)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.962465, 0.00612655, 0.271337, 0.270956, 0.079232, 0.959325, -0.0156212, 0.996837, -0.0779179, -0.0778222, 1.59164, 0.50823)
+transform = Transform3D(-0.909194, 0.0905314, 0.406411, 0.1709, -0.808928, 0.56252, 0.379683, 0.580895, 0.720001, -0.374186, 1.08046, 0.117683)
 bone_name = "hand.R"
 bone_idx = 15
 
 [node name="Weapon1" type="Node3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.01, 0.075, 0)
 
-[node name="handgun" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+[node name="Pistol" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("13_2f0r6")]
 visible = false
-hit_range = 5.0
 
-[node name="lmg" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+[node name="Rifle" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("14_kpnoo")]
 visible = false
-item_class = "lmg"
-hit_range = 10.0
-
-[node name="MeshInstance3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1/lmg" index="0"]
-transform = Transform3D(0.183735, 0, 0, 0, 0.331492, 0, 0, 0, 2.9795, 0, 0.231895, -0.659711)
-
-[node name="melee" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_55hnd")]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
-visible = false
-item_class = "melee"
+dices = 5
 
 [node name="DetectionArea" type="Area3D" parent="."]
 collision_layer = 0
@@ -1792,6 +1804,28 @@ collision_mask = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 collision_mask = 3
 
+[node name="ActionTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Info" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+billboard = 1
+script = ExtResource("14_7biw7")
+
+[node name="SubViewport" type="SubViewport" parent="Info"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(50, 5)
+
+[node name="ActionBar" type="ProgressBar" parent="Info/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_agfg7")
+show_percentage = false
+
 [connection signal="detected" from="." to="." method="_on_detected"]
 [connection signal="target_updated" from="." to="." method="_on_target_updated"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
@@ -1800,4 +1834,3 @@ collision_mask = 3
 [connection signal="body_entered" from="FieldOfView" to="." method="_on_field_of_view_body_entered"]
 
 [editable path="Character2"]
-[editable path="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1/lmg"]

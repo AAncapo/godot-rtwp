@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgltkspjoccnx"]
+[gd_scene load_steps=4 format=3 uid="uid://cgltkspjoccnx"]
+
+[ext_resource type="Script" path="res://gui/portrait.gd" id="1_g7jkf"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_cij7y"]
 device = -1
@@ -8,8 +10,50 @@ keycode = 4194332
 events = [SubResource("InputEventKey_cij7y")]
 
 [node name="portrait" type="Button"]
+custom_minimum_size = Vector2(200, 140)
 tooltip_text = "Select Payer 1
 F1"
 toggle_mode = true
 shortcut = SubResource("Shortcut_eq3a4")
-text = "player1"
+script = ExtResource("1_g7jkf")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="image" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Alias"
+horizontal_alignment = 1
+
+[node name="Hitpoints" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Set1" type="Button" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "SET 1"
+
+[node name="Set2" type="Button" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "SET 2"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Set1" to="." method="_on_set_1_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/Set2" to="." method="_on_set_2_pressed"]

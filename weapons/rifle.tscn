@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0mosry6wp8qq"]
+
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_n5n5t"]
+
+[node name="Rifle" instance=ExtResource("1_n5n5t")]
+name_ = "Ronin Light Assault"
+type = 3
+accuracy = 1
+clip_size = 35
+rof = 30
+range = 30.0
+cost = 450.0
+
+[node name="rif" parent="mesh" index="1"]
+visible = true
