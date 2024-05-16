@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt3yeud88yqnf"]
+[gd_scene load_steps=4 format=3 uid="uid://bt3yeud88yqnf"]
 
 [ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="1_uyefs"]
+[ext_resource type="PackedScene" uid="uid://cis8tnc05d1wg" path="res://weapons/pistol.tscn" id="2_f57f6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_643ox"]
 albedo_color = Color(1, 0.0823529, 0.0823529, 1)
@@ -9,33 +10,34 @@ albedo_color = Color(1, 0.0823529, 0.0823529, 1)
 team = 1
 
 [node name="BeehaveTree" parent="." index="1" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@40558")
+blackboard = NodePath("@Node@35360")
 
 [node name="AnimationTree" parent="." index="4"]
 parameters/State/blend_amount = 1.0
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.908618, -0.0552)
+bones/0/position = Vector3(0, 0.916505, -0.0552)
 bones/0/rotation = Quaternion(0.12547, -0.0738611, 0.00936762, 0.9893)
-bones/2/rotation = Quaternion(0.0566573, 0.00177146, -0.0192859, 0.998206)
+bones/2/rotation = Quaternion(0.0489438, -0.000431114, -0.0187961, 0.998625)
 bones/3/rotation = Quaternion(0.00162715, 0, 0, 0.999999)
 bones/4/rotation = Quaternion(0.102139, 0.247373, -0.0720232, 0.960826)
-bones/8/rotation = Quaternion(-0.221053, 0.737777, -0.491117, 0.406971)
-bones/9/rotation = Quaternion(0.273158, 0.0013109, -0.0608522, 0.960042)
-bones/13/rotation = Quaternion(-0.050674, -0.682651, 0.609231, 0.400322)
-bones/14/rotation = Quaternion(0.429476, -0.00122621, 0.0956755, 0.897995)
-bones/19/rotation = Quaternion(0.892077, 0.0499527, -0.201403, 0.401422)
-bones/20/rotation = Quaternion(0.397702, 0.000406651, -0.0384411, 0.916709)
+bones/8/rotation = Quaternion(-0.223694, 0.746431, -0.470448, 0.414102)
+bones/9/rotation = Quaternion(0.291647, 0.00130309, -0.064971, 0.954316)
+bones/13/rotation = Quaternion(-0.0445773, -0.683558, 0.603481, 0.408132)
+bones/14/rotation = Quaternion(0.420839, -0.00123204, 0.0937514, 0.902277)
+bones/19/rotation = Quaternion(0.896061, 0.0484425, -0.202106, 0.392277)
+bones/20/rotation = Quaternion(0.379249, 0.000410143, -0.0366575, 0.924568)
 bones/21/rotation = Quaternion(-0.587384, -0.0618836, 0.0491355, 0.805442)
-bones/25/rotation = Quaternion(0.938927, -0.0676576, 0.127123, 0.312535)
-bones/26/rotation = Quaternion(0.435708, -0.000398831, 0.0421146, 0.899102)
+bones/25/rotation = Quaternion(0.94153, -0.0666415, 0.127576, 0.304638)
+bones/26/rotation = Quaternion(0.418992, -0.000402379, 0.0404989, 0.907086)
 bones/27/rotation = Quaternion(-0.659479, 0.277909, -0.0650548, 0.69543)
 
 [node name="base_character_model" parent="Character2/metarig/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_643ox")
 
 [node name="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.874768, 0.247559, 0.416527, 0.130189, -0.707938, 0.694172, 0.466724, 0.661466, 0.587052, -0.320807, 1.02143, 0.200112)
+transform = Transform3D(-0.875028, 0.215436, 0.433489, 0.162164, -0.713302, 0.681838, 0.456101, 0.666923, 0.589224, -0.335527, 1.03384, 0.200116)
+
+[node name="Pistol" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="0" instance=ExtResource("2_f57f6")]
 
 [editable path="Character2"]
-[editable path="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1/lmg"]

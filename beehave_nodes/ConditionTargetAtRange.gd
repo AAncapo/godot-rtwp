@@ -10,17 +10,21 @@ func tick(actor, blackboard):
 	var is_using_melee = not actor.equipped_weapon or actor.equipped_weapon.type == "melee"
 	
 	if dist.length() < actor.hit_range:
+		#print("close dist")
 		#(!) Do NOT check min_desired_dist if using melee or unarmed
-		if !is_using_melee:
+		if not is_using_melee:
+			#print("not using melee")
 			if dist.length() > min_desired_dist:
 				fixed_pos = Vector3()
 				actor.target_vec = null
 				return SUCCESS
 		else:
+			#print("no using melee >>> success")
 			fixed_pos = Vector3()
 			actor.target_vec = null
 			return SUCCESS
 	else:
+		#print("dist higher than range")
 		#set agent position to a vector close enough to hit
 		if not fixed_pos.length() and actor.target_unit:
 			print(actor.name, " init fixed pos")
@@ -35,7 +39,7 @@ func tick(actor, blackboard):
 			actor.target_vec = fixed_pos
 	
 	#if fixed_pos reached but target not at range ...
-	if fixed_pos.length() and actor.nav.is_target_reached():
+	if fixed_pos.length() > 0 and actor.nav.is_target_reached():
 		print(actor.name," fixed pos reached but target not found")
 		fixed_pos = Vector3()
 		#search other enemies if the target escapes

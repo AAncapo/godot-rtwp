@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=45 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_stryv"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -12,22 +12,9 @@
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence_reactive.gd" id="9_ios28"]
 [ext_resource type="Script" path="res://beehave_nodes/ConditionTargetAtRange.gd" id="9_ygwli"]
 [ext_resource type="Script" path="res://beehave_nodes/ActionAttack.gd" id="10_nix71"]
-[ext_resource type="PackedScene" uid="uid://cis8tnc05d1wg" path="res://weapons/pistol.tscn" id="13_2f0r6"]
-[ext_resource type="Script" path="res://character/info.gd" id="14_7biw7"]
-[ext_resource type="PackedScene" uid="uid://d0mosry6wp8qq" path="res://weapons/rifle.tscn" id="14_kpnoo"]
+[ext_resource type="PackedScene" uid="uid://dcisjtichwxvf" path="res://character/character_hud.tscn" id="14_0tb1l"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
-
-[sub_resource type="GDScript" id="GDScript_dlt1k"]
-script/source = "extends ConditionLeaf
-
-@export var desired_class:String
-
-func tick(actor,blackboard):
-	if desired_class == \"vector\" and actor.target_vec: return SUCCESS
-	if desired_class == \"enemy\" and actor.target_unit: return SUCCESS
-	return FAILURE
-"
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pfgfk"]
 
@@ -1647,13 +1634,11 @@ radius = 5.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_xm84w"]
 size = Vector3(10, 2, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_agfg7"]
-bg_color = Color(0.917647, 0.917647, 0.917647, 1)
-
-[node name="player" type="CharacterBody3D" groups=["units"]]
+[node name="character" type="CharacterBody3D" groups=["units"]]
 process_mode = 1
 collision_layer = 2
-collision_mask = 3
+collision_mask = 0
+floor_stop_on_slope = false
 script = ExtResource("1_stryv")
 walk_speed = 5.0
 
@@ -1663,7 +1648,7 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17488")
+blackboard = NodePath("@Node@224819")
 actor = NodePath("..")
 
 [node name="main" type="Node" parent="BeehaveTree"]
@@ -1696,16 +1681,12 @@ script = ExtResource("3_ng0gg")
 [node name="InverterDecorator" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
 script = ExtResource("7_45of8")
 
-[node name="is_enemy" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/InverterDecorator"]
-script = SubResource("GDScript_dlt1k")
-desired_class = "enemy"
+[node name="HasEnemyTarget" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/InverterDecorator"]
+script = ExtResource("5_pxm5x")
+enemy = true
 
 [node name="AttackSequence" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite"]
 script = ExtResource("9_ios28")
-
-[node name="HasEnemyTarget" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/AttackSequence"]
-script = ExtResource("5_pxm5x")
-enemy = true
 
 [node name="TargetAtRange" type="Node" parent="BeehaveTree/main/target_type/SelectorComposite/AttackSequence"]
 script = ExtResource("9_ygwli")
@@ -1742,41 +1723,34 @@ script = ExtResource("3_roqug")
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.978891, -0.0552)
-bones/2/rotation = Quaternion(-0.0734193, 0, 0, 0.997301)
-bones/3/rotation = Quaternion(0.00435622, 0, 0, 0.999991)
-bones/4/rotation = Quaternion(0.195553, 0, 0, 0.980693)
-bones/8/rotation = Quaternion(-0.158264, 0.748834, -0.550173, 0.333932)
-bones/9/rotation = Quaternion(0.207649, 0.00133419, -0.0462586, 0.977108)
+bones/0/position = Vector3(0, 0.977535, -0.0552)
+bones/2/rotation = Quaternion(-0.0663748, 0, 0, 0.997795)
+bones/3/rotation = Quaternion(0.00910625, 0, 0, 0.999959)
+bones/4/rotation = Quaternion(0.184763, 0, 0, 0.982783)
+bones/8/rotation = Quaternion(-0.152938, 0.738843, -0.556019, 0.348661)
+bones/9/rotation = Quaternion(0.203811, 0.00133537, -0.0454036, 0.977956)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.161665, -0.79209, 0.464161, 0.361956)
-bones/14/rotation = Quaternion(0.398543, -0.00124647, 0.0887845, 0.912841)
+bones/13/rotation = Quaternion(-0.159758, -0.785195, 0.467688, 0.373116)
+bones/14/rotation = Quaternion(0.400393, -0.00124531, 0.0891967, 0.911991)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/19/rotation = Quaternion(0.952428, 0.0399735, -0.134179, 0.270701)
-bones/20/rotation = Quaternion(0.279451, 0.00042575, -0.0270111, 0.95978)
-bones/21/rotation = Quaternion(-0.603868, -0.0870143, 0.0530976, 0.79054)
+bones/19/rotation = Quaternion(0.952278, 0.040011, -0.13422, 0.271203)
+bones/20/rotation = Quaternion(0.28065, 0.000425602, -0.027127, 0.959427)
+bones/21/rotation = Quaternion(-0.605515, -0.0873235, 0.0525571, 0.789281)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.971148, -0.0407119, 0.133116, 0.193635)
-bones/26/rotation = Quaternion(0.202724, -0.000434291, 0.0195949, 0.97904)
-bones/27/rotation = Quaternion(-0.610909, 0.109551, -0.0627636, 0.781568)
+bones/25/rotation = Quaternion(0.970219, -0.0411544, 0.132767, 0.198379)
+bones/26/rotation = Quaternion(0.213057, -0.000433309, 0.0205936, 0.976823)
+bones/27/rotation = Quaternion(-0.615063, 0.106849, -0.0617955, 0.778757)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.903766, 0.13468, 0.406285, 0.122303, -0.828376, 0.546658, 0.41018, 0.54374, 0.732187, -0.35188, 1.08034, 0.0763353)
+transform = Transform3D(-0.905341, 0.127512, 0.405091, 0.129057, -0.826146, 0.548478, 0.404602, 0.548839, 0.731487, -0.355079, 1.08042, 0.0822095)
 bone_name = "hand.R"
 bone_idx = 15
 
 [node name="Weapon1" type="Node3D" parent="Character2/metarig/Skeleton3D/BoneAttachment3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.01, 0.075, 0)
-
-[node name="Pistol" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("13_2f0r6")]
-visible = false
-
-[node name="Rifle" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("14_kpnoo")]
-visible = false
-dices = 5
 
 [node name="DetectionArea" type="Area3D" parent="."]
 collision_layer = 0
@@ -1809,24 +1783,20 @@ collision_mask = 3
 [node name="ActionTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Info" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+offset = Vector2(0, 170)
 billboard = 1
-script = ExtResource("14_7biw7")
 
-[node name="SubViewport" type="SubViewport" parent="Info"]
+[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
+unique_name_in_owner = true
 disable_3d = true
 transparent_bg = true
-size = Vector2i(50, 5)
+gui_disable_input = true
+size = Vector2i(100, 320)
 
-[node name="ActionBar" type="ProgressBar" parent="Info/SubViewport"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_agfg7")
-show_percentage = false
+[node name="CharacterHud" parent="Sprite3D/SubViewport" instance=ExtResource("14_0tb1l")]
+unique_name_in_owner = true
 
 [connection signal="detected" from="." to="." method="_on_detected"]
 [connection signal="target_updated" from="." to="." method="_on_target_updated"]
@@ -1836,3 +1806,4 @@ show_percentage = false
 [connection signal="body_entered" from="FieldOfView" to="." method="_on_field_of_view_body_entered"]
 
 [editable path="Character2"]
+[editable path="Sprite3D/SubViewport/CharacterHud"]

@@ -9,8 +9,8 @@ signal damaged
 @onready var detection_area:Area3D = $DetectionArea  #more like awareness/perception
 @onready var fov:Area3D = $FieldOfView
 @onready var crosshair:RayCast3D = $crosshair
-@onready var info = $Info
 @onready var action_timer:Timer = $ActionTimer
+@onready var headsUp = %CharacterHud
 
 var next_action:float = 3.2:
 	set(val):
@@ -42,7 +42,7 @@ var is_dead:bool = false:
 @export var health:float = max_health:
 	set(val):
 		health = val
-		$Info.update(max_health,health)
+		#$Info.update(max_health,health)
 var melee_range:float = 1.5
 var hit_range:float = melee_range
 
@@ -71,10 +71,12 @@ var stealth_active:bool = false:
 	set(val):
 		stealth_active = val
 		#set animation state
-		print(self.name," entered" if stealth_active else " exited", " stealth")
+		headsUp.create_msg("Stealth ","ON" if stealth_active else "OFF")
 
 
 func _ready() -> void:
+	super._ready()
+	
 	self.next_action = 3.2
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
@@ -86,10 +88,12 @@ func _ready() -> void:
 	nav.path_desired_distance = min_desired_dist
 	selected.connect(_on_selected)
 	self.health = max_health
+	
+	init_headsupd()
+
 
 func _process(delta: float) -> void:
-		info.visible = time_left < next_action and time_left > 0
-		if info.visible: info.update(time_left,next_action)
+	headsUp.update_actionbar(self.time_left,next_action)
 
 
 func move_to(pos:Vector3, speed:float, look_at_path:bool = true):
@@ -100,7 +104,6 @@ func move_to(pos:Vector3, speed:float, look_at_path:bool = true):
 	
 	if look_at_path:
 		rotate_to(nav.get_next_path_position())
-
 
 func rotate_to(target:Vector3, rotation_speed:float = .2):
 	if self.global_transform.origin.is_equal_approx(target):
@@ -121,24 +124,31 @@ func equip(new_wpn:Weapon):
 		if w == new_wpn:
 			w.visible = true
 			self.equipped_weapon = w
+			headsUp.create_msg(str(new_wpn.name_, " equipped"))
 		else:
 			w.visible = false
 	hit_range = melee_range if not equipped_weapon else equipped_weapon.range
 	crosshair.target_position = crosshair.transform.basis.z * -hit_range
 	anim.equip(new_wpn.type)
 
-
 func attack(target:Unit):
 	var dmg = equipped_weapon.damage if equipped_weapon else 1
 	print(self.name," deals ",dmg," to ",target.name)
 	target.take_damage(self, dmg)
 
-
 func take_damage(actor, dmg):
 	damaged.emit()
 	self.health -= dmg
+	headsUp.create_msg(str("-",dmg))
 	if health <= 0:
 		Global.unit_died.emit(self)
+
+func _on_unit_died(unit):
+	if unit == self: 
+		self.is_dead = true
+		Global.remove_unit(unit)
+	if target_unit == unit:
+		self.target_unit = null
 
 
 func _on_target_updated(new_target) -> void:
@@ -149,15 +159,6 @@ func _on_target_updated(new_target) -> void:
 	else:
 		if new_target.collider.team != team:
 			self.target_unit = new_target.collider
-
-
-func _on_unit_died(unit):
-	if unit == self: 
-		self.is_dead = true
-		if Global.selected_units.has(unit):
-			Global.selected_units.remove_at(Global.selected_units.find(unit))
-	if target_unit == unit:
-		self.target_unit = null
 
 
 func update_fov():
@@ -218,6 +219,7 @@ func _on_navigation_agent_3d_target_reached() -> void:
 
 
 func _on_selected(sel:bool = true):
+	is_selected = sel
 	if sel: add_commands_listener()
 	else: remove_commands_listener()
 	$SelectedRing.visible = sel
@@ -232,5 +234,12 @@ func check_visibility(target):
 	vcheck.target_position = target.global_position
 	vcheck.target_position.y = target.scale.y/2
 	vcheck.force_raycast_update()  # doesnt need to be enabled for this to work
-	
 	return vcheck.get_collider() == target
+
+func _on_mouse_over(mo:bool):
+	if not is_selected: $SelectedRing.visible = mo
+
+
+func init_headsupd():
+	headsUp.set_charname(self.name)
+	$Sprite3D.texture = %SubViewport.get_texture()

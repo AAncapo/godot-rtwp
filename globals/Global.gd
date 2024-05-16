@@ -14,7 +14,6 @@ signal gui_select_unit(unit)
 signal focus_world_object(object)
 signal added_unit(unit)
 signal unit_died(unit)
-#signal removed_unit(unit)
 
 
 func add_unit(unit):
@@ -25,5 +24,5 @@ func add_unit(unit):
 
 
 func remove_unit(unit):
-	print("Global.remove_unit not implemented yet")
-	#removed_unit.emit(unit)
+	if selected_units.has(unit):
+		selected_units.remove_at(selected_units.find(unit))

@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3x4ahl8l7dad"]
+
+[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="1_pk0s8"]
+[ext_resource type="PackedScene" uid="uid://cis8tnc05d1wg" path="res://weapons/pistol.tscn" id="2_1em66"]
+[ext_resource type="PackedScene" uid="uid://d0mosry6wp8qq" path="res://weapons/rifle.tscn" id="3_g7mdr"]
+
+[node name="player" instance=ExtResource("1_pk0s8")]
+
+[node name="BeehaveTree" parent="." index="1" node_paths=PackedStringArray("blackboard")]
+blackboard = NodePath("@Node@49594")
+
+[node name="Skeleton3D" parent="Character2/metarig" index="0"]
+bones/0/position = Vector3(0, 0.975859, -0.0552)
+bones/2/rotation = Quaternion(-0.058228, 0, 0, 0.998303)
+bones/3/rotation = Quaternion(0.0145957, 0, 0, 0.999893)
+bones/4/rotation = Quaternion(0.172258, 0, 0, 0.985052)
+bones/8/rotation = Quaternion(-0.146454, 0.726954, -0.562732, 0.365269)
+bones/9/rotation = Quaternion(0.199139, 0.00133676, -0.0443627, 0.978966)
+bones/13/rotation = Quaternion(-0.157455, -0.777161, 0.471561, 0.385821)
+bones/14/rotation = Quaternion(0.40291, -0.00124371, 0.0897575, 0.910827)
+bones/19/rotation = Quaternion(0.952068, 0.0400636, -0.134278, 0.271904)
+bones/20/rotation = Quaternion(0.282174, 0.000425409, -0.0272744, 0.958975)
+bones/21/rotation = Quaternion(-0.607369, -0.0876684, 0.051946, 0.787857)
+bones/25/rotation = Quaternion(0.969167, -0.0416598, 0.132372, 0.203611)
+bones/26/rotation = Quaternion(0.224386, -0.000432162, 0.0216887, 0.974259)
+bones/27/rotation = Quaternion(-0.619839, 0.103722, -0.060674, 0.775475)
+
+[node name="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
+transform = Transform3D(-0.906803, 0.119667, 0.404213, 0.13691, -0.823282, 0.550874, 0.398703, 0.554874, 0.730171, -0.358753, 1.08042, 0.089027)
+
+[node name="Pistol" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="0" instance=ExtResource("2_1em66")]
+
+[node name="Rifle" parent="Character2/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="1" instance=ExtResource("3_g7mdr")]
+visible = false
+
+[editable path="Character2"]

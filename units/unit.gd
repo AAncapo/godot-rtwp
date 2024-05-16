@@ -6,6 +6,13 @@ signal target_updated(new_target)
 @export var team = 0
 
 var target
+var is_selected:bool =false
+var is_mouseover:bool = false
+
+
+func _ready() -> void:
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
 
 func update_target(val):
@@ -30,3 +37,11 @@ func remove_commands_listener():
 	if team != 0: return
 	if Global.command.is_connected(update_target):
 		Global.command.disconnect(update_target)
+
+
+func _on_mouse_entered():
+	_on_mouse_over(true)
+func _on_mouse_exited():
+	_on_mouse_over(false)
+func _on_mouse_over(mo:bool):
+	pass

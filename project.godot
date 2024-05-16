@@ -101,10 +101,8 @@ camera_zoom_out={
 
 [layer_names]
 
-3d_physics/layer_1="floor"
+3d_physics/layer_1="environment"
 3d_physics/layer_2="unit"
-3d_physics/layer_3="cover_obj"
-3d_physics/layer_4="cover_pos"
 
 [navigation]
 

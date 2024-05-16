@@ -4,6 +4,7 @@ extends Control
 @onready var actions = %actions
 var portrait_tscn = preload("res://gui/portrait.tscn")
 
+
 func _ready() -> void:
 	Global.added_unit.connect(_on_added_unit)
 
@@ -16,6 +17,7 @@ func _on_added_unit(unit):
 		portraits.add_child(p)
 		p.unit = unit
 		p.pressed.connect(_on_character_selected.bind(unit))
+
 
 func _on_character_selected(unit):
 	Global.gui_select_unit.emit(unit)
