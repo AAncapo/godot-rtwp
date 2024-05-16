@@ -1,17 +1,13 @@
 extends Node
 
+const RAY_LENGTH = 1000
 @onready var cam = %Camera3D
 @onready var selection_box = $SelectionBox  #Only handles the selection box's rendering
-
-const RAY_LENGTH = 1000
-
-var target_unit: Unit
 
 
 func _ready():
 	Global.gui_select_unit.connect(_on_gui_select_unit)
 	#GameEvents.focus_world_object.connect(__on_unit_selected)
-	#GameEvents.character_died.connect(on_unit_died)
 
 
 func _unhandled_input(ev):
@@ -26,7 +22,7 @@ func _unhandled_input(ev):
 
 func command_selected_units(m_pos:Vector2):
 	var res = raycast_from_mouse(m_pos, 1)
-	if res: GameEvents.command.emit(res)
+	if res: Global.command.emit(res)
 
 
 func select_units(m_pos):
@@ -53,9 +49,6 @@ func deselect_all_units():
 	for unit in Global.selected_units:
 		unit.selected.emit(false)
 	Global.selected_units.clear()
-	
-	if target_unit:
-		target_unit.deselect_as_target.emit()
 
 
 func get_unit_under_mouse(m_pos):
@@ -82,8 +75,3 @@ func __on_unit_selected(unit):
 	if unit.is_in_group("units"):
 		deselect_all_units()
 		Global.selected_units.append(unit)
-
-
-func on_unit_died(unit):
-	if Global.selected_units.has(unit):
-		Global.selected_units.remove_at(Global.selected_units.find(unit))

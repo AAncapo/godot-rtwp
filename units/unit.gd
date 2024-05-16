@@ -22,11 +22,11 @@ func is_enemy(unit) -> bool:
 
 func add_commands_listener():
 	if team != 0: return
-	if !GameEvents.command.is_connected(update_target):
-		GameEvents.command.connect(update_target)
+	if !Global.command.is_connected(update_target):
+		Global.command.connect(update_target)
 
 
 func remove_commands_listener():
 	if team != 0: return
-	if GameEvents.command.is_connected(update_target):
-		GameEvents.command.disconnect(update_target)
+	if Global.command.is_connected(update_target):
+		Global.command.disconnect(update_target)

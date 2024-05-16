@@ -152,7 +152,10 @@ func _on_target_updated(new_target) -> void:
 
 
 func _on_unit_died(unit):
-	if unit == self: self.is_dead = true
+	if unit == self: 
+		self.is_dead = true
+		if Global.selected_units.has(unit):
+			Global.selected_units.remove_at(Global.selected_units.find(unit))
 	if target_unit == unit:
 		self.target_unit = null
 

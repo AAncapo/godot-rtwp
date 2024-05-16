@@ -1,13 +1,13 @@
 [gd_scene load_steps=16 format=3 uid="uid://drj02j3p1ncdt"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_wmp7k"]
-[ext_resource type="Script" path="res://sel_sys/selector.gd" id="2_pyn2i"]
-[ext_resource type="Script" path="res://FpsCamera.gd" id="2_t5mib"]
-[ext_resource type="Script" path="res://sel_sys/selection_box.gd" id="3_igfxy"]
-[ext_resource type="Script" path="res://gui.gd" id="4_tnhci"]
-[ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="4_xw032"]
-[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="6_3ctr0"]
-[ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="7_v38ir"]
+[ext_resource type="Script" path="res://main.gd" id="1_ot487"]
+[ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
+[ext_resource type="Script" path="res://sel_sys/selector.gd" id="3_yxkw6"]
+[ext_resource type="Script" path="res://sel_sys/selection_box.gd" id="4_3a13g"]
+[ext_resource type="Script" path="res://gui.gd" id="5_hhyqy"]
+[ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="6_41dnn"]
+[ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="7_eouvs"]
+[ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppise"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -38,12 +38,12 @@ agent_height = 2.0
 agent_max_climb = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t314k"]
-albedo_texture = ExtResource("4_xw032")
+albedo_texture = ExtResource("6_41dnn")
 uv1_triplanar = true
 
 [node name="Main" type="Node3D"]
 process_mode = 3
-script = ExtResource("1_wmp7k")
+script = ExtResource("1_ot487")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_m5s7i")
@@ -54,21 +54,21 @@ shadow_enabled = true
 
 [node name="CameraBase" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1759, -18.0727)
-script = ExtResource("2_t5mib")
+script = ExtResource("2_lgycl")
 
 [node name="Camera3D" type="Camera3D" parent="CameraBase"]
 unique_name_in_owner = true
 current = true
 
 [node name="UnitSelector" type="Node" parent="."]
-script = ExtResource("2_pyn2i")
+script = ExtResource("3_yxkw6")
 
 [node name="SelectionBox" type="Control" parent="UnitSelector"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("3_igfxy")
+script = ExtResource("4_3a13g")
 
 [node name="GUI" type="Control" parent="."]
 layout_mode = 3
@@ -78,7 +78,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("4_tnhci")
+script = ExtResource("5_hhyqy")
 
 [node name="Paused" type="Label" parent="GUI"]
 visible = false
@@ -113,6 +113,15 @@ offset_right = 200.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
+
+[node name="bg" type="ColorRect" parent="GUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.121569, 0.121569, 0.121569, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Control"]
 layout_mode = 1
@@ -338,10 +347,10 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.010
 operation = 2
 size = Vector3(1.55777, 1.82562, 0.854797)
 
-[node name="player" parent="." instance=ExtResource("6_3ctr0")]
+[node name="player" parent="." instance=ExtResource("7_eouvs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62404, 3.8147e-06, -37.0292)
 
-[node name="enemy" parent="." instance=ExtResource("7_v38ir")]
+[node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21.1632, 0, -28.5875)
 collision_mask = 7
 walk_speed = 1.5

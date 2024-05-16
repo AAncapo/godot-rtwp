@@ -9,10 +9,12 @@ var player_units:Array = []
 var enemy_units:Array = []
 var selected_units = []
 
+signal command(target)
 signal gui_select_unit(unit)
+signal focus_world_object(object)
 signal added_unit(unit)
-#signal removed_unit(unit)
 signal unit_died(unit)
+#signal removed_unit(unit)
 
 
 func add_unit(unit):
@@ -25,7 +27,3 @@ func add_unit(unit):
 func remove_unit(unit):
 	print("Global.remove_unit not implemented yet")
 	#removed_unit.emit(unit)
-
-
-#func throw_dice(amount:int, drange:int, extra:int):
-	#return (randi_range(1, drange) * amount) + extra

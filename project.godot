@@ -11,14 +11,13 @@ config_version=5
 [application]
 
 config/name="rtwp-combat-demo"
-run/main_scene="res://world.tscn"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*res://globals/Global.gd"
-GameEvents="*res://globals/GameEvents.gd"
 BeehaveGlobalMetrics="*res://addons/beehave/metrics/beehave_global_metrics.gd"
 BeehaveGlobalDebugger="*res://addons/beehave/debug/global_debugger.gd"
 
