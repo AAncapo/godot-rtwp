@@ -9,7 +9,6 @@ signal damaged
 @onready var detection_area:Area3D = $DetectionArea  #more like awareness/perception
 @onready var fov:Area3D = $FieldOfView
 @onready var crosshair:RayCast3D = $crosshair
-#@onready var visibility_chkr = $VisibilityChecker
 @onready var info = $Info
 @onready var action_timer:Timer = $ActionTimer
 
@@ -162,20 +161,29 @@ func update_fov():
 	fov.get_node("CollisionShape3D").shape.size.z = visibility_range
 	fov.position.z = -visibility_range/2
 
-func get_enemies_in_area(area:Area3D):
+func get_enemies_in_area(area:Area3D = null):
 	var detected_units = []
-	var bodies = area.get_overlapping_bodies()
+	var bodies = []
+	if not area: #if no area is specified. check all (detection & fov)
+		bodies = detection_area.get_overlapping_bodies()
+		bodies.append_array(fov.get_overlapping_bodies())
+	else:
+		bodies = area.get_overlapping_bodies()
 	for b in bodies:
-		if b.get_groups().has(Global.UNIT_GROUP) and b.team != team:
+		if b.get_groups().has(Global.UNIT_GROUP) and b.team != team and check_visibility(b):
 			detected_units.append(b)
 	return detected_units
+
 
 func _on_detection_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group(Global.UNIT_GROUP) and body.team != team and not body.stealth_active:
 		self.current_state = state.ALERT
 		#all units enter alert, only AIDriven ones assign it as target
 		if team != Global.PLAYER_TEAM and not target_unit:
-			self.target_unit = body
+			if check_visibility(body):
+				self.target_unit = body
+			else:
+				self.target_vec = body.global_position
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
 	#no hace nada si ya existe un target_unit. la secuencia de attack en btree ya esta comprobando si el target sale del area ;)
@@ -194,7 +202,10 @@ func _on_field_of_view_body_entered(body: Node3D) -> void:
 		self.current_state = state.ALERT
 		#all units enter alert, only AIDriven ones assign it as target
 		if team != Global.PLAYER_TEAM and not target_unit:
-			self.target_unit = body
+			if check_visibility(body):
+				self.target_unit = body
+			else:
+				self.target_vec = body.global_position
 
 
 func _on_navigation_agent_3d_target_reached() -> void:
@@ -211,3 +222,12 @@ func _on_selected(sel:bool = true):
 
 func _on_detected() -> void:
 	if stealth_active: stealth_active = false
+
+
+func check_visibility(target):
+	var vcheck:RayCast3D = $VisibilityChecker
+	vcheck.target_position = target.global_position
+	vcheck.target_position.y = target.scale.y/2
+	vcheck.force_raycast_update()  # doesnt need to be enabled for this to work
+	
+	return vcheck.get_collider() == target

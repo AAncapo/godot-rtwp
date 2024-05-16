@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnw23h5lw42bi"]
+
+[ext_resource type="Script" path="res://FpsCamera.gd" id="1_wsovo"]
+
+[node name="FpsCamera" type="Node3D"]
+script = ExtResource("1_wsovo")
+
+[node name="Camera3D" type="Camera3D" parent="."]

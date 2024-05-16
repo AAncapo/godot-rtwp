@@ -41,7 +41,7 @@ func tick(actor, blackboard):
 		#search other enemies if the target escapes
 		if dist.length() > actor.hit_range or dist.length() > max_desired_dist:
 			print(actor.name, " searching enemies left")
-			var enemies = actor.get_enemies_in_area(actor.detection_area)
+			var enemies = actor.get_enemies_in_area()
 			actor.target_unit = enemies[0] if enemies else null
 			if not actor.target_unit: actor.current_state = actor.state.NORMAL
 	

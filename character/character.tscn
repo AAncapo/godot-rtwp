@@ -1651,6 +1651,7 @@ size = Vector3(10, 2, 1)
 bg_color = Color(0.917647, 0.917647, 0.917647, 1)
 
 [node name="player" type="CharacterBody3D" groups=["units"]]
+process_mode = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_stryv")
@@ -1662,7 +1663,7 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@247657")
+blackboard = NodePath("@Node@17488")
 actor = NodePath("..")
 
 [node name="main" type="Node" parent="BeehaveTree"]
@@ -1741,28 +1742,28 @@ script = ExtResource("3_roqug")
 [node name="Character2" parent="." instance=ExtResource("3_uwfat")]
 
 [node name="Skeleton3D" parent="Character2/metarig" index="0"]
-bones/0/position = Vector3(0, 0.968879, -0.0552)
-bones/2/rotation = Quaternion(-0.0239565, 0, 0, 0.999713)
-bones/3/rotation = Quaternion(0.0376552, 0, 0, 0.999291)
-bones/4/rotation = Quaternion(0.119414, 0, 0, 0.992845)
-bones/8/rotation = Quaternion(-0.11525, 0.67304, -0.590302, 0.43044)
-bones/9/rotation = Quaternion(0.175737, 0.00134316, -0.0391495, 0.983657)
+bones/0/position = Vector3(0, 0.978891, -0.0552)
+bones/2/rotation = Quaternion(-0.0734193, 0, 0, 0.997301)
+bones/3/rotation = Quaternion(0.00435622, 0, 0, 0.999991)
+bones/4/rotation = Quaternion(0.195553, 0, 0, 0.980693)
+bones/8/rotation = Quaternion(-0.158264, 0.748834, -0.550173, 0.333932)
+bones/9/rotation = Quaternion(0.207649, 0.00133419, -0.0462586, 0.977108)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.146776, -0.742676, 0.48551, 0.437229)
-bones/14/rotation = Quaternion(0.416779, -0.00123471, 0.092847, 0.904253)
+bones/13/rotation = Quaternion(-0.161665, -0.79209, 0.464161, 0.361956)
+bones/14/rotation = Quaternion(0.398543, -0.00124647, 0.0887845, 0.912841)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/19/rotation = Quaternion(0.951291, 0.0402586, -0.134494, 0.274473)
-bones/20/rotation = Quaternion(0.288432, 0.000424577, -0.0278792, 0.957094)
-bones/21/rotation = Quaternion(-0.615152, -0.0890768, 0.0493418, 0.781805)
+bones/19/rotation = Quaternion(0.952428, 0.0399735, -0.134179, 0.270701)
+bones/20/rotation = Quaternion(0.279451, 0.00042575, -0.0270111, 0.95978)
+bones/21/rotation = Quaternion(-0.603868, -0.0870143, 0.0530976, 0.79054)
 bones/22/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/25/rotation = Quaternion(0.965018, -0.0436612, 0.130815, 0.222984)
-bones/26/rotation = Quaternion(0.266554, -0.000427405, 0.0257645, 0.963476)
-bones/27/rotation = Quaternion(-0.639601, 0.0905314, -0.0559322, 0.761306)
+bones/25/rotation = Quaternion(0.971148, -0.0407119, 0.133116, 0.193635)
+bones/26/rotation = Quaternion(0.202724, -0.000434291, 0.0195949, 0.97904)
+bones/27/rotation = Quaternion(-0.610909, 0.109551, -0.0627636, 0.781568)
 bones/28/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Character2/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.909194, 0.0905314, 0.406411, 0.1709, -0.808928, 0.56252, 0.379683, 0.580895, 0.720001, -0.374186, 1.08046, 0.117683)
+transform = Transform3D(-0.903766, 0.13468, 0.406285, 0.122303, -0.828376, 0.546658, 0.41018, 0.54374, 0.732187, -0.35188, 1.08034, 0.0763353)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -1802,6 +1803,7 @@ collision_mask = 3
 
 [node name="VisibilityChecker" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+enabled = false
 collision_mask = 3
 
 [node name="ActionTimer" type="Timer" parent="."]

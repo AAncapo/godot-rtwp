@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=16 format=3 uid="uid://drj02j3p1ncdt"]
 
+[ext_resource type="Script" path="res://main.gd" id="1_wmp7k"]
 [ext_resource type="Script" path="res://sel_sys/selector.gd" id="2_pyn2i"]
-[ext_resource type="Script" path="res://camera.gd" id="3_7oabq"]
+[ext_resource type="Script" path="res://FpsCamera.gd" id="2_t5mib"]
 [ext_resource type="Script" path="res://sel_sys/selection_box.gd" id="3_igfxy"]
 [ext_resource type="Script" path="res://gui.gd" id="4_tnhci"]
 [ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="4_xw032"]
@@ -41,6 +42,8 @@ albedo_texture = ExtResource("4_xw032")
 uv1_triplanar = true
 
 [node name="Main" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_wmp7k")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_m5s7i")
@@ -49,18 +52,13 @@ environment = SubResource("Environment_m5s7i")
 transform = Transform3D(-0.834627, 0.406974, -0.371175, 2.2134e-08, 0.673864, 0.738856, 0.550816, 0.616669, -0.562425, 0, 0, 0)
 shadow_enabled = true
 
-[node name="CamBase" type="Node3D" parent="."]
-process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 0.327827, 0.944737, 0, -0.944737, 0.327827, 1.22538, -1.90735e-06, -35.8944)
-script = ExtResource("3_7oabq")
-move_speed = 7.0
-zoom_amount = 3.0
+[node name="CameraBase" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.1759, -18.0727)
+script = ExtResource("2_t5mib")
 
-[node name="Camera3D" type="Camera3D" parent="CamBase"]
+[node name="Camera3D" type="Camera3D" parent="CameraBase"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 0, 0, 8.80749)
 current = true
-size = 40.0
 
 [node name="UnitSelector" type="Node" parent="."]
 script = ExtResource("2_pyn2i")
@@ -73,7 +71,6 @@ offset_bottom = 40.0
 script = ExtResource("3_igfxy")
 
 [node name="GUI" type="Control" parent="."]
-process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -345,7 +342,7 @@ size = Vector3(1.55777, 1.82562, 0.854797)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62404, 3.8147e-06, -37.0292)
 
 [node name="enemy" parent="." instance=ExtResource("7_v38ir")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 22.0531, 0, -30.858)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21.1632, 0, -28.5875)
 collision_mask = 7
 walk_speed = 1.5
 

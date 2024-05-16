@@ -1,13 +1,13 @@
 extends Node3D
 
-@export_range(5.0,30.0) var move_speed: float = 10.0
+@export_range(5.0,30.0) var move_speed: float = 8.0
 @export var zoom_amount: float = 10.0
-@export var min_zoom: float = 5.0
-@export var max_zoom: float = 50.0
+@export var min_zoom:float = 5.0
+@export var max_zoom:float = 50.0
 
-@onready var cam = $Camera3D
-@onready var new_pos: Vector3 = self.global_position
-@onready var new_zoom: float = cam.position.z
+@onready var cam:Camera3D = $Camera3D
+@onready var new_pos:Vector3 = self.global_position
+@onready var new_zoom:float = cam.position.z
 @onready var new_rotation_y: float = self.global_rotation.y
 
 var mouse_sensitivity: float = 0.05
