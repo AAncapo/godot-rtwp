@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dcisjtichwxvf"]
 
-[ext_resource type="Script" path="res://character_hud.gd" id="1_sfnlq"]
+[ext_resource type="Script" path="res://character/character_hud.gd" id="1_sfnlq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rlmy"]
 draw_center = false
@@ -41,7 +41,9 @@ alignment = 2
 
 [node name="CharacterName" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_styles/normal = SubResource("StyleBoxFlat_0rlmy")
 text = "NAME"
 text_overrun_behavior = 1

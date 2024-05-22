@@ -33,7 +33,6 @@ func select_units(m_pos):
 		if u != null:
 			new_selected_units.append(u)
 	else:
-		var box_selected_units = []
 		for unit in get_tree().get_nodes_in_group("units"):
 			if box.has_point(cam.unproject_position(unit.global_transform.origin)):
 				new_selected_units.append(unit)

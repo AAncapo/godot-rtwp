@@ -2,16 +2,16 @@ extends ActionLeaf
 
 
 func tick(actor, blackboard):
-	var enemy = actor.target_unit
-	var is_ready = actor.time_left <= 0
-	actor.rotate_to(enemy.global_position)
-	
-	if is_ready and enemy:
-		#change anim to aiming
-		actor.anim.aim(true)
-	
-		actor.attack(enemy)
-		actor.action_timer.start()
-		is_ready = false
-		return SUCCESS
-	return RUNNING
+	var target = actor.target_unit
+	if target:
+		actor.rotate_to(target.global_position)
+		var is_looking_at_target = actor.crosshair.get_collider() == target
+		
+		actor.anim.aim(true) #TODO: esto pa otro lado
+		
+		if is_looking_at_target:
+			actor.execute_action()
+			actor.end_turn()
+			print(actor.name,"action executed")
+			return SUCCESS
+	return FAILURE

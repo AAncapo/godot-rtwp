@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var move_speed: float = 3.0
+var move_speed: float = .5
 @export var zoom_speed: float = 3.0
 
 @onready var cam = $Camera3D
@@ -11,7 +11,7 @@ var mouse_sens = 0.004
 func _ready() -> void:
 	Global.focus_world_object.connect(_on_focus)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#move with wasd
 	if Input.is_action_pressed("cam_left"):
 		new_pos -= global_basis.x
@@ -22,9 +22,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("cam_bwd"):
 		new_pos += global_basis.z
 	
-	global_position = lerp(global_position,new_pos, delta * move_speed)
+	global_position = new_pos
 	
 	if global_position.y <= 2: global_position.y = 2
+	if global_position.y >= 15: global_position.y = 15
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:  #rotate holding middle mouse button

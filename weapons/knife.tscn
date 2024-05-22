@@ -4,5 +4,8 @@
 
 [node name="Knife" instance=ExtResource("1_lmx2i")]
 name_ = "Knife"
+type = 0
 reliabl = 3
 cost = 20.0
+
+[editable path="muzzle"]

@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cksrm3q0hd4np"]
+
+[ext_resource type="Texture2D" uid="uid://dr70byr677q6g" path="res://imports/undefined - Imgur.png" id="1_ivput"]
+
+[resource]
+transparency = 1
+cull_mode = 2
+albedo_texture = ExtResource("1_ivput")
+emission_enabled = true
+emission_texture = ExtResource("1_ivput")

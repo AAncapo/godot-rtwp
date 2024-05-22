@@ -1,40 +1,34 @@
 class_name AnimationController extends AnimationTree
 
-var state:String = "normal":
-	set(value):
-		var blend:float
-		match value:
-			"normal": blend = 0
-			"alert": blend = 1
-			_: blend = get("parameters/State/blend_amount")
-		set("parameters/State/blend_amount", blend)
-		self.motion_path = value if value=="normal" || value=="alert" || value=="downed" else state
-		state = value
-		if state == "normal": aim(false)
-
-var motion_path:String = "parameters/normal/blend_position":
-	set(value):
-		motion_path = str("parameters/",value,"/blend_position")
-var isarmed_path:String = "parameters/IsArmed/blend_amount"
+var motion_y:int:
+	set(val):
+		motion_y = val
+		var blend_pos = get("parameters/state/blend_position")
+		blend_pos.y = motion_y
+		set("parameters/state/blend_position",blend_pos)
+var is_armed:String = "parameters/IsArmed/blend_amount"
 var holdaim_path:String = "parameters/hold_aim/blend_position"
-var equipped_type:String
+var equipped_type:int
 var aim_vec:Vector2i
 
 
-func move(run:bool = false): set(motion_path, 2 if run else 1)
+func move(run:bool = false): 
+	set("parameters/state/blend_position",Vector2(1 if !run else 2, motion_y))
 
-func stop(): set(motion_path, 0)
+func stop(): 
+	set("parameters/state/blend_position", Vector2(0, motion_y))
 
-func equip(type:String):
+func equip(type:int):
 	equipped_type = type
-	set(isarmed_path, 1)
+	set(is_armed, 1)
 	aim(true if aim_vec.y > 0 else false)  #continue aiming
 
-func disarm(): set(isarmed_path, 0)
+func disarm(): set(is_armed, 0)
 
 
-func aim(aim:bool = false):
+func aim(_aim:bool = false):
 	aim_vec = Vector2i(0,0)
-	aim_vec.x = 0 if equipped_type == "pistol" else 1
-	aim_vec.y = 0 if not aim else 1
+	
+	aim_vec.x = equipped_type
+	aim_vec.y = 0 if not _aim else 1
 	set(holdaim_path, aim_vec)

@@ -1,6 +1,7 @@
 extends ActionLeaf
 
 func tick(actor, blackboard):
-	actor.move_to(actor.target_vec, actor.walk_speed)
-	
+	if actor.target_vec:
+		if !actor.target_unit:
+			return SUCCESS  #so it doesnt run the combat logic
 	return FAILURE

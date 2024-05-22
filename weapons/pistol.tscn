@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cis8tnc05d1wg"]
+[gd_scene load_steps=4 format=3 uid="uid://cis8tnc05d1wg"]
 
 [ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_f36ou"]
+[ext_resource type="ArrayMesh" uid="uid://bxax0joipmf6n" path="res://imports/MuzzlePistol1.obj" id="2_hqe53"]
+[ext_resource type="Material" uid="uid://cksrm3q0hd4np" path="res://weapons/muzzle_material.tres" id="3_xb4h6"]
 
 [node name="Pistol" instance=ExtResource("1_f36ou")]
 name_ = "BudgetArms C13"
@@ -9,8 +11,18 @@ accuracy = -1
 clip_size = 8
 rof = 2
 reliabl = 1
-range = 10.0
+range_ = 7.0
 cost = 75.0
 
 [node name="pistol" parent="mesh" index="0"]
+transform = Transform3D(0.884863, 0, 0, 0, 0.884863, 0, 0, 0, 0.884863, -0.0976503, 0.0280659, -0.152205)
 visible = true
+
+[node name="muzzle" parent="." index="2"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.03072, 0.0731428, -0.3072)
+
+[node name="MeshInstance3D" parent="muzzle" index="0"]
+mesh = ExtResource("2_hqe53")
+surface_material_override/0 = ExtResource("3_xb4h6")
+
+[editable path="muzzle"]

@@ -3,33 +3,31 @@ class_name Weapon extends Node3D
 #enum Availability { EXCL, COMM, POOR, RARE }
 #@export var avail = Availability.EXCL
 @export var name_:String
-enum Type { MELEE, PISTOL, SMG, RIFLE, SHTG, HVY }
-@export var type = Type.MELEE:
-	get: return Type.find_key(type).to_lower()
+enum Type { NONE = -1, MELEE, PISTOL, RIFLE, SMG, SHTG, HVY }
+@export var type = Type.NONE
 @export var accuracy:int = 0 #accuracy
 @export var clip_size:int = 0
 @export var rof:int = 1  #firerate (shots per turn)
 enum Rel { VR, ST, UR, NA }  #reliability (VeryReliabl, Standard, Unreliabl)
 @export var reliabl:Rel
-@export var range:float = 1
+@export var range_:float = 1
 @export var cost:float
 
 @export_category("Damage Algorithm")
 @export var dices:int = 1
-enum Dice { D6 = 6, D10 = 10, D12 = 12, D20 = 20 }  #TODO: D4 & percentile dices
+enum Dice { D6 = 6, D10 = 10, D12 = 12, D20 = 20 }
 @export var dice:Dice = Dice.D6
 @export var added_points:int
 var damage:int:
 	get:
 		randomize()
-		var result:int
+		var result:int = 0
 		for d in range (dices + 1):
 			result += randi_range(1, dice)
-		return result + added_points
-
-
-func shoot():
-	print("shoot!")
+		
+		#$muzzle/AnimationPlayer.play("fire")
+		#return result + added_points
+		return 1
 
 func reload():
 	pass

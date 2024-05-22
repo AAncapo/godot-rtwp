@@ -1,6 +1,6 @@
 extends Control
 
-@onready var log = %Log
+@onready var _log = %Log
 @onready var charName = %CharacterName
 @onready var actionBar = %ActionBar
 
@@ -14,17 +14,27 @@ func set_charname(name_:String):
 
 
 func create_msg(text):
-	var label = Label.new()
+	var label:Label = Label.new()
 	label.text = text
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.set("theme_override_font_sizes/font_size",12)
 	
-	if log.get_child_count() >= 10:
-		log.get_child(log.get_child_count()-1).queue_free()
+	if _log.get_child_count() >= 10:
+		_log.get_child(_log.get_child_count()-1).queue_free()
 	
-	log.add_child(label)
+	var timer = Timer.new()
+	timer.wait_time = 6
+	timer.autostart = true
+	timer.timeout.connect(_on_label_timer_timeout.bind(label))
+	_log.add_child(label)
+	label.add_child(timer)
 
 
 func update_actionbar(val, max_val):
 	actionBar.value = val
 	actionBar.max_value = max_val
+
+
+func _on_label_timer_timeout(label) -> void:
+	label.queue_free()
