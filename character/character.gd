@@ -77,8 +77,6 @@ var stealth_active:bool = false:
 		current_state = STEALTH if stealth_active else NORMAL
 		#set animation state
 		headsUp.create_msg(str("Stealth ","ON" if stealth_active else "OFF"))
-enum { NONLETHAL_TD, LETHAL_TD }
-var takedown_mode = NONLETHAL_TD
 
 var starting_actions = []
 @onready var default_action:Action = $Actions/Default
@@ -156,7 +154,10 @@ func equip(new_wpn:Weapon):
 
 
 func select_action(action_key:String):
-	pass
+	for a in actions.get_children():
+		if a.action_name == action_key:
+			selected_action = a
+			print(action_key, " selected")
 
 func execute_action():
 	selected_action.execute()
@@ -180,15 +181,11 @@ func take_damage(actor, dmg):
 			if target_unit.stealth_active and detectionHandler.check_visibility(target_unit):
 				target_unit.detected.emit()
 
+
 func set_unconsious():
 	print(self.name, " is unconsious")
 	current_state = SLEEP
 	process_mode = Node.PROCESS_MODE_DISABLED
-
-func takedown(_target, td_mode):
-	match takedown_mode:
-		NONLETHAL_TD: _target.set_unconsious()
-		LETHAL_TD: _target.take_damage(self, _target.health)
 
 
 func _on_unit_died(unit):

@@ -5,18 +5,9 @@ extends Control
 @onready var fps = $fps
 var portrait_tscn = preload("res://gui/portrait.tscn")
 
+
 func _ready() -> void:
 	Global.added_unit.connect(_on_added_unit)
-	%stealth.toggled.connect(_on_stealth_toggled)
-	
-	#TODO: put this in a actionButton node script when time comes
-	var action_butons = $Control/VBoxContainer/actions/BasicActions.get_children()
-	action_butons.append_array(%SpecialActions.get_children())
-	for ab in action_butons:
-		if ab is Button:
-			ab.mouse_entered.connect(update_description.bind(ab.tooltip_text))
-			ab.pressed.connect(update_description.bind(ab.tooltip_text))
-			ab.toggled.connect(update_description.bind(ab.tooltip_text))
 
 
 func _process(_delta):
@@ -26,29 +17,34 @@ func _process(_delta):
 
 func _on_added_unit(unit):
 	if unit.team == Global.PLAYER_TEAM:
-		var p = portrait_tscn.instantiate()
-		portraits.add_child(p)
-		p.unit = unit
-		p.pressed.connect(_on_character_selected.bind(unit))
+		var port = portrait_tscn.instantiate()
+		portraits.add_child(port)
+		port.unit = unit
+		port.pressed.connect(_on_portrait_pressed.bind(unit))
+		unit.selected.connect(_on_character_selected.bind(unit))
 
 
-func _on_character_selected(unit):
+func _on_portrait_pressed(unit):
 	Global.gui_select_unit.emit(unit)
 
-
-func _on_stealth_toggled(toggled_on: bool) -> void:
-	for unit in Global.selected_units:
-		if unit.team == Global.PLAYER_TEAM:
-			unit.stealth_active = toggled_on
-			
-			%takedown_mode.disabled = !toggled_on
-
-func _on_takedown_mode_toggled(toggled_on: bool) -> void:
-	for unit in Global.selected_units:
-		var current_td = unit.takedown_mode
-		unit.takedown_mode = unit.NONLETHAL_TD if current_td == unit.LETHAL_TD else unit.LETHAL_TD
-		%takedown_mode.tooltip_text = str(unit.takedown_mode)
+func _on_character_selected(sel:bool, unit):
+	update_action_buttons(unit)
 
 
-func update_description(action_name:String):
-	$Control/VBoxContainer/ActionDescription.text = action_name
+func update_action_buttons(unit):
+	for a in actions.get_children():
+		a.queue_free()
+	
+	var unit_actions = unit.actions.get_children()
+	for a in unit_actions:
+		var abutton = Button.new()
+		abutton.text = a.action_name
+		abutton.tooltip_text = a.action_description
+		actions.add_child(abutton)
+		abutton.pressed.connect(_on_action_pressed.bind(a.action_name))
+
+
+func _on_action_pressed(action_name:String):
+	for u in Global.selected_units:
+		u.select_action(action_name)
+		$Control/VBoxContainer/ActionDescription.text = action_name

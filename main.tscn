@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=16 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
@@ -20,25 +20,6 @@ sky_material = SubResource("ProceduralSkyMaterial_ppise")
 background_mode = 2
 sky = SubResource("Sky_sjls7")
 tonemap_mode = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o4g14"]
-bg_color = Color(0.129412, 0.129412, 0.129412, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="InputEventKey" id="InputEventKey_gbihw"]
-device = -1
-keycode = 67
-unicode = 99
-
-[sub_resource type="Shortcut" id="Shortcut_rllhb"]
-events = [SubResource("InputEventKey_gbihw")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3vti"]
 bg_color = Color(0.117647, 0.117647, 0.117647, 1)
@@ -155,80 +136,12 @@ text = "Action Name"
 horizontal_alignment = 1
 
 [node name="actions" type="HBoxContainer" parent="GUI/Control/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 7
 alignment = 1
-
-[node name="BasicActions" type="HBoxContainer" parent="GUI/Control/VBoxContainer/actions"]
-layout_mode = 2
-
-[node name="stealth" type="Button" parent="GUI/Control/VBoxContainer/actions/BasicActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-tooltip_text = "Stealth: ON"
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-toggle_mode = true
-shortcut = SubResource("Shortcut_rllhb")
-text = "sneak"
-
-[node name="takedown_mode" type="Button" parent="GUI/Control/VBoxContainer/actions/BasicActions"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-tooltip_text = "Lethal Takedown"
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-theme_override_styles/hover = SubResource("StyleBoxFlat_o4g14")
-disabled = true
-toggle_mode = true
-text = "TD
-Mode"
-
-[node name="SpecialActions" type="HBoxContainer" parent="GUI/Control/VBoxContainer/actions"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="action4" type="Button" parent="GUI/Control/VBoxContainer/actions/SpecialActions"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-theme_override_styles/hover = SubResource("StyleBoxFlat_o4g14")
-shortcut = SubResource("Shortcut_rllhb")
-
-[node name="action5" type="Button" parent="GUI/Control/VBoxContainer/actions/SpecialActions"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-theme_override_styles/hover = SubResource("StyleBoxFlat_o4g14")
-shortcut = SubResource("Shortcut_rllhb")
-
-[node name="action6" type="Button" parent="GUI/Control/VBoxContainer/actions/SpecialActions"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-theme_override_styles/hover = SubResource("StyleBoxFlat_o4g14")
-shortcut = SubResource("Shortcut_rllhb")
-
-[node name="action7" type="Button" parent="GUI/Control/VBoxContainer/actions/SpecialActions"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 1
-theme_override_styles/normal = SubResource("StyleBoxFlat_o4g14")
-theme_override_styles/hover = SubResource("StyleBoxFlat_o4g14")
-shortcut = SubResource("Shortcut_rllhb")
 
 [node name="fps" type="Label" parent="GUI"]
 layout_mode = 0
@@ -468,5 +381,3 @@ collision_mask = 2
 [node name="enemy5" parent="." instance=ExtResource("8_4bqg6")]
 transform = Transform3D(-0.544434, 0, -0.838804, 0, 1, 0, 0.838804, 0, -0.544434, 24.6217, 0, -11.5804)
 collision_mask = 2
-
-[connection signal="toggled" from="GUI/Control/VBoxContainer/actions/BasicActions/takedown_mode" to="GUI" method="_on_takedown_mode_toggled"]
