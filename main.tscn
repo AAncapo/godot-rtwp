@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=18 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="6_41dnn"]
 [ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="7_s48wt"]
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
+[ext_resource type="Script" path="res://PatrolRoutes.gd" id="8_ht80n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppise"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -30,6 +31,9 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Arr
 cell_height = 0.01
 agent_max_climb = 0.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yhn1v"]
+albedo_color = Color(0.27451, 0.843137, 0.619608, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t314k"]
 albedo_texture = ExtResource("6_41dnn")
 uv1_triplanar = true
@@ -49,7 +53,7 @@ transform = Transform3D(-0.834627, 0.406974, -0.371175, 2.2134e-08, 0.673864, 0.
 shadow_enabled = true
 
 [node name="CamBase" type="Node3D" parent="."]
-transform = Transform3D(-0.999572, 0, -0.0292478, 0, 1, 0, 0.0292478, 0, -0.999572, 24.032, 8.44607, -52.166)
+transform = Transform3D(-0.998775, 0, -0.0494776, 0, 1, 0, 0.0494776, 0, -0.998775, 28.5541, 8.44607, -47.0886)
 script = ExtResource("2_lgycl")
 
 [node name="Camera3D" type="Camera3D" parent="CamBase"]
@@ -130,9 +134,9 @@ size_flags_vertical = 8
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/Control"]
 layout_mode = 2
 
-[node name="ActionDescription" type="Label" parent="GUI/Control/VBoxContainer"]
+[node name="ActionName" type="Label" parent="GUI/Control/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Action Name"
 horizontal_alignment = 1
 
 [node name="actions" type="HBoxContainer" parent="GUI/Control/VBoxContainer"]
@@ -155,10 +159,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.14455, 0, -24.0256)
 navigation_mesh = SubResource("NavigationMesh_t4soq")
 
 [node name="door" type="CSGBox3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.874588, 1.45536, 31.1532)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.874588, 1.0638, 31.1391)
 use_collision = true
 collision_mask = 0
-size = Vector3(0.222, 2.91118, 2)
+size = Vector3(0.222, 2.12806, 2.13977)
+material = SubResource("StandardMaterial3D_yhn1v")
+
+[node name="door2" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8963, 1.0638, 35.5134)
+use_collision = true
+collision_mask = 0
+size = Vector3(0.222, 2.12806, 2.13977)
+material = SubResource("StandardMaterial3D_yhn1v")
+
+[node name="door3" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.483, 1.0638, 31.5411)
+use_collision = true
+collision_mask = 0
+size = Vector3(0.222, 2.12806, 2.13977)
+material = SubResource("StandardMaterial3D_yhn1v")
+
+[node name="door4" type="CSGBox3D" parent="NavigationRegion3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.877613, 1.0638, -17.5897)
+use_collision = true
+collision_mask = 0
+size = Vector3(0.222, 2.12806, 2.13977)
+material = SubResource("StandardMaterial3D_yhn1v")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5351, 1.53857, 19.6765)
@@ -355,29 +381,49 @@ operation = 2
 size = Vector3(1.55777, 1.82562, 0.854797)
 
 [node name="player" parent="." instance=ExtResource("7_s48wt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5637, 0, -47.0749)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 27.7678, 0, -43.9854)
 collision_mask = 2
+
+[node name="PatrolRoutes" type="Node3D" parent="."]
+script = ExtResource("8_ht80n")
+
+[node name="Route" type="Node3D" parent="PatrolRoutes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6652, 0, -12.2919)
+
+[node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route"]
+
+[node name="Marker3D2" type="Marker3D" parent="PatrolRoutes/Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.41843, 0, -2.6626)
+
+[node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.89532, 0, -9.65687)
+
+[node name="Route2" type="Node3D" parent="PatrolRoutes"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.447, 0, -14.875)
+
+[node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route2"]
+
+[node name="Marker3D2" type="Marker3D" parent="PatrolRoutes/Route2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35844, 0, -2.6626)
+
+[node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.39817, 0, -12.5182)
+
+[node name="Route3" type="Node3D" parent="PatrolRoutes"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 21.4665, 0, -7.80124)
+
+[node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route3"]
+
+[node name="Marker3D2" type="Marker3D" parent="PatrolRoutes/Route3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.516621, 0, -5.36493)
+
+[node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.635849, 0, -12.5182)
 
 [node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
 transform = Transform3D(-0.20815, 0, 0.978097, 0, 1, 0, -0.978097, 0, -0.20815, 22.6912, 0, -28.7207)
 collision_mask = 2
 
 [node name="enemy2" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(0.668404, 0, 0.743798, 0, 1, 0, -0.743798, 0, 0.668404, 26.6706, 0, -3.60843)
-collision_mask = 2
-
-[node name="enemy6" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(0.668404, 0, 0.743798, 0, 1, 0, -0.743798, 0, 0.668404, 26.6706, 0, 4.9137)
-collision_mask = 2
-
-[node name="enemy3" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.20815, 0, 0.978097, 0, 1, 0, -0.978097, 0, -0.20815, 16.798, 0, -11.859)
-collision_mask = 2
-
-[node name="enemy4" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.669312, 0, 0.742982, 0, 1, 0, -0.742982, 0, -0.669312, 26.6706, 0, -11.859)
-collision_mask = 2
-
-[node name="enemy5" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.544434, 0, -0.838804, 0, 1, 0, 0.838804, 0, -0.544434, 24.6217, 0, -11.5804)
+transform = Transform3D(-0.987642, 0, 0.156728, 0, 1, 0, -0.156728, 0, -0.987642, 24.5485, 0, -22.2432)
 collision_mask = 2

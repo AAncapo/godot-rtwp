@@ -5,3 +5,7 @@
 
 [node name="StealthTakedown" instance=ExtResource("1_p4hse")]
 script = ExtResource("2_e83cf")
+action_name = "Stealth takedown"
+range_ = 1.2
+options = Array[String](["non-lethal", "lethal"])
+is_available = false

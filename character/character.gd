@@ -1,9 +1,6 @@
 class_name Character extends Unit
 
-enum { DEAD = -1, NORMAL, STEALTH, ALERT, COMBAT, DOWNED, SLEEP } 
-
 signal detected
-signal damaged
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var bt:BeehaveTree = $BeehaveTree
@@ -14,7 +11,11 @@ signal damaged
 @onready var action_timer:Timer = $ActionTimer
 @onready var headsUp = %CharacterHud
 @onready var actions = $Actions
-
+var is_dead:bool = false:
+	set(value):
+		is_dead = value
+		current_state = DEAD
+		process_mode = Node.PROCESS_MODE_DISABLED
 var is_turn:bool:
 	get: return action_timer.time_left <= 0
 var next_action:float = 2.0:
@@ -24,20 +25,18 @@ var next_action:float = 2.0:
 
 @export var visibility_range:float = 10.0
 @export var walk_speed:float = 1.5
+enum { DEAD = -1, NORMAL, STEALTH, ALERT, COMBAT, DOWNED, SLEEP } 
 var current_state = NORMAL:
 	set(value):
-		#if current_state != value:
-			#print(self.name," entered state: ", state.find_key(value))
+		previous_state = current_state
 		current_state = value
+		
+		#TODO: placeholder code to tell the takedown action when is available
+		actions.get_child(2).set_available.emit(current_state == STEALTH)
+		
 		anim.motion_y = current_state
-var is_dead:bool = false:
-	set(val):
-		is_dead = val
-		$CollisionShape3D.disabled = is_dead
-		if is_dead:
-			print(self.name, " died")
-			current_state = DEAD
-			process_mode = Node.PROCESS_MODE_DISABLED
+		print(self.name," state changed to ", current_state)
+var previous_state = NORMAL
 @export var max_health:float = 10.0
 var health:float = max_health:
 	set(val):
@@ -56,28 +55,21 @@ var is_moving:bool = false:
 		else: anim.stop()
 var target_vec = null:
 	set(val):
-		if val and val.length() > 0: 
+		if val and val.length() > 0:
+			print("new pos set")
 			nav.target_position = val #to check at next line if its reachable
 			#(!) still assigned value to nav.target_pos
 			target_vec = nav.target_position if nav.is_target_reachable() else null
 		else: 
 			target_vec = null
-		is_moving = target_vec != null
+		is_moving = target_vec != null and is_turn
 	get:
 		return target_vec if target_vec != null else null
 var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-		current_state = ALERT if target_unit else NORMAL
-		#(!) Do NOT change state to NORMAL if null - only when no enemies left in detection area
-var stealth_active:bool = false:
-	set(val):
-		stealth_active = val
-		current_state = STEALTH if stealth_active else NORMAL
-		#set animation state
-		headsUp.create_msg(str("Stealth ","ON" if stealth_active else "OFF"))
-
+var patroling_route:Array[Vector3]
 var starting_actions = []
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
@@ -91,6 +83,7 @@ func _ready() -> void:
 	for action in $Actions.get_children():
 		starting_actions.append(action)
 		action.actor = self
+		action.selected.connect(_on_action_selected)
 	selected_action = default_action
 	
 	anim.disarm()
@@ -106,6 +99,7 @@ func _ready() -> void:
 	health = max_health
 	
 	init_headsupd()
+	end_turn()
 
 
 func _process(delta: float) -> void:
@@ -153,33 +147,36 @@ func equip(new_wpn:Weapon):
 	default_action.update()
 
 
-func select_action(action_key:String):
-	for a in actions.get_children():
-		if a.action_name == action_key:
-			selected_action = a
-			print(action_key, " selected")
+func _on_action_selected(action:Action):
+	selected_action = action
 
 func execute_action():
+	print("execute -> ",selected_action.action_name)
 	selected_action.execute()
-	selected_action = default_action
 
 
-func take_damage(actor, dmg):
+func take_damage(dmg, actor = null):
 	health -= dmg
-	headsUp.create_msg(str("-",dmg))
-	damaged.emit()
+	#headsUp.create_msg(str("-",dmg))
 	if health <= 0:
-		Global.unit_died.emit(self)
+		## Death animation sends unit_died signal from Global
+		anim.play_death()
 		return
 	
-	if !target_unit:
+	if !target_unit && actor:
 		if team != Global.PLAYER_TEAM:
 			end_turn()
 			#TODO: units should be penalized in some way for escaping combat
 			#if player end_turn everytime is hit it will stop walking every half second
 			target_unit = actor
-			if target_unit.stealth_active and detectionHandler.check_visibility(target_unit):
+			if target_unit.current_state == target_unit.STEALTH and detectionHandler.check_visibility(target_unit):
 				target_unit.detected.emit()
+
+func choke():
+	anim.choke()
+
+func get_choked(die:bool):
+	anim.get_choked(die)
 
 
 func set_unconsious():
@@ -190,8 +187,8 @@ func set_unconsious():
 
 func _on_unit_died(unit):
 	if unit == self: 
-		self.is_dead = true
 		Global.remove_unit(unit)
+		is_dead = true
 	if target_unit == unit:
 		target_unit = null
 
@@ -207,12 +204,8 @@ func _on_nav_target_reached() -> void:
 	target_vec = null
 
 
-func _on_nav_velocity_computed(safe_velocity: Vector3) -> void:
-	pass # Replace with function body.
-
-
 func _on_detected() -> void:
-	if stealth_active: stealth_active = false
+	if current_state == STEALTH: current_state = ALERT
 	headsUp.create_msg("DETECTED")
 
 

@@ -12,6 +12,6 @@ func tick(actor, blackboard):
 		if is_looking_at_target:
 			actor.execute_action()
 			actor.end_turn()
-			print(actor.name,"action executed")
+			print(actor.name," action executed")
 			return SUCCESS
 	return FAILURE

@@ -1,9 +1,10 @@
 extends Control
 
 @onready var portraits = %portraits
-@onready var actions = $Control/VBoxContainer/actions
+@onready var actions = %actions
 @onready var fps = $fps
 var portrait_tscn = preload("res://gui/portrait.tscn")
+var action_button_tscn = preload("res://gui/action_button.tscn")
 
 
 func _ready() -> void:
@@ -11,7 +12,7 @@ func _ready() -> void:
 
 
 func _process(_delta):
-	fps.text = str("fps: ",Engine.get_frames_per_second())
+	fps.text = str("fps: ", Engine.get_frames_per_second())
 	$Paused.visible = get_tree().paused
 
 
@@ -37,14 +38,15 @@ func update_action_buttons(unit):
 	
 	var unit_actions = unit.actions.get_children()
 	for a in unit_actions:
-		var abutton = Button.new()
-		abutton.text = a.action_name
-		abutton.tooltip_text = a.action_description
-		actions.add_child(abutton)
-		abutton.pressed.connect(_on_action_pressed.bind(a.action_name))
+		var btn = action_button_tscn.instantiate()
+		actions.add_child(btn)
+		var hotkey = str(a.get_index() + 1)
+		btn.init(a, hotkey)
+		btn.mouse_enter.connect(_on_action_mouse_enter)
+		btn.mouse_exit.connect(_on_action_mouse_exit)
 
+func _on_action_mouse_enter(btn_action):
+	%ActionName.text = btn_action.action_name
 
-func _on_action_pressed(action_name:String):
-	for u in Global.selected_units:
-		u.select_action(action_name)
-		$Control/VBoxContainer/ActionDescription.text = action_name
+func _on_action_mouse_exit():
+	%ActionName.text = ""

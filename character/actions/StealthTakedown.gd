@@ -1,17 +1,24 @@
 extends Action
 
-enum TakedownStyle { NON_LETHAL, LETHAL }
-var tdstyle = TakedownStyle.NON_LETHAL
+var selected_option = "lethal"
+
+func init():
+	pass
 
 func update():
-	#update td style
-	#use this to update the animation based in what silent weapon the unit has equipped
 	pass
 
 func execute():
-	print("takedown executed")
-	match tdstyle:
-		TakedownStyle.NON_LETHAL:
+	if actor.current_state != actor.STEALTH:
+		#the action button should be already disabled if !stealth
+		return
+	
+	match selected_option:
+		"non-lethal":
+			actor.choke()
 			actor.target_unit.set_unconsious()
-		TakedownStyle.LETHAL:
-			actor.target_unit.take_damage(actor,actor.target_unit.health)
+		"lethal":
+			actor.choke()
+			actor.target_unit.get_choked(true)
+	
+	#super.execute() 

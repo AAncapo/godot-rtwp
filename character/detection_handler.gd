@@ -34,14 +34,18 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 	if unit.is_enemy(body): 
 		if !unit.bt.enabled: unit.bt.enabled = true  #improve performance
 		
-		if not body.stealth_active:
-			unit.current_state = unit.ALERT
+		if body.current_state != body.STEALTH:
+			if unit.current_state != unit.STEALTH: unit.current_state = unit.ALERT
+			#or DOWNED (well maybe when in states like downed the detectionHandler should be disabled)
 			if unit.team != Global.PLAYER_TEAM and not unit.target_unit:
 				unit.target_unit = body
 				unit.end_turn()
 				#unit.target_unit.detected.emit()
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
+	if unit.team == Global.PLAYER_TEAM:
+		return
+	
 	if body == unit.target_unit:
 		## If the current target exits the area search other enemies nearby
 		unit.end_turn()
@@ -56,12 +60,12 @@ func _on_field_of_view_body_entered(body: Node3D) -> void:
 	if unit.is_enemy(body):
 		## The Player units can't auto select enemies on detection
 		if unit.team != Global.PLAYER_TEAM and not unit.target_unit:
-			if not check_visibility(body) and body.stealth_active:
+			if not check_visibility(body) and body.current_state == body.STEALTH:
 				#ignore if is not visible and using stealth
 				return
 			unit.target_unit = body
-		if body.stealth_active: unit.target_unit.detected.emit()
-		unit.current_state = unit.ALERT
+		if body.current_state == body.STEALTH: unit.target_unit.detected.emit()
+		if unit.current_state != unit.STEALTH: unit.current_state = unit.ALERT
 
 
 func check_visibility(target):
