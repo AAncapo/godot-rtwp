@@ -25,7 +25,7 @@ var next_action:float = 2.0:
 
 @export var visibility_range:float = 10.0
 @export var walk_speed:float = 1.5
-enum { DEAD = -1, NORMAL, STEALTH, ALERT, COMBAT, DOWNED, SLEEP } 
+enum { DEAD = -1, NORMAL, STEALTH, ALERT, WORKING, COMBAT, DOWNED, SLEEP } 
 var current_state = NORMAL:
 	set(value):
 		previous_state = current_state
@@ -47,35 +47,33 @@ var equipped_weapon:Weapon:
 		equipped_weapon = value
 		if equipped_weapon:
 			crosshair.target_position = crosshair.transform.basis.z * -equipped_weapon.range_
-		#selected_action = default_action
-var is_moving:bool = false:
-	set(val):
-		is_moving = val
-		if is_moving: anim.move()
-		else: anim.stop()
 var target_vec = null:
 	set(val):
 		if val and val.length() > 0:
-			print("new pos set")
 			nav.target_position = val #to check at next line if its reachable
 			#(!) still assigned value to nav.target_pos
 			target_vec = nav.target_position if nav.is_target_reachable() else null
 		else: 
 			target_vec = null
-		is_moving = target_vec != null and is_turn
 	get:
 		return target_vec if target_vec != null else null
 var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-var patroling_route:Array[Vector3]
+		if !target_unit:
+			current_state = NORMAL
+
 var starting_actions = []
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
 	set(value):
 		selected_action = value if value != null else default_action
 		selected_action.init()
+enum Assignment { NONE, PATROL }
+@export var assigned_job:Assignment
+var job
+
 
 func _ready() -> void:
 	super._ready()
@@ -99,19 +97,25 @@ func _ready() -> void:
 	health = max_health
 	
 	init_headsupd()
+	
 	end_turn()
+	find_job() #iduno maybe find job while in turn can cause problem
 
 
 func _process(delta: float) -> void:
 	headsUp.update_actionbar(action_timer.time_left,next_action)
 
 func _physics_process(delta: float) -> void:
-	if is_moving and is_turn:
+	if target_vec and is_turn:
 		var dir = Vector3()
 		dir = (nav.get_next_path_position() - self.global_position).normalized()
 		velocity = dir * walk_speed
 		move_and_slide()
 		rotate_to(nav.get_next_path_position())
+		
+		anim.move()
+	else:
+		anim.stop()
 	
 	if target_unit and team != Global.PLAYER_TEAM:
 		if detectionHandler.check_visibility(target_unit):
@@ -195,7 +199,7 @@ func _on_unit_died(unit):
 ## the var target only updates by the user input (command) so this func can be used to check if a new target was selected by the user or the ai ;)
 func _on_target_updated(new_target) -> void:
 	if !is_enemy(new_target.collider):
-		target_unit = null
+		if target_unit: target_unit = null
 		target_vec = new_target.position
 	else:
 		target_unit = new_target.collider
@@ -212,3 +216,21 @@ func _on_detected() -> void:
 func init_headsupd():
 	headsUp.set_charname(self.name)
 	$Sprite3D.texture = %SubViewport.get_texture()
+
+func find_job():
+	match assigned_job:
+		Assignment.NONE:
+			#remain idle
+			pass
+		Assignment.PATROL:
+			#search patrol paths in scene
+			var patrol_paths = get_tree().get_nodes_in_group("patrol_path")
+			#if not occupied, occupy by actor and send to it
+			for pp in patrol_paths:
+				if !pp.is_in_group("occupied"):
+					pp.add_to_group("occupied")
+					job = Job.new(pp.get_children())
+					print(self.name, " has patrol job at ",pp.name)
+					return
+			#no patrol path found
+			assigned_job = Assignment.NONE

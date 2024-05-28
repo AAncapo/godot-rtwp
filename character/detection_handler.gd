@@ -32,11 +32,11 @@ func get_closest_enemy_in_area():
 
 func _on_detection_area_body_entered(body: Node3D) -> void:
 	if unit.is_enemy(body): 
-		if !unit.bt.enabled: unit.bt.enabled = true  #improve performance
+		#if !unit.bt.enabled: unit.bt.enabled = true  #improve performance
 		
 		if body.current_state != body.STEALTH:
 			if unit.current_state != unit.STEALTH: unit.current_state = unit.ALERT
-			#or DOWNED (well maybe when in states like downed the detectionHandler should be disabled)
+			#or DOWNED (in states like downed the detectionHandler should be disabled)
 			if unit.team != Global.PLAYER_TEAM and not unit.target_unit:
 				unit.target_unit = body
 				unit.end_turn()
@@ -57,6 +57,7 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 
 
 func _on_field_of_view_body_entered(body: Node3D) -> void:
+	# the fov is conflicting with the DA
 	if unit.is_enemy(body):
 		## The Player units can't auto select enemies on detection
 		if unit.team != Global.PLAYER_TEAM and not unit.target_unit:

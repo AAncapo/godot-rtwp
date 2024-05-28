@@ -9,35 +9,28 @@ albedo_color = Color(1, 0.129412, 0.129412, 1)
 [node name="enemy" instance=ExtResource("1_uyefs")]
 walk_speed = 2.0
 starting_wpn = 1
+assigned_job = 1
 team = 1
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.967963, -0.0552)
-bones/2/rotation = Quaternion(-0.0172545, 0, 0, 0.999851)
-bones/3/rotation = Quaternion(0.0421609, 0, 0, 0.999111)
-bones/4/rotation = Quaternion(0.109051, 0, 0, 0.994036)
-bones/8/rotation = Quaternion(-0.108344, 0.66173, -0.595583, 0.442331)
-bones/9/rotation = Quaternion(0.170152, 0.00134459, -0.0379053, 0.984688)
-bones/13/rotation = Quaternion(-0.144523, -0.735797, 0.487801, 0.446952)
-bones/14/rotation = Quaternion(0.420043, -0.00123258, 0.0935741, 0.902666)
-bones/18/rotation = Quaternion(0.951216, 0.0402776, -0.134515, 0.274721)
-bones/19/rotation = Quaternion(0.289242, 0.000424464, -0.0279575, 0.956848)
-bones/20/rotation = Quaternion(-0.616046, -0.0892346, 0.0490387, 0.781102)
-bones/24/rotation = Quaternion(0.964243, -0.0440398, 0.130524, 0.226407)
-bones/25/rotation = Quaternion(0.273983, -0.000426475, 0.0264826, 0.96137)
-bones/26/rotation = Quaternion(-0.643405, 0.0879445, -0.0550001, 0.758466)
+bones/0/position = Vector3(0, 0.978837, -0.0552)
+bones/18/rotation = Quaternion(0.952422, 0.0399751, -0.134181, 0.270722)
+bones/19/rotation = Quaternion(0.279493, 0.000425744, -0.0270152, 0.959767)
+bones/20/rotation = Quaternion(-0.603953, -0.0870302, 0.0530698, 0.790475)
+bones/24/rotation = Quaternion(0.971103, -0.0407335, 0.133099, 0.193869)
+bones/25/rotation = Quaternion(0.203234, -0.000434245, 0.0196442, 0.978933)
+bones/26/rotation = Quaternion(-0.611111, 0.109421, -0.0627168, 0.781433)
 
 [node name="base_character_model" parent="model/Character3/metarig/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_k2pqf")
 
 [node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.90899, 0.0855164, 0.407952, 0.177771, -0.805711, 0.565002, 0.377008, 0.586103, 0.71718, -0.377203, 1.08092, 0.123286)
+transform = Transform3D(-0.962465, 0.00612535, 0.271338, 0.270957, 0.0792302, 0.959325, -0.0156219, 0.996837, -0.0779158, -0.0778223, 1.59863, 0.508231)
 
 [node name="Pistol" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="1" instance=ExtResource("2_ajahe")]
 
 [node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-enabled = false
-blackboard = NodePath("@Node@49350")
+blackboard = NodePath("@Node@35633")
 
 [editable path="model/Character3"]
 [editable path="Sprite3D/SubViewport/CharacterHud"]

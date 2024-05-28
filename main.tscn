@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=17 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://dfkj78afni5la" path="res://textures/texture_06.png" id="6_41dnn"]
 [ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="7_s48wt"]
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
-[ext_resource type="Script" path="res://PatrolRoutes.gd" id="8_ht80n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppise"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -385,9 +384,8 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 27.767
 collision_mask = 2
 
 [node name="PatrolRoutes" type="Node3D" parent="."]
-script = ExtResource("8_ht80n")
 
-[node name="Route" type="Node3D" parent="PatrolRoutes"]
+[node name="Route" type="Node3D" parent="PatrolRoutes" groups=["patrol_path"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6652, 0, -12.2919)
 
 [node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route"]
@@ -398,7 +396,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.41843, 0, -2.6626)
 [node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.89532, 0, -9.65687)
 
-[node name="Route2" type="Node3D" parent="PatrolRoutes"]
+[node name="Route2" type="Node3D" parent="PatrolRoutes" groups=["patrol_path"]]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 24.447, 0, -14.875)
 
 [node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route2"]
@@ -409,7 +407,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35844, 0, -2.6626)
 [node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.39817, 0, -12.5182)
 
-[node name="Route3" type="Node3D" parent="PatrolRoutes"]
+[node name="Route3" type="Node3D" parent="PatrolRoutes" groups=["patrol_path"]]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 21.4665, 0, -7.80124)
 
 [node name="Marker3D" type="Marker3D" parent="PatrolRoutes/Route3"]
@@ -421,9 +419,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.516621, 0, -5.36493)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.635849, 0, -12.5182)
 
 [node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.20815, 0, 0.978097, 0, 1, 0, -0.978097, 0, -0.20815, 22.6912, 0, -28.7207)
+transform = Transform3D(-0.20815, 0, 0.978097, 0, 1, 0, -0.978097, 0, -0.20815, 25.3344, 0, -2.5829)
 collision_mask = 2
 
 [node name="enemy2" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.987642, 0, 0.156728, 0, 1, 0, -0.156728, 0, -0.987642, 24.5485, 0, -22.2432)
-collision_mask = 2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3356, 0, 2.68037)
+
+[node name="enemy3" parent="." instance=ExtResource("8_4bqg6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.1435, 0, 2.68037)
