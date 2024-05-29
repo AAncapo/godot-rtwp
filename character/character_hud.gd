@@ -3,10 +3,20 @@ extends Control
 @onready var _log = %Log
 @onready var charName = %CharacterName
 @onready var actionBar = %ActionBar
+var actor
+
+
+func _ready() -> void:
+	await owner.ready
+	actor = owner
+	set_charname(actor.name)
 
 
 func _process(delta: float) -> void:
 	actionBar.visible = actionBar.value > actionBar.min_value and actionBar.value < actionBar.max_value
+	
+	if actor:
+		update_actionbar(actor.action_timer.time_left, actor.next_action)
 
 
 func set_charname(name_:String):

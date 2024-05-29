@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://p5nt25syv0pg"]
+
+[ext_resource type="Script" path="res://character/fov.gd" id="1_4gyj5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glmlx"]
+shading_mode = 0
+
+[node name="fov" type="Node3D"]
+script = ExtResource("1_4gyj5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("StandardMaterial3D_glmlx")
+cast_shadow = 0
+skeleton = NodePath("../..")

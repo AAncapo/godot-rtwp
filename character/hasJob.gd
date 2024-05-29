@@ -5,7 +5,7 @@ func tick(actor, blackboard):
 		if actor.current_state != Character.WORKING:
 			actor.current_state = Character.WORKING
 			actor.target_vec = actor.job.get_last_pos()
-			print(actor.name," get to work")
+			#print(actor.name," get to work")
 			return FAILURE
 		
 		if actor.current_state == Character.WORKING:

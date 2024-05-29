@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=64 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_stryv"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
@@ -2629,22 +2629,16 @@ filters = ["metarig/Skeleton3D:fingers.r", "metarig/Skeleton3D:forearm.L", "meta
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_1ncfo"]
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_u5od3"]
-animation = &"Character4/death"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ee4pf"]
-animation = &"Character4/choked"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_epx86"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ehtvy"]
 animation = &"Character4/non-lethal_takedown"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_jpe3p"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_u5od3")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_ee4pf")
-blend_point_1/pos = 0.0
-blend_point_2/node = SubResource("AnimationNodeAnimation_epx86")
-blend_point_2/pos = 1.0
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_adh7x"]
+animation = &"Character4/choked"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_s4hcw"]
+animation = &"Character4/death"
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_l1aho"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n7mda"]
 animation = &"hold_handgun"
@@ -2708,25 +2702,28 @@ blend_point_4/pos = Vector2(1, 1)
 max_space = Vector2(2, 1)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
-graph_offset = Vector2(-201.951, 18.7944)
+graph_offset = Vector2(-119.112, 302.857)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
 nodes/IsArmed/position = Vector2(460, 80)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_1ncfo")
 nodes/OneShot/position = Vector2(720, 160)
-nodes/choke_choked_die/node = SubResource("AnimationNodeBlendSpace1D_jpe3p")
-nodes/choke_choked_die/position = Vector2(420, 400)
+nodes/choke/node = SubResource("AnimationNodeAnimation_ehtvy")
+nodes/choke/position = Vector2(80, 540)
+nodes/choked/node = SubResource("AnimationNodeAnimation_adh7x")
+nodes/choked/position = Vector2(160, 660)
+nodes/die/node = SubResource("AnimationNodeAnimation_s4hcw")
+nodes/die/position = Vector2(180, 420)
+nodes/die_choked_choke/node = SubResource("AnimationNodeBlend3_l1aho")
+nodes/die_choked_choke/position = Vector2(440, 460)
 nodes/hold_aim/node = SubResource("AnimationNodeBlendSpace2D_wy7w8")
 nodes/hold_aim/position = Vector2(280, 220)
 nodes/output/position = Vector2(1020, 200)
 nodes/state/node = SubResource("AnimationNodeBlendSpace2D_xg25e")
 nodes/state/position = Vector2(280, 20)
-node_connections = [&"IsArmed", 0, &"state", &"IsArmed", 1, &"hold_aim", &"OneShot", 0, &"IsArmed", &"OneShot", 1, &"choke_choked_die", &"output", 0, &"OneShot"]
+node_connections = [&"IsArmed", 0, &"state", &"IsArmed", 1, &"hold_aim", &"OneShot", 0, &"IsArmed", &"OneShot", 1, &"die_choked_choke", &"die_choked_choke", 0, &"die", &"die_choked_choke", 1, &"choke", &"die_choked_choke", 2, &"choked", &"output", 0, &"OneShot"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1kbjy"]
 radius = 10.0
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_xm84w"]
-size = Vector3(5, 2, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yytsn"]
 size = Vector3(1, 2.05688, 1)
@@ -2761,7 +2758,7 @@ parameters/IsArmed/blend_amount = 1.0
 parameters/OneShot/active = false
 parameters/OneShot/internal_active = false
 parameters/OneShot/request = 0
-parameters/choke_choked_die/blend_position = 0
+parameters/die_choked_choke/blend_amount = 0.0
 parameters/hold_aim/blend_position = Vector2(1, 1)
 parameters/state/blend_position = Vector2(0, 0)
 script = ExtResource("3_roqug")
@@ -2772,7 +2769,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.973713, -0.0552)
+bones/0/position = Vector3(0, 0.976437, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
 bones/2/rotation = Quaternion(-0.0774642, 0, 0, 0.996995)
@@ -2786,17 +2783,17 @@ bones/13/rotation = Quaternion(0.283457, -0.221359, 0.812008, 0.459668)
 bones/14/rotation = Quaternion(0.319079, -0.00129043, 0.0710822, 0.945058)
 bones/15/rotation = Quaternion(-0.212018, 0.198254, -0.166527, 0.942344)
 bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
-bones/18/rotation = Quaternion(0.951798, 0.0401312, -0.134352, 0.272801)
-bones/19/rotation = Quaternion(0.28411, 0.000425153, -0.0274614, 0.958398)
-bones/20/rotation = Quaternion(-0.609763, -0.0881087, 0.0511512, 0.786008)
+bones/18/rotation = Quaternion(0.952143, 0.0400446, -0.134257, 0.271652)
+bones/19/rotation = Quaternion(0.281649, 0.000425476, -0.0272236, 0.959131)
+bones/20/rotation = Quaternion(-0.606722, -0.0875484, 0.0521595, 0.788355)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.967867, -0.0422825, 0.131885, 0.209887)
-bones/25/rotation = Quaternion(0.238122, -0.000430716, 0.0230164, 0.970962)
-bones/26/rotation = Quaternion(-0.625936, 0.0996954, -0.0592284, 0.771205)
+bones/24/rotation = Quaternion(0.969539, -0.0414794, 0.132512, 0.201778)
+bones/25/rotation = Quaternion(0.220458, -0.000432572, 0.021309, 0.975164)
+bones/26/rotation = Quaternion(-0.618156, 0.104827, -0.0610701, 0.776637)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.962465, 0.00612535, 0.271338, 0.270957, 0.0792302, 0.959325, -0.0156219, 0.996837, -0.0779158, -0.0778223, 1.5935, 0.508231)
+transform = Transform3D(-0.962465, 0.00612535, 0.271338, 0.270957, 0.0792302, 0.959325, -0.0156219, 0.996837, -0.0779158, -0.0778223, 1.59623, 0.508231)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2817,7 +2814,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17516")
+blackboard = NodePath("@Node@17517")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -2859,23 +2856,22 @@ script = ExtResource("12_lhebl")
 [node name="DetectionHandler" type="Node3D" parent="."]
 script = ExtResource("15_hpcgr")
 
+[node name="fov" type="Node3D" parent="DetectionHandler"]
+
+[node name="fovRay" type="RayCast3D" parent="DetectionHandler/fov"]
+unique_name_in_owner = true
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0.959962, 0)
+target_position = Vector3(0, 0, -10)
+collision_mask = 3
+
 [node name="DetectionArea" type="Area3D" parent="DetectionHandler"]
+unique_name_in_owner = true
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionHandler/DetectionArea"]
 shape = SubResource("SphereShape3D_1kbjy")
-
-[node name="FieldOfView" type="Area3D" parent="DetectionHandler"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.5)
-collision_layer = 0
-collision_mask = 2
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionHandler/FieldOfView"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, -0.5)
-shape = SubResource("BoxShape3D_xm84w")
 
 [node name="VisibilityChecker" type="RayCast3D" parent="DetectionHandler"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -2948,7 +2944,6 @@ action_description = "Sneak to an enemy to take-him-down"
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
 [connection signal="body_entered" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_exited"]
-[connection signal="body_entered" from="DetectionHandler/FieldOfView" to="DetectionHandler" method="_on_field_of_view_body_entered"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 
 [editable path="model/Character3"]

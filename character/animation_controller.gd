@@ -38,12 +38,12 @@ func aim(_aim:bool = false):
 
 
 func choke():
-	request_oneshot(1)
+	request_oneshot(0)
 
 var die_after_choked:bool = false
 func get_choked(die:bool):
 	die_after_choked = die
-	request_oneshot(0)
+	request_oneshot(1)
 
 func play_death():
 	request_oneshot(-1)
@@ -56,10 +56,12 @@ func _on_animation_finished(anim_name: StringName) -> void:
 				get_parent().take_damage(get_parent().health)
 				return
 			printerr("Choked animation finished but no unconscious animation is set")
+		
 		"Character4/death":
+			print("died")
 			Global.unit_died.emit(get_parent())
 
 
-func request_oneshot(blend_pos:int):
-	set("parameters/choke_choked_die/blend_position",blend_pos)
+func request_oneshot(blend_amount:int):
+	set("parameters/die_choked_choke/blend_amount",blend_amount)
 	set("parameters/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

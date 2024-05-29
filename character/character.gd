@@ -1,6 +1,6 @@
 class_name Character extends Unit
 
-signal detected
+signal detected(detected_by)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var bt:BeehaveTree = $BeehaveTree
@@ -61,9 +61,13 @@ var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-		if !target_unit:
+		if !target_unit and current_state != STEALTH:
 			current_state = NORMAL
-
+var is_moving:bool:
+	set(value):
+		is_moving = value
+		if is_moving: anim.move()
+		else: anim.stop()
 var starting_actions = []
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
@@ -87,8 +91,6 @@ func _ready() -> void:
 	anim.disarm()
 	equip(weapons.get_child(starting_wpn))
 	
-	detectionHandler.unit = self
-	detectionHandler.update_fov()
 	next_action = 2
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
@@ -96,26 +98,20 @@ func _ready() -> void:
 	
 	health = max_health
 	
-	init_headsupd()
+	$Sprite3D.texture = %SubViewport.get_texture()
 	
 	end_turn()
 	find_job() #iduno maybe find job while in turn can cause problem
 
 
-func _process(delta: float) -> void:
-	headsUp.update_actionbar(action_timer.time_left,next_action)
-
 func _physics_process(delta: float) -> void:
-	if target_vec and is_turn:
+	is_moving = target_vec and is_turn
+	if is_moving:
 		var dir = Vector3()
 		dir = (nav.get_next_path_position() - self.global_position).normalized()
 		velocity = dir * walk_speed
 		move_and_slide()
 		rotate_to(nav.get_next_path_position())
-		
-		anim.move()
-	else:
-		anim.stop()
 	
 	if target_unit and team != Global.PLAYER_TEAM:
 		if detectionHandler.check_visibility(target_unit):
@@ -155,7 +151,7 @@ func _on_action_selected(action:Action):
 	selected_action = action
 
 func execute_action():
-	print("execute -> ",selected_action.action_name)
+	#print("execute -> ",selected_action.action_name)
 	selected_action.execute()
 
 
@@ -208,14 +204,10 @@ func _on_nav_target_reached() -> void:
 	target_vec = null
 
 
-func _on_detected() -> void:
+func _on_detected(detected_by:Character) -> void:
 	if current_state == STEALTH: current_state = ALERT
-	headsUp.create_msg("DETECTED")
+	headsUp.create_msg(str("DETECTED by ",detected_by.name))
 
-
-func init_headsupd():
-	headsUp.set_charname(self.name)
-	$Sprite3D.texture = %SubViewport.get_texture()
 
 func find_job():
 	match assigned_job:
@@ -230,7 +222,7 @@ func find_job():
 				if !pp.is_in_group("occupied"):
 					pp.add_to_group("occupied")
 					job = Job.new(pp.get_children())
-					print(self.name, " has patrol job at ",pp.name)
+					#print(self.name, " has patrol job at ",pp.name)
 					return
 			#no patrol path found
 			assigned_job = Assignment.NONE

@@ -18,9 +18,16 @@ func update_target(val):
 	target_updated.emit(target)
 
 
-func is_enemy(unit) -> bool:
+func is_enemy(unit):
 	if unit.is_in_group(Global.UNIT_GROUP):
 		if unit.team != team:
+			return true
+	return false
+
+
+func is_ally(unit):
+	if unit.is_in_group(Global.UNIT_GROUP):
+		if unit.team == team:
 			return true
 	return false
 
