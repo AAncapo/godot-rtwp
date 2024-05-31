@@ -45,7 +45,7 @@ func get_choked(die:bool):
 	die_after_choked = die
 	request_oneshot(1)
 
-func play_death():
+func die():
 	request_oneshot(-1)
 
 
@@ -58,8 +58,7 @@ func _on_animation_finished(anim_name: StringName) -> void:
 			printerr("Choked animation finished but no unconscious animation is set")
 		
 		"Character4/death":
-			print("died")
-			Global.unit_died.emit(get_parent())
+			owner.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func request_oneshot(blend_amount:int):

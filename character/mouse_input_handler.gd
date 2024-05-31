@@ -3,6 +3,9 @@ extends Area3D
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
+	await get_parent().ready
+	get_parent().selected.connect(_on_character_selected)
+
 
 func _on_mouse_entered():
 	_on_mouse_over(true)

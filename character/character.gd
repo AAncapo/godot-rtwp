@@ -3,25 +3,19 @@ class_name Character extends Unit
 signal detected(detected_by)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
-@onready var bt:BeehaveTree = $BeehaveTree
-@onready var detectionHandler = $DetectionHandler
 @onready var anim:AnimationController = %AnimationTree
 @onready var weapons = %Weapon1
 @onready var crosshair:RayCast3D = $crosshair
-@onready var action_timer:Timer = $ActionTimer
+@onready var ttimer:Timer = $TurnTimer
 @onready var headsUp = %CharacterHud
 @onready var actions = $Actions
-var is_dead:bool = false:
-	set(value):
-		is_dead = value
-		current_state = DEAD
-		process_mode = Node.PROCESS_MODE_DISABLED
-var is_turn:bool:
-	get: return action_timer.time_left <= 0
+@onready var stats := $Stats
+
+var is_turn:bool = true
 var next_action:float = 2.0:
 	set(val):
 		next_action = max(val, 0)
-		action_timer.wait_time = next_action
+		ttimer.wait_time = next_action
 
 @export var visibility_range:float = 10.0
 @export var walk_speed:float = 1.5
@@ -35,18 +29,18 @@ var current_state = NORMAL:
 		actions.get_child(2).set_available.emit(current_state == STEALTH)
 		
 		anim.motion_y = current_state
-		print(self.name," state changed to ", current_state)
+		#print(self.name," state changed to ", current_state)
 var previous_state = NORMAL
 @export var max_health:float = 10.0
 var health:float = max_health:
 	set(val):
 		health = val
 @export var starting_wpn:int=0
-var equipped_weapon:Weapon:
+var equipped_wpn:Weapon:
 	set(value):
-		equipped_weapon = value
-		if equipped_weapon:
-			crosshair.target_position = crosshair.transform.basis.z * -equipped_weapon.range_
+		equipped_wpn = value
+		if equipped_wpn:
+			crosshair.target_position = crosshair.transform.basis.z * -equipped_wpn.range_
 var target_vec = null:
 	set(val):
 		if val and val.length() > 0:
@@ -63,17 +57,18 @@ var target_unit:
 		crosshair.enabled = target_unit != null
 		if !target_unit and current_state != STEALTH:
 			current_state = NORMAL
+		if !target_unit: anim.aim(false)
 var is_moving:bool:
 	set(value):
 		is_moving = value
 		if is_moving: anim.move()
 		else: anim.stop()
-var starting_actions = []
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
 	set(value):
 		selected_action = value if value != null else default_action
 		selected_action.init()
+
 enum Assignment { NONE, PATROL }
 @export var assigned_job:Assignment
 var job
@@ -81,15 +76,11 @@ var job
 
 func _ready() -> void:
 	super._ready()
-	
-	for action in $Actions.get_children():
-		starting_actions.append(action)
-		action.actor = self
-		action.selected.connect(_on_action_selected)
+	ttimer.timeout.connect(_on_turn_started)
+	target_updated.connect(_on_target_updated)
 	selected_action = default_action
 	
 	anim.disarm()
-	equip(weapons.get_child(starting_wpn))
 	
 	next_action = 2
 	Global.add_unit(self)
@@ -102,6 +93,11 @@ func _ready() -> void:
 	
 	end_turn()
 	find_job() #iduno maybe find job while in turn can cause problem
+	
+	#await get_tree().create_timer(2)
+	for a in actions.get_children():
+		a.actor = self
+	equip(weapons.get_child(1))
 
 
 func _physics_process(delta: float) -> void:
@@ -113,13 +109,34 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		rotate_to(nav.get_next_path_position())
 	
-	if target_unit and team != Global.PLAYER_TEAM:
-		if detectionHandler.check_visibility(target_unit):
+	## look at target while visible
+	if target_unit:
+		if check_visibility(target_unit):
 			rotate_to(target_unit.global_position)
 
 
+func _on_turn_started():
+	#save rolls
+	if stats.is_dead: return
+	
+	if stats.at_death_door:
+		var saved = Fnff.save_roll(stats, Fnff.DEATH_SAVE)
+		if !saved: 
+			Global.unit_died.emit(self)
+			return
+	
+	is_turn = true
+	
+	## check if still stunned from previous turn
+	if stats.is_stunned:
+		var saved = Fnff.save_roll(stats, Fnff.STUN_SAVE)
+		stats.is_stunned = !saved
+		if !saved: end_turn()
+
+
 func end_turn():
-	action_timer.start()
+	is_turn = false
+	ttimer.start()
 
 func rotate_to(_target:Vector3, rotation_speed:float = .2):
 	if self.global_transform.origin.is_equal_approx(_target):
@@ -127,18 +144,29 @@ func rotate_to(_target:Vector3, rotation_speed:float = .2):
 	var new_transform = self.transform.looking_at(_target, Vector3.UP)
 	self.transform = self.transform.interpolate_with(new_transform, rotation_speed)
 
+
+func check_visibility(target):
+	var vcheck:RayCast3D = %VisibilityChecker
+	vcheck.look_at(target.global_position)
+	var len = (target.global_position - self.global_position).length()
+	vcheck.target_position.z = -len * 1.2
+	vcheck.target_position.y = target.scale.y/2
+	vcheck.force_raycast_update()  # doesnt need to be enabled for this to work
+	return vcheck.get_collider() == target
+
+
 func equip(new_wpn:Weapon):
-	if equipped_weapon and equipped_weapon == new_wpn:
+	if equipped_wpn and equipped_wpn == new_wpn:
 		anim.disarm()
-		equipped_weapon.visible = false
-		equipped_weapon = null
+		equipped_wpn.visible = false
+		equipped_wpn = null
 		return
 	
 	var wpns = weapons.get_children()
 	for w in wpns:
 		if w == new_wpn:
 			w.visible = true
-			equipped_weapon = w
+			equipped_wpn = w
 			headsUp.create_msg(new_wpn.name_)
 		else:
 			w.visible = false
@@ -147,30 +175,27 @@ func equip(new_wpn:Weapon):
 	default_action.update()
 
 
-func _on_action_selected(action:Action):
-	selected_action = action
-
 func execute_action():
 	#print("execute -> ",selected_action.action_name)
 	selected_action.execute()
 
 
-func take_damage(dmg, actor = null):
-	health -= dmg
-	#headsUp.create_msg(str("-",dmg))
-	if health <= 0:
-		## Death animation sends unit_died signal from Global
-		anim.play_death()
-		return
-	
-	if !target_unit && actor:
-		if team != Global.PLAYER_TEAM:
+func attack(_target):
+	var atk = Attack.new(self, _target, equipped_wpn)
+	var is_hit:bool = atk.calc_hit_chance()
+	if is_hit: _target.take_damage(atk)
+	else: print("failed hit")
+
+
+func take_damage(atk:Attack):
+	## Alert from attack
+	if team != Global.PLAYER_TEAM:
+		if !target_unit && atk.actor:
 			end_turn()
-			#TODO: units should be penalized in some way for escaping combat
-			#if player end_turn everytime is hit it will stop walking every half second
-			target_unit = actor
-			if target_unit.current_state == target_unit.STEALTH and detectionHandler.check_visibility(target_unit):
-				target_unit.detected.emit()
+			target_unit = atk.actor
+			#target_vec = atk.actor.global_position
+	stats.calc_damage(atk)
+
 
 func choke():
 	anim.choke()
@@ -188,7 +213,11 @@ func set_unconsious():
 func _on_unit_died(unit):
 	if unit == self: 
 		Global.remove_unit(unit)
-		is_dead = true
+		stats.is_dead = true
+		anim.die()
+		current_state = DEAD
+		print(self.name, " died")
+	
 	if target_unit == unit:
 		target_unit = null
 

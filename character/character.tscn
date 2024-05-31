@@ -1,6 +1,6 @@
-[gd_scene load_steps=64 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=65 format=3 uid="uid://ckby50onxho51"]
 
-[ext_resource type="Script" path="res://character/character.gd" id="1_stryv"]
+[ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="3_ng0gg"]
@@ -11,15 +11,16 @@
 [ext_resource type="Script" path="res://beehave_nodes/ConditionIsTurn.gd" id="8_ndwlh"]
 [ext_resource type="Script" path="res://beehave_nodes/ConditionTargetAtRange.gd" id="9_ygwli"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/sequence.gd" id="10_ikvnl"]
-[ext_resource type="Script" path="res://character/hasJob.gd" id="10_jvsry"]
 [ext_resource type="Script" path="res://beehave_nodes/ActionAttack.gd" id="10_nix71"]
 [ext_resource type="Script" path="res://character/Work.gd" id="12_lhebl"]
+[ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
 [ext_resource type="PackedScene" uid="uid://dcisjtichwxvf" path="res://character/character_hud.tscn" id="14_0tb1l"]
 [ext_resource type="Script" path="res://character/mouse_input_handler.gd" id="14_4ueqc"]
 [ext_resource type="PackedScene" uid="uid://bor1xkrfba6j8" path="res://character/actions/default.tscn" id="15_c2sng"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
 [ext_resource type="PackedScene" uid="uid://fg2c2ryioegl" path="res://character/actions/stealth_takedown.tscn" id="16_cvwkp"]
 [ext_resource type="PackedScene" uid="uid://bofr3crmdqnkr" path="res://character/actions/stealth_toggle.tscn" id="16_qlfo2"]
+[ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 
@@ -2702,7 +2703,6 @@ blend_point_4/pos = Vector2(1, 1)
 max_space = Vector2(2, 1)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
-graph_offset = Vector2(-119.112, 302.857)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
 nodes/IsArmed/position = Vector2(460, 80)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_1ncfo")
@@ -2738,7 +2738,7 @@ process_mode = 1
 collision_layer = 2
 collision_mask = 0
 floor_stop_on_slope = false
-script = ExtResource("1_stryv")
+script = ExtResource("1_x5oe7")
 walk_speed = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -2754,12 +2754,12 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_p4co3")
 anim_player = NodePath("../model/Character3/AnimationPlayer")
-parameters/IsArmed/blend_amount = 1.0
+parameters/IsArmed/blend_amount = 0.0
 parameters/OneShot/active = false
 parameters/OneShot/internal_active = false
 parameters/OneShot/request = 0
 parameters/die_choked_choke/blend_amount = 0.0
-parameters/hold_aim/blend_position = Vector2(1, 1)
+parameters/hold_aim/blend_position = Vector2(0, 0)
 parameters/state/blend_position = Vector2(0, 0)
 script = ExtResource("3_roqug")
 
@@ -2769,31 +2769,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.976437, -0.0552)
+bones/0/position = Vector3(0, 0.977146, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0774642, 0, 0, 0.996995)
-bones/3/rotation = Quaternion(0.00162715, 0, 0, 0.999999)
-bones/4/rotation = Quaternion(0.20051, 0.0191363, 0.108505, 0.973476)
+bones/2/rotation = Quaternion(-0.0645249, 0, 0, 0.997916)
+bones/3/rotation = Quaternion(0.0103531, 0, 0, 0.999946)
+bones/4/rotation = Quaternion(0.181925, 0, 0, 0.983312)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(0.0121512, 0.246181, -0.873435, 0.41995)
-bones/9/rotation = Quaternion(0.431919, 0.00122449, -0.0962199, 0.896764)
-bones/10/rotation = Quaternion(-0.00935825, 0.00788473, -0.0767872, 0.996972)
-bones/13/rotation = Quaternion(0.283457, -0.221359, 0.812008, 0.459668)
-bones/14/rotation = Quaternion(0.319079, -0.00129043, 0.0710822, 0.945058)
-bones/15/rotation = Quaternion(-0.212018, 0.198254, -0.166527, 0.942344)
-bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
-bones/18/rotation = Quaternion(0.952143, 0.0400446, -0.134257, 0.271652)
-bones/19/rotation = Quaternion(0.281649, 0.000425476, -0.0272236, 0.959131)
-bones/20/rotation = Quaternion(-0.606722, -0.0875484, 0.0521595, 0.788355)
+bones/8/rotation = Quaternion(-0.151495, 0.736175, -0.557549, 0.35247)
+bones/9/rotation = Quaternion(0.202773, 0.00133569, -0.0451722, 0.978182)
+bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
+bones/13/rotation = Quaternion(-0.159243, -0.783377, 0.468586, 0.376019)
+bones/14/rotation = Quaternion(0.400933, -0.00124498, 0.0893169, 0.911742)
+bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
+bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
+bones/18/rotation = Quaternion(0.952227, 0.0400238, -0.134235, 0.271374)
+bones/19/rotation = Quaternion(0.281004, 0.000425553, -0.0271612, 0.959322)
+bones/20/rotation = Quaternion(-0.605929, -0.0874009, 0.052421, 0.788964)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.969539, -0.0414794, 0.132512, 0.201778)
-bones/25/rotation = Quaternion(0.220458, -0.000432572, 0.021309, 0.975164)
-bones/26/rotation = Quaternion(-0.618156, 0.104827, -0.0610701, 0.776637)
+bones/24/rotation = Quaternion(0.969979, -0.041269, 0.132678, 0.199585)
+bones/25/rotation = Quaternion(0.215682, -0.000433049, 0.0208473, 0.976241)
+bones/26/rotation = Quaternion(-0.61615, 0.106139, -0.061541, 0.778014)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.962465, 0.00612535, 0.271338, 0.270957, 0.0792302, 0.959325, -0.0156219, 0.996837, -0.0779158, -0.0778223, 1.59623, 0.508231)
+transform = Transform3D(-0.905705, 0.125693, 0.404846, 0.130835, -0.825519, 0.548999, 0.403214, 0.550199, 0.731232, -0.355915, 1.08041, 0.0837562)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2809,12 +2809,12 @@ libraries = {
 "Character4": SubResource("AnimationLibrary_jm8fq")
 }
 
-[node name="ActionTimer" type="Timer" parent="."]
+[node name="TurnTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17517")
+blackboard = NodePath("@Node@17525")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -2848,7 +2848,7 @@ script = ExtResource("10_nix71")
 script = ExtResource("10_ikvnl")
 
 [node name="hasJob" type="Node" parent="BeehaveTree/Main/ActionSelector/SelectorComposite/WorkSequence"]
-script = ExtResource("10_jvsry")
+script = ExtResource("12_mrapr")
 
 [node name="Work" type="Node" parent="BeehaveTree/Main/ActionSelector/SelectorComposite/WorkSequence"]
 script = ExtResource("12_lhebl")
@@ -2874,6 +2874,7 @@ monitorable = false
 shape = SubResource("SphereShape3D_1kbjy")
 
 [node name="VisibilityChecker" type="RayCast3D" parent="DetectionHandler"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 target_position = Vector3(0, 0, 0)
 collision_mask = 3
@@ -2938,9 +2939,9 @@ action_description = "Enter or exit stealth mode"
 [node name="StealthTakedown" parent="Actions" instance=ExtResource("16_cvwkp")]
 action_description = "Sneak to an enemy to take-him-down"
 
-[connection signal="detected" from="." to="." method="_on_detected"]
-[connection signal="selected" from="." to="MouseInputHandle" method="_on_character_selected"]
-[connection signal="target_updated" from="." to="." method="_on_target_updated"]
+[node name="Stats" type="Node" parent="."]
+script = ExtResource("21_sr724")
+
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
 [connection signal="body_entered" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_exited"]

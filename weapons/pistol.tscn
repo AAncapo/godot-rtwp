@@ -11,8 +11,7 @@ accuracy = -1
 clip_size = 8
 rof = 2
 reliabl = 1
-range_ = 7.0
-cost = 75.0
+range_ = 50.0
 
 [node name="pistol" parent="mesh" index="0"]
 transform = Transform3D(0.884863, 0, 0, 0, 0.884863, 0, 0, 0, 0.884863, -0.0976503, 0.0280659, -0.152205)

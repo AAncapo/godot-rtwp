@@ -69,7 +69,7 @@ func _on_gui_select_unit(unit):
 		unit.selected.emit(true)
 		Global.selected_units.append(unit)
 
-## callback for selecting units using elements outside the SelectionSystem node tools (e.g. character portraits) ##
+## callback for selecting units using elements outside the SelectionSystem node tools (e.g. character portraits)
 func __on_unit_selected(unit):
 	if unit.is_in_group("units"):
 		deselect_all_units()

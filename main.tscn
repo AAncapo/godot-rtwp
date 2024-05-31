@@ -79,7 +79,7 @@ offset_left = 5.0
 offset_top = 5.0
 offset_right = -5.0
 offset_bottom = -5.0
-grow_horizontal = 2
+grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_hhyqy")
@@ -152,6 +152,37 @@ offset_right = 40.0
 offset_bottom = 23.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_x3vti")
 text = "fps 000"
+
+[node name="StatsDisplay" type="PanelContainer" parent="GUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -184.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/StatsDisplay"]
+layout_mode = 2
+
+[node name="unitName" type="Label" parent="GUI/StatsDisplay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "unit name"
+horizontal_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="GUI/StatsDisplay/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "stat: 0"
+editable = false
+wrap_mode = 1
+scroll_fit_content_height = true
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.14455, 0, -24.0256)
@@ -379,10 +410,6 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 24.010
 operation = 2
 size = Vector3(1.55777, 1.82562, 0.854797)
 
-[node name="player" parent="." instance=ExtResource("7_s48wt")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 27.7678, 0, -43.9854)
-collision_mask = 2
-
 [node name="PatrolRoutes" type="Node3D" parent="."]
 
 [node name="Route" type="Node3D" parent="PatrolRoutes" groups=["patrol_path"]]
@@ -418,15 +445,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.516621, 0, -5.36493)
 [node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.635849, 0, -12.5182)
 
-[node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-0.20815, 0, 0.978097, 0, 1, 0, -0.978097, 0, -0.20815, 25.3344, 0, -2.5829)
-collision_mask = 2
+[node name="player" parent="." instance=ExtResource("7_s48wt")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 27.5705, 0, -46.8998)
 
 [node name="enemy2" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.3356, 0, 2.68037)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.755, 0, -3.92328)
 
 [node name="enemy3" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.1435, 0, 2.68037)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0506, 0, -6.22494)
 
 [node name="enemy4" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 21.9038, 0, -29.9838)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1735, 0, -11.5606)
+
+[node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 23.0166, 0, -25.6844)

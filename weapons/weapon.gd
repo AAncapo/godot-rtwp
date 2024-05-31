@@ -5,29 +5,30 @@ class_name Weapon extends Node3D
 @export var name_:String
 enum Type { NONE = -1, MELEE, PISTOL, RIFLE, SMG, SHTG, HVY }
 @export var type = Type.NONE
-@export var accuracy:int = 0 #accuracy
+func get_type():
+	return Type.keys()[type]
+@export var accuracy:int = 0 #weapon accuracy
 @export var clip_size:int = 0
 @export var rof:int = 1  #firerate (shots per turn)
 enum Rel { VR, ST, UR, NA }  #reliability (VeryReliabl, Standard, Unreliabl)
 @export var reliabl:Rel
 @export var range_:float = 1
-@export var cost:float
 
-@export_category("Damage Algorithm")
-@export var dices:int = 1
-enum Dice { D6 = 6, D10 = 10, D12 = 12, D20 = 20 }
-@export var dice:Dice = Dice.D6
-@export var added_points:int
+@export_category("Damage Calc")
+@export var dice_amount:int = 1
+enum Dice { D6 = 6, D10 = 10 }
+@export var sides:Dice = Dice.D6
+@export var modifier:int
 var damage:int:
 	get:
 		randomize()
-		var result:int = 0
-		for d in range (dices + 1):
-			result += randi_range(1, dice)
-		
-		#$muzzle/AnimationPlayer.play("fire")
-		#return result + added_points
-		return 1
+		var result:int = Fnff.roll(dice_amount, sides) + modifier
+		return result
+
+
+func attack():
+	$muzzle/AnimationPlayer.play("fire")
+
 
 func reload():
 	pass

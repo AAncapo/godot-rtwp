@@ -5,9 +5,9 @@ func init():
 	pass
 
 func update():
-	range_ = actor.equipped_weapon.range_
+	range_ = actor.equipped_wpn.range_
 
 func execute():
-	var dmg = actor.equipped_weapon.damage
-	print(actor.name," deals ",dmg," to ",actor.target_unit.name)
-	actor.target_unit.take_damage(dmg, actor)
+	#var dmg = actor.equipped_weaponsmg, actor)
+	
+	actor.attack(actor.target_unit)

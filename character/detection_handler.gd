@@ -66,7 +66,7 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 			if !actor.target_vec: actor.target_vec = body.global_position
 
 
-func handle_detected_body(body:Character):
+func handle_detected_body(body):
 	if body.current_state != body.STEALTH:
 		#if this is player and not in stealth set to alert
 		if actor.team == Global.PLAYER_TEAM and actor.current_state != actor.STEALTH: 
@@ -79,16 +79,6 @@ func handle_detected_body(body:Character):
 			actor.current_state = actor.ALERT
 			
 			actor.end_turn()
-
-
-func check_visibility(target):
-	var vcheck:RayCast3D = $VisibilityChecker
-	vcheck.look_at(target.global_position)
-	var len = (target.global_position - actor.global_position).length()
-	vcheck.target_position.z = -len * 1.2
-	vcheck.target_position.y = target.scale.y/2
-	vcheck.force_raycast_update()  # doesnt need to be enabled for this to work
-	return vcheck.get_collider() == target
 
 
 func enable_fov(enable:bool):

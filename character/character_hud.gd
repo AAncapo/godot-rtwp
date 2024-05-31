@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 	actionBar.visible = actionBar.value > actionBar.min_value and actionBar.value < actionBar.max_value
 	
 	if actor:
-		update_actionbar(actor.action_timer.time_left, actor.next_action)
+		update_actionbar(actor.ttimer.time_left, actor.next_action)
 
 
 func set_charname(name_:String):

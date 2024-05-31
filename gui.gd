@@ -5,6 +5,7 @@ extends Control
 @onready var fps = $fps
 var portrait_tscn = preload("res://gui/portrait.tscn")
 var action_button_tscn = preload("res://gui/action_button.tscn")
+@onready var stats_display := %StatsDisplay
 
 
 func _ready() -> void:
@@ -30,6 +31,13 @@ func _on_portrait_pressed(unit):
 
 func _on_character_selected(sel:bool, unit):
 	update_action_buttons(unit)
+	
+	%unitName.text = unit.name
+	var textEdit := %TextEdit
+	textEdit.text = ""
+	var stats:Dictionary = unit.stats.get_stats_dictionary()
+	for s in stats:
+		textEdit.text += str(s,": ",stats[s],"\n")
 
 
 func update_action_buttons(unit):
@@ -44,6 +52,7 @@ func update_action_buttons(unit):
 		btn.init(a, hotkey)
 		btn.mouse_enter.connect(_on_action_mouse_enter)
 		btn.mouse_exit.connect(_on_action_mouse_exit)
+
 
 func _on_action_mouse_enter(btn_action):
 	%ActionName.text = btn_action.action_name
