@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=68 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
@@ -14,12 +14,12 @@
 [ext_resource type="Script" path="res://beehave_nodes/ActionAttack.gd" id="10_nix71"]
 [ext_resource type="Script" path="res://character/Work.gd" id="12_lhebl"]
 [ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
-[ext_resource type="PackedScene" uid="uid://dcisjtichwxvf" path="res://character/character_hud.tscn" id="14_0tb1l"]
 [ext_resource type="Script" path="res://character/mouse_input_handler.gd" id="14_4ueqc"]
 [ext_resource type="PackedScene" uid="uid://bor1xkrfba6j8" path="res://character/actions/default.tscn" id="15_c2sng"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
 [ext_resource type="PackedScene" uid="uid://fg2c2ryioegl" path="res://character/actions/stealth_takedown.tscn" id="16_cvwkp"]
 [ext_resource type="PackedScene" uid="uid://bofr3crmdqnkr" path="res://character/actions/stealth_toggle.tscn" id="16_qlfo2"]
+[ext_resource type="Script" path="res://character/chara_hud.gd" id="21_laepi"]
 [ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
@@ -2733,6 +2733,22 @@ size = Vector3(1, 2.05688, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqcnk"]
 albedo_color = Color(1, 0.243137, 0.243137, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yh77o"]
+content_margin_left = 4.0
+content_margin_right = 4.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.92549, 0.92549, 0.92549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wsysv"]
+bg_color = Color(0.27451, 0.27451, 0.27451, 0.392157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ro2wj"]
+bg_color = Color(0.917647, 0.917647, 0.917647, 1)
+
 [node name="character" type="CharacterBody3D" groups=["units"]]
 process_mode = 1
 collision_layer = 2
@@ -2769,31 +2785,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.977146, -0.0552)
+bones/0/position = Vector3(0, 0.975543, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0645249, 0, 0, 0.997916)
-bones/3/rotation = Quaternion(0.0103531, 0, 0, 0.999946)
-bones/4/rotation = Quaternion(0.181925, 0, 0, 0.983312)
+bones/2/rotation = Quaternion(-0.0566611, 0, 0, 0.998393)
+bones/3/rotation = Quaternion(0.015651, 0, 0, 0.999878)
+bones/4/rotation = Quaternion(0.16985, 0, 0, 0.98547)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(-0.151495, 0.736175, -0.557549, 0.35247)
-bones/9/rotation = Quaternion(0.202773, 0.00133569, -0.0451722, 0.978182)
+bones/8/rotation = Quaternion(-0.145172, 0.724627, -0.564012, 0.368417)
+bones/9/rotation = Quaternion(0.198215, 0.00133703, -0.0441568, 0.979163)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.159243, -0.783377, 0.468586, 0.376019)
-bones/14/rotation = Quaternion(0.400933, -0.00124498, 0.0893169, 0.911742)
+bones/13/rotation = Quaternion(-0.157001, -0.775607, 0.472284, 0.388243)
+bones/14/rotation = Quaternion(0.403426, -0.00124338, 0.0898724, 0.910587)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/18/rotation = Quaternion(0.952227, 0.0400238, -0.134235, 0.271374)
-bones/19/rotation = Quaternion(0.281004, 0.000425553, -0.0271612, 0.959322)
-bones/20/rotation = Quaternion(-0.605929, -0.0874009, 0.052421, 0.788964)
+bones/18/rotation = Quaternion(0.952027, 0.0400737, -0.134289, 0.272039)
+bones/19/rotation = Quaternion(0.282461, 0.000425372, -0.0273021, 0.95889)
+bones/20/rotation = Quaternion(-0.607721, -0.0877338, 0.0518295, 0.787586)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.969979, -0.041269, 0.132678, 0.199585)
-bones/25/rotation = Quaternion(0.215682, -0.000433049, 0.0208473, 0.976241)
-bones/26/rotation = Quaternion(-0.61615, 0.106139, -0.061541, 0.778014)
+bones/24/rotation = Quaternion(0.968966, -0.0417572, 0.132296, 0.204597)
+bones/25/rotation = Quaternion(0.226508, -0.000431939, 0.0218938, 0.973763)
+bones/26/rotation = Quaternion(-0.620753, 0.10312, -0.060458, 0.77484)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.905705, 0.125693, 0.404846, 0.130835, -0.825519, 0.548999, 0.403214, 0.550199, 0.731232, -0.355915, 1.08041, 0.0837562)
+transform = Transform3D(-0.907045, 0.118194, 0.404102, 0.13843, -0.822709, 0.55135, 0.397625, 0.556039, 0.729873, -0.35946, 1.08042, 0.090338)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2891,22 +2907,6 @@ enabled = false
 target_position = Vector3(0, 0, -1)
 collision_mask = 3
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-offset = Vector2(0, 170)
-billboard = 1
-
-[node name="SubViewport" type="SubViewport" parent="Sprite3D"]
-unique_name_in_owner = true
-disable_3d = true
-transparent_bg = true
-gui_disable_input = true
-size = Vector2i(100, 320)
-
-[node name="CharacterHud" parent="Sprite3D/SubViewport" instance=ExtResource("14_0tb1l")]
-unique_name_in_owner = true
-
 [node name="MouseInputHandle" type="Area3D" parent="."]
 process_mode = 3
 collision_layer = 2
@@ -2942,10 +2942,71 @@ action_description = "Sneak to an enemy to take-him-down"
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("21_sr724")
 
+[node name="CharaHud" type="Node3D" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16513, 0)
+script = ExtResource("21_laepi")
+turnTimer = NodePath("../TurnTimer")
+
+[node name="Control" type="Control" parent="CharaHud"]
+visible = false
+custom_minimum_size = Vector2(100, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 320.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharaHud/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+
+[node name="log" type="VBoxContainer" parent="CharaHud/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Name" type="Button" parent="CharaHud/Control/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_yh77o")
+text = "NAME"
+
+[node name="Control" type="Control" parent="CharaHud/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TurnCounter" type="ProgressBar" parent="CharaHud/Control/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_wsysv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ro2wj")
+show_percentage = false
+
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
 [connection signal="body_entered" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_exited"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 
 [editable path="model/Character3"]
-[editable path="Sprite3D/SubViewport/CharacterHud"]

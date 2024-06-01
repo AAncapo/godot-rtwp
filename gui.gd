@@ -3,9 +3,9 @@ extends Control
 @onready var portraits = %portraits
 @onready var actions = %actions
 @onready var fps = $fps
+@onready var stats_display := %StatsDisplay
 var portrait_tscn = preload("res://gui/portrait.tscn")
 var action_button_tscn = preload("res://gui/action_button.tscn")
-@onready var stats_display := %StatsDisplay
 
 
 func _ready() -> void:
@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func _process(_delta):
-	fps.text = str("fps: ", Engine.get_frames_per_second())
+	fps.text = str(Engine.get_frames_per_second(),"fps")
 	$Paused.visible = get_tree().paused
 
 
@@ -21,7 +21,7 @@ func _on_added_unit(unit):
 	if unit.team == Global.PLAYER_TEAM:
 		var port = portrait_tscn.instantiate()
 		portraits.add_child(port)
-		port.unit = unit
+		port.text = unit.name
 		port.pressed.connect(_on_portrait_pressed.bind(unit))
 		unit.selected.connect(_on_character_selected.bind(unit))
 

@@ -1,54 +1,66 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3x4ahl8l7dad"]
+[gd_scene load_steps=4 format=3 uid="uid://d3x4ahl8l7dad"]
 
 [ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="1_pk0s8"]
 [ext_resource type="PackedScene" uid="uid://cis8tnc05d1wg" path="res://weapons/pistol.tscn" id="2_1em66"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_au8m8"]
+content_margin_left = 4.0
+content_margin_right = 4.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.92549, 0.92549, 0.92549, 1)
+
 [node name="player" instance=ExtResource("1_pk0s8")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.967659, -0.0552)
+bones/0/position = Vector3(0, 0.972433, -0.0552)
 bones/1/scale = Vector3(1, 1, 1)
-bones/2/rotation = Quaternion(-0.0149852, 0, 0, 0.999888)
-bones/3/rotation = Quaternion(0.0434115, 0, 0, 0.999057)
-bones/4/rotation = Quaternion(0.10554, 0, 0, 0.994415)
+bones/2/rotation = Quaternion(-0.0414095, 0, 0, 0.999142)
+bones/3/rotation = Quaternion(0.0259165, 0, 0, 0.999664)
+bones/4/rotation = Quaternion(0.146367, 0, 0, 0.98923)
 bones/4/scale = Vector3(1, 1, 1)
 bones/6/rotation = Quaternion(-0.0937119, 0, 0, 0.995599)
-bones/8/rotation = Quaternion(-0.105945, 0.65784, -0.597362, 0.446297)
+bones/8/rotation = Quaternion(-0.131965, 0.701293, -0.576392, 0.398178)
 bones/8/scale = Vector3(1, 1, 1)
-bones/9/rotation = Quaternion(0.168696, 0.00134494, -0.0375809, 0.984951)
+bones/9/rotation = Quaternion(0.188557, 0.00133972, -0.0420053, 0.981163)
 bones/9/scale = Vector3(1, 1, 1)
 bones/11/rotation = Quaternion(-0.0308468, -0.019378, -0.0821465, 0.995954)
 bones/11/scale = Vector3(1, 1, 1)
 bones/12/rotation = Quaternion(-0.605155, 0.345862, 0.356134, 0.622363)
-bones/13/rotation = Quaternion(-0.143749, -0.733456, 0.488546, 0.450223)
+bones/13/rotation = Quaternion(-0.152401, -0.760378, 0.478878, 0.411431)
 bones/13/scale = Vector3(1, 1, 1)
-bones/14/rotation = Quaternion(0.420648, -0.00123218, 0.0937089, 0.902371)
+bones/14/rotation = Quaternion(0.409086, -0.00123977, 0.0911331, 0.907933)
 bones/14/scale = Vector3(1, 1, 1)
 bones/16/scale = Vector3(1, 1, 1)
 bones/17/rotation = Quaternion(-0.152455, -0.793331, -0.285504, 0.515627)
-bones/18/rotation = Quaternion(0.951173, 0.0402886, -0.134527, 0.274864)
-bones/19/rotation = Quaternion(0.28951, 0.000424421, -0.0279834, 0.956766)
+bones/18/rotation = Quaternion(0.951636, 0.0401717, -0.134397, 0.273335)
+bones/19/rotation = Quaternion(0.285262, 0.000425009, -0.0275728, 0.958053)
 bones/19/scale = Vector3(1, 1, 1)
-bones/20/rotation = Quaternion(-0.616277, -0.0892751, 0.0489603, 0.78092)
+bones/20/rotation = Quaternion(-0.611166, -0.0883625, 0.0506824, 0.78492)
 bones/20/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(0.681657, 0.681657, -0.187999, 0.187999)
 bones/22/scale = Vector3(1, 1, 1)
 bones/23/rotation = Quaternion(-0.152455, 0.793331, 0.285504, 0.515627)
-bones/24/rotation = Quaternion(0.964159, -0.0440807, 0.130492, 0.226773)
-bones/25/rotation = Quaternion(0.276452, -0.000426153, 0.0267212, 0.960656)
+bones/24/rotation = Quaternion(0.967089, -0.0426564, 0.131594, 0.213546)
+bones/25/rotation = Quaternion(0.24606, -0.000429844, 0.0237837, 0.968963)
 bones/25/scale = Vector3(1, 1, 1)
-bones/26/rotation = Quaternion(-0.644352, 0.087298, -0.054767, 0.757753)
+bones/26/rotation = Quaternion(-0.629601, 0.0972567, -0.0583521, 0.768595)
 bones/26/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(0.681657, -0.681657, 0.187999, 0.187999)
 bones/28/scale = Vector3(1, 1, 1)
 
 [node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.908956, 0.0831395, 0.408518, 0.180458, -0.804886, 0.565325, 0.375812, 0.587576, 0.716603, -0.378413, 1.08102, 0.125143)
+transform = Transform3D(-0.908713, 0.104607, 0.404101, 0.153377, -0.816694, 0.556315, 0.388221, 0.56751, 0.726097, -0.366331, 1.08044, 0.103091)
 
 [node name="Pistol" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="1" instance=ExtResource("2_1em66")]
 
 [node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@48956")
+blackboard = NodePath("@Node@61053")
+
+[node name="Name" parent="CharaHud/Control/VBoxContainer" index="1"]
+theme_override_styles/normal = SubResource("StyleBoxFlat_au8m8")
 
 [editable path="model/Character3"]
-[editable path="Sprite3D/SubViewport/CharacterHud"]

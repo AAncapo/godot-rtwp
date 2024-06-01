@@ -1,8 +1,5 @@
 class_name Stats extends Node
 
-#signal wound_state_updated(new_ws)
-#signal died
-#signal stunned
 
 const BODY_TYPES := {
 	#TYPE         : BTModf   
@@ -59,8 +56,6 @@ var btm:int  #Body Type Modifier. subtract from any damage taken
 var current_wound_state:String:  #WOUND_STATE key
 	set(value):
 		current_wound_state = value
-		print(owner.name," wound state: ", current_wound_state)
-		#wound_state_updated.emit(current_wound_state)
 var ws_lvl := 0:  #WS levels go from 1-4, update state at 5
 	set(value):
 		ws_lvl = value
@@ -76,8 +71,6 @@ var ws_lvl := 0:  #WS levels go from 1-4, update state at 5
 		
 		stun_penal_modf = WOUND_STATES[current_wound_state][0]
 		death_penal_modf = WOUND_STATES[current_wound_state][1]
-		#print("current stun save: ",stun_save_modf)
-		#print("current death save: ",death_save_modf)
 
 var death_penal_modf := 0 
 var stun_penal_modf := 0
@@ -85,18 +78,30 @@ var stun_penal_modf := 0
 var at_death_door := false:  #true if death saves are required
 	set(value):
 		at_death_door = value
-		if at_death_door: print(owner.name, " is at DEATH'S DOOR")
+		if at_death_door: 
+			owner.msg(Global.POPUP_NOTIF.DEATH_DOOR)
+			owner.current_state = Character.DOWNED
+		else:
+			owner.current_state = owner.previous_state
 var is_stunned := false:
 	set(value):
 		is_stunned=value
-		if is_stunned: print(owner.name, " is STUN")
-		else: print(owner.name, " recovered from STUN")
+		if is_stunned: 
+			owner.end_turn()
+			owner.msg(Global.POPUP_NOTIF.STUN)
+			owner.current_state = Character.DOWNED
+			print("stun save failed")
+		else:
+			print("stun save succeed")
+			owner.msg(Global.POPUP_NOTIF.STUN,'',true)
+			owner.current_state = owner.previous_state
 var is_dead := false
 
 var total_dmg := 0
 
 
-func calc_damage(atk:Attack):
+func calc_damage(atk:Attack) -> Dictionary:
+	var damage_status = { text="",amount=0}
 	var dmg = atk.damage
 	
 	##get hit location
@@ -104,10 +109,11 @@ func calc_damage(atk:Attack):
 	for bp in BODY_PARTS:
 		if (bp.location_id).has(hit_loc):
 			#TODO: substract the sp of the body part to the dmg
-			#TODO: double damage if HEAD
+			damage_status.text = bp.label
+			#double damage if hit HEAD
 			if bp.label == "HEAD":
+				damage_status.text = "HEADSHOT"
 				dmg *= 2
-			print(atk.target.name," was hit in ",bp.label,". -",dmg," DMG")
 	
 	dmg -= btm  ##substract BTM
 	total_dmg += dmg
@@ -119,10 +125,14 @@ func calc_damage(atk:Attack):
 	if at_death_door: 
 		if !Fnff.save_roll(self, Fnff.DEATH_SAVE):
 			Global.unit_died.emit(owner)
-			return
+			damage_status.amount = dmg
+			return damage_status
 	
-	if stun_penal_modf > 0: 
+	if stun_penal_modf > 0 and !is_stunned: 
 		is_stunned = !Fnff.save_roll(self, Fnff.STUN_SAVE)
+	
+	damage_status.amount = dmg
+	return damage_status
 
 
 func gen_stats(intl,ref,cl,tch,lk,att,ma,emp,bod) -> void:
@@ -152,10 +162,10 @@ func get_stats_dictionary():
 var BODY_PARTS = [
 	BodyPart.new("HEAD",[1]),
 	BodyPart.new("TORSO", [2,3,4]),
-	BodyPart.new("ARM_RIGHT", [5]),
-	BodyPart.new("ARM_LEFT", [6]),
-	BodyPart.new("LEG_RIGHT", [7,8]),
-	BodyPart.new("LEG_LEFT", [9,10])
+	BodyPart.new("RIGHT_ARM", [5]),
+	BodyPart.new("LEFT_ARM", [6]),
+	BodyPart.new("RIGHT_LEG", [7,8]),
+	BodyPart.new("LEFT_LEG", [9,10])
 	]
 
 

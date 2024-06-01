@@ -7,7 +7,6 @@ signal detected(detected_by)
 @onready var weapons = %Weapon1
 @onready var crosshair:RayCast3D = $crosshair
 @onready var ttimer:Timer = $TurnTimer
-@onready var headsUp = %CharacterHud
 @onready var actions = $Actions
 @onready var stats := $Stats
 
@@ -22,6 +21,7 @@ var next_action:float = 2.0:
 enum { DEAD = -1, NORMAL, STEALTH, ALERT, WORKING, COMBAT, DOWNED, SLEEP } 
 var current_state = NORMAL:
 	set(value):
+		if value == current_state: return
 		previous_state = current_state
 		current_state = value
 		
@@ -31,10 +31,6 @@ var current_state = NORMAL:
 		anim.motion_y = current_state
 		#print(self.name," state changed to ", current_state)
 var previous_state = NORMAL
-@export var max_health:float = 10.0
-var health:float = max_health:
-	set(val):
-		health = val
 @export var starting_wpn:int=0
 var equipped_wpn:Weapon:
 	set(value):
@@ -87,10 +83,6 @@ func _ready() -> void:
 	Global.unit_died.connect(_on_unit_died)
 	current_state = NORMAL
 	
-	health = max_health
-	
-	$Sprite3D.texture = %SubViewport.get_texture()
-	
 	end_turn()
 	find_job() #iduno maybe find job while in turn can cause problem
 	
@@ -100,7 +92,7 @@ func _ready() -> void:
 	equip(weapons.get_child(1))
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	is_moving = target_vec and is_turn
 	if is_moving:
 		var dir = Vector3()
@@ -131,7 +123,6 @@ func _on_turn_started():
 	if stats.is_stunned:
 		var saved = Fnff.save_roll(stats, Fnff.STUN_SAVE)
 		stats.is_stunned = !saved
-		if !saved: end_turn()
 
 
 func end_turn():
@@ -145,14 +136,14 @@ func rotate_to(_target:Vector3, rotation_speed:float = .2):
 	self.transform = self.transform.interpolate_with(new_transform, rotation_speed)
 
 
-func check_visibility(target):
+func check_visibility(_target):
 	var vcheck:RayCast3D = %VisibilityChecker
-	vcheck.look_at(target.global_position)
-	var len = (target.global_position - self.global_position).length()
-	vcheck.target_position.z = -len * 1.2
-	vcheck.target_position.y = target.scale.y/2
+	vcheck.look_at(_target.global_position)
+	var length = (_target.global_position - self.global_position).length()
+	vcheck.target_position.z = -length * 1.2
+	vcheck.target_position.y = _target.scale.y/2
 	vcheck.force_raycast_update()  # doesnt need to be enabled for this to work
-	return vcheck.get_collider() == target
+	return vcheck.get_collider() == _target
 
 
 func equip(new_wpn:Weapon):
@@ -167,7 +158,6 @@ func equip(new_wpn:Weapon):
 		if w == new_wpn:
 			w.visible = true
 			equipped_wpn = w
-			headsUp.create_msg(new_wpn.name_)
 		else:
 			w.visible = false
 	
@@ -182,9 +172,16 @@ func execute_action():
 
 func attack(_target):
 	var atk = Attack.new(self, _target, equipped_wpn)
-	var is_hit:bool = atk.calc_hit_chance()
-	if is_hit: _target.take_damage(atk)
-	else: print("failed hit")
+	atk.calc_hit_chance()
+	match atk.result:
+		Attack.FAILED:
+			msg(Global.POPUP_NOTIF.NORMAL,"Failed")
+		Attack.FUMBLED:
+			msg(Global.POPUP_NOTIF.NORMAL,"Fumbled")
+		Attack.MISSED:
+			msg(Global.POPUP_NOTIF.NORMAL,"Miss")
+		Attack.SUCCEED:
+			_target.take_damage(atk)
 
 
 func take_damage(atk:Attack):
@@ -194,7 +191,9 @@ func take_damage(atk:Attack):
 			end_turn()
 			target_unit = atk.actor
 			#target_vec = atk.actor.global_position
-	stats.calc_damage(atk)
+	var dmg = stats.calc_damage(atk)
+	msg(Global.POPUP_NOTIF.NORMAL,str("-",dmg.amount))
+	#TODO: display status in log
 
 
 func choke():
@@ -202,7 +201,6 @@ func choke():
 
 func get_choked(die:bool):
 	anim.get_choked(die)
-
 
 func set_unconsious():
 	print(self.name, " is unconsious")
@@ -235,7 +233,7 @@ func _on_nav_target_reached() -> void:
 
 func _on_detected(detected_by:Character) -> void:
 	if current_state == STEALTH: current_state = ALERT
-	headsUp.create_msg(str("DETECTED by ",detected_by.name))
+	msg(Global.POPUP_NOTIF.NORMAL,"DETECTED")
 
 
 func find_job():
@@ -255,3 +253,13 @@ func find_job():
 					return
 			#no patrol path found
 			assigned_job = Assignment.NONE
+
+
+func msg(pop, text="",remove=false):
+	%CharaHud.add_notification(pop,text,remove)
+
+
+func disable():
+	$BeehaveTree.enabled = false
+	%CharaHud.clear_notifications()
+	process_mode = Node.PROCESS_MODE_DISABLED

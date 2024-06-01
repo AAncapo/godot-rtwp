@@ -4,6 +4,11 @@ const UNIT_GROUP = "units"
 const ITEM_GROUP = "items"
 const PLAYER_TEAM = 0
 const ENEMY_TEAM = 1
+const POPUP_NOTIF = {
+	NORMAL     = { text="", fsize=10, fcolor=Color.WHITE_SMOKE, auto_fade=true },
+	DEATH_DOOR = { text="DEATH DOOR", fsize=15, fcolor=Color.RED, auto_fade=false },
+	STUN       = { text="STUN", fsize=15, fcolor=Color.DARK_GRAY, auto_fade=false },
+	}
 
 var player_units:Array = []
 var enemy_units:Array = []

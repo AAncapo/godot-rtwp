@@ -53,12 +53,12 @@ func _on_animation_finished(anim_name: StringName) -> void:
 	match anim_name:
 		"Character4/choked":
 			if die_after_choked:
-				get_parent().take_damage(get_parent().health)
+				die()
 				return
 			printerr("Choked animation finished but no unconscious animation is set")
 		
 		"Character4/death":
-			owner.process_mode = Node.PROCESS_MODE_DISABLED
+			owner.disable()
 
 
 func request_oneshot(blend_amount:int):

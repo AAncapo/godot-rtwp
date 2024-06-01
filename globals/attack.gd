@@ -5,6 +5,9 @@ var target
 var wpn
 var damage:float
 
+enum { FAILED, FUMBLED, MISSED, SUCCEED }
+var result := Attack.SUCCEED
+
 
 func _init(_actor, _target, _wpn) -> void:
 	actor = _actor
@@ -13,11 +16,18 @@ func _init(_actor, _target, _wpn) -> void:
 	damage = _wpn.damage
 
 
-func calc_hit_chance() -> bool:
-	# result has to be higher than this num to hit
-	var to_hit_num := get_toHit_number()
+func calc_hit_chance():
+	var to_hit_num := get_toHit_number() #CP2020: result must be higher/equal to hit
 	
-	## Applying modifiers ##
+	## ROLL ##
+	var res = Fnff.roll(1,10)
+	if res == 1: #CP2020: if 'AUTOMATIC FAILURE' roll 1d10 to see what happens
+		get_fumble_result()
+		return
+	if res == 10: #CP2020: if 'CRITICAL SUCCESS' roll another 1d10 & add to prev roll 
+		res += Fnff.roll(1,10)
+	
+	## APPLY TO HIT MODIFIERS ##
 	var hit_modifier := 0
 	if !target.is_moving: hit_modifier += 4  #target immobile
 	if target.is_moving:  #target mobile
@@ -26,25 +36,17 @@ func calc_hit_chance() -> bool:
 		if target.stats.REFLEX > 12: m = 4
 		if target.stats.REFLEX > 14: m = 5
 		hit_modifier -= m
-	
-	## ROLL ##
-	var res = Fnff.roll(1,10)
-	if res == 1:  #CP2020: if 'AUTOMATIC FAILURE' roll 1d10 to see what happens
-		print(actor.name," rolls AUTOMATIC FAILURE! (hit chance)")
-		get_fumble_result()
-		return false
-	if res == 10:  #CP2020: if 'CRITICAL SUCCESS' roll another 1d10 & add to prev roll 
-		print(actor.name," rolls CRITICAL SUCCESS! (hit chance)")
-		res += Fnff.roll(1,10)
+	if target.current_state != Character.ALERT: #ambush
+		#TODO: cambiar a actor isnt detected
+		hit_modifier += 5
 	
 	actor.equipped_wpn.attack()  #play atk animation & sfx & projectile...
 	
 	var reflex = actor.stats.REFLEX
 	var wpn_skill = 0
-	
 	var roll_to_hit = res + reflex + wpn_skill + wpn.accuracy + hit_modifier
 	#print(actor.name," TO HIT: ",to_hit_num," -  RESULT: ",roll_to_hit)
-	return roll_to_hit >= to_hit_num
+	result = Attack.SUCCEED if roll_to_hit >= to_hit_num else Attack.MISSED
 
 
 func get_toHit_number() -> int:
@@ -69,4 +71,5 @@ func get_toHit_number() -> int:
 
 
 func get_fumble_result():
-	Fnff.roll(1,10)
+	var fumble = Fnff.roll(1,10)
+	result = Attack.FAILED if fumble <= 4 else Attack.FUMBLED
