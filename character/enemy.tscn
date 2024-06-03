@@ -17,37 +17,36 @@ border_width_bottom = 1
 border_color = Color(0.92549, 0.92549, 0.92549, 1)
 
 [node name="enemy" instance=ExtResource("1_uyefs")]
-walk_speed = 2.0
 starting_wpn = 1
-assigned_job = 1
+assignment = 1
 team = 1
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.96924, -0.0552)
-bones/2/rotation = Quaternion(-0.0258642, 0, 0, 0.999666)
-bones/3/rotation = Quaternion(0.0363726, 0, 0, 0.999338)
-bones/4/rotation = Quaternion(0.122363, 0, 0, 0.992485)
-bones/8/rotation = Quaternion(-0.11715, 0.676209, -0.588803, 0.426998)
-bones/9/rotation = Quaternion(0.177229, 0.00134278, -0.0394818, 0.983377)
-bones/13/rotation = Quaternion(-0.147407, -0.744629, 0.484828, 0.434442)
-bones/14/rotation = Quaternion(0.415891, -0.00123533, 0.0926492, 0.904682)
-bones/18/rotation = Quaternion(0.951241, 0.0402712, -0.134508, 0.274638)
-bones/19/rotation = Quaternion(0.288112, 0.000424617, -0.0278483, 0.957192)
-bones/20/rotation = Quaternion(-0.614751, -0.0890058, 0.0494776, 0.78212)
-bones/24/rotation = Quaternion(0.965242, -0.0435526, 0.130899, 0.221984)
-bones/25/rotation = Quaternion(0.264385, -0.00042767, 0.025555, 0.964079)
-bones/26/rotation = Quaternion(-0.638514, 0.0912672, -0.0561971, 0.76211)
+bones/0/position = Vector3(0, 0.970517, -0.0552)
+bones/2/rotation = Quaternion(-0.0320918, 0, 0, 0.999485)
+bones/3/rotation = Quaternion(0.0321849, 0, 0, 0.999482)
+bones/4/rotation = Quaternion(0.131985, 0, 0, 0.991252)
+bones/8/rotation = Quaternion(-0.123245, 0.686418, -0.583861, 0.415628)
+bones/9/rotation = Quaternion(0.181964, 0.00134153, -0.0405367, 0.982468)
+bones/13/rotation = Quaternion(-0.149441, -0.750969, 0.482535, 0.425292)
+bones/14/rotation = Quaternion(0.413057, -0.00123717, 0.0920178, 0.906044)
+bones/18/rotation = Quaternion(0.951392, 0.0402331, -0.134465, 0.274141)
+bones/19/rotation = Quaternion(0.286976, 0.00042477, -0.0277385, 0.957536)
+bones/20/rotation = Quaternion(-0.613258, -0.0887384, 0.0499801, 0.783289)
+bones/24/rotation = Quaternion(0.965975, -0.0431963, 0.131175, 0.218678)
+bones/25/rotation = Quaternion(0.257204, -0.000428551, 0.0248609, 0.966037)
+bones/26/rotation = Quaternion(-0.634957, 0.0936679, -0.0570614, 0.764722)
 
 [node name="base_character_model" parent="model/Character3/metarig/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_k2pqf")
 
 [node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.909209, 0.0920096, 0.406045, 0.168958, -0.809815, 0.56183, 0.380516, 0.579425, 0.720746, -0.373326, 1.08043, 0.116089)
+transform = Transform3D(-0.909149, 0.0969237, 0.405036, 0.162666, -0.812652, 0.559587, 0.38339, 0.574633, 0.723055, -0.370522, 1.08043, 0.110883)
 
 [node name="Pistol" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="1" instance=ExtResource("2_ajahe")]
 
 [node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@66058")
+blackboard = NodePath("@Node@24676")
 
 [node name="Name" parent="CharaHud/Control/VBoxContainer" index="1"]
 theme_override_styles/normal = SubResource("StyleBoxFlat_ifkd6")

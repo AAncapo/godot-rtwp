@@ -17,21 +17,20 @@ var next_action:float = 2.0:
 		next_action = max(val, 0)
 		ttimer.wait_time = next_action
 
-@export var visibility_range:float = 10.0
-@export var walk_speed:float = 1.5
-enum { DEAD = -1, NORMAL, STEALTH, ALERT, WORKING, COMBAT, DOWNED, SLEEP } 
-var current_state = NORMAL:
+enum State { DOWNED = -1, IDLE=0, WORKING=0, ALERT=1, COMBAT }
+var current_state = State.IDLE:
 	set(value):
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
-		
-		#TODO: placeholder code to tell the takedown action when is available
-		actions.get_child(2).set_available.emit(current_state == STEALTH)
-		
-		anim.motion_y = current_state
+		anim.motion_y = current_state #TODO change this to a match
 		print(self.name," state changed to ", current_state)
-var previous_state = NORMAL
+var previous_state
+var stealth_on:bool = false:
+	set(value):
+		stealth_on=value
+		actions.get_child(2).set_available.emit(stealth_on)
+
 @export var starting_wpn:int=0
 var equipped_wpn:Weapon:
 	set(value):
@@ -52,8 +51,8 @@ var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-		if !target_unit and current_state != STEALTH:
-			current_state = NORMAL
+		if !target_unit and !stealth_on:
+			current_state = State.IDLE
 		if !target_unit: anim.aim(false)
 var is_moving:bool:
 	set(value):
@@ -83,10 +82,9 @@ func _ready() -> void:
 	next_action = 2
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
-	current_state = NORMAL
+	current_state = State.IDLE
 	
 	end_turn()
-	#find_job() #iduno maybe find job while in turn can cause problem
 	
 	for a in actions.get_children():
 		a.actor = self
@@ -98,7 +96,7 @@ func _physics_process(_delta: float) -> void:
 	if is_moving:
 		var dir = Vector3()
 		dir = (nav.get_next_path_position() - self.global_position).normalized()
-		velocity = dir * walk_speed
+		velocity = dir * stats.walk_speed
 		move_and_slide()
 		rotate_to(nav.get_next_path_position())
 	
@@ -205,7 +203,7 @@ func get_choked(die:bool):
 
 func set_unconsious():
 	print(self.name, " is unconsious")
-	current_state = SLEEP
+	current_state = State.DOWNED
 	process_mode = Node.PROCESS_MODE_DISABLED
 
 
@@ -213,7 +211,6 @@ func _on_unit_died(unit):
 	if unit == self: 
 		stats.is_dead = true
 		anim.die()
-		current_state = DEAD
 		print(self.name, " died")
 	
 	if target_unit == unit:
@@ -233,7 +230,7 @@ func _on_nav_target_reached() -> void:
 
 
 func _on_detected(detected_by:Character) -> void:
-	if current_state == STEALTH: current_state = ALERT
+	if stealth_on: stealth_on = false
 	msg(Global.POPUP_NOTIF.NORMAL,"DETECTED")
 
 

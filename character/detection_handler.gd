@@ -10,7 +10,7 @@ var enemies_in_area = []
 func _ready() -> void:
 	await get_parent().ready
 	actor = get_parent()
-	gen_fov(actor.visibility_range * .8)
+	gen_fov(actor.stats.visibility_range * .8)
 	enable_fov(false)
 
 
@@ -24,8 +24,8 @@ func _physics_process(delta: float) -> void:
 			# Calling allies in the area
 			var allies = get_units_in_area(0)
 			for a in allies:
-				if a.current_state != Character.ALERT and !a.target_unit:
-					a.current_state = Character.ALERT
+				if a.current_state != a.State.ALERT and !a.target_unit:
+					a.current_state = a.State.ALERT
 					a.target_vec = collider.global_position
 	
 	#TODO: only start counter when detects movement

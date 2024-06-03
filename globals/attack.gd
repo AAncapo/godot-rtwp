@@ -36,7 +36,7 @@ func calc_hit_chance():
 		if target.stats.REFLEX > 12: m = 4
 		if target.stats.REFLEX > 14: m = 5
 		hit_modifier -= m
-	if target.current_state != Character.ALERT: #ambush
+	if target.current_state != Character.State.ALERT: #ambush
 		#TODO: cambiar a actor isnt detected
 		hit_modifier += 5
 	

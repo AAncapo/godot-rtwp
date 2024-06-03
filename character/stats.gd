@@ -50,6 +50,9 @@ const WOUND_STATES := {
 		if value == 10: bt = 4
 		body_type = BODY_TYPES.keys()[bt]
 
+@export var visibility_range:float = 10.0
+@export var walk_speed:float = 1.5
+
 @export var skills = {}
 
 var body_type:String: #BODY_TYPE key
@@ -86,7 +89,7 @@ var at_death_door := false:  #true if death saves are required
 		at_death_door = value
 		if at_death_door: 
 			owner.msg(Global.POPUP_NOTIF.DEATH_DOOR)
-			owner.current_state = Character.DOWNED
+			owner.current_state = owner.State.DOWNED
 		else:
 			owner.current_state = owner.previous_state
 var is_stunned := false:
@@ -94,7 +97,7 @@ var is_stunned := false:
 		is_stunned=value
 		if is_stunned: 
 			owner.msg(Global.POPUP_NOTIF.STUN)
-			owner.current_state = Character.DOWNED
+			owner.current_state = owner.State.DOWNED
 		else:
 			owner.msg(Global.POPUP_NOTIF.STUN,'',true)
 			owner.current_state = owner.previous_state

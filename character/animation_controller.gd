@@ -1,5 +1,8 @@
 class_name AnimationController extends AnimationTree
 
+enum MotionState { DOWNED = -1, NORMAL, CROUCH, INJURED }
+var motion_state = MotionState.NORMAL
+
 var motion_y:int:
 	set(val):
 		motion_y = val

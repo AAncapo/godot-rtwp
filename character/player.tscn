@@ -17,54 +17,55 @@ border_color = Color(0.92549, 0.92549, 0.92549, 1)
 [node name="player" instance=ExtResource("1_pk0s8")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.972557, -0.0552)
+bones/0/position = Vector3(0, 0.970914, -0.0552)
 bones/1/scale = Vector3(1, 1, 1)
-bones/2/rotation = Quaternion(-0.0420303, 0, 0, 0.999116)
-bones/3/rotation = Quaternion(0.0254974, 0, 0, 0.999675)
-bones/4/rotation = Quaternion(0.147328, 0, 0, 0.989088)
+bones/2/rotation = Quaternion(-0.0340696, 0, 0, 0.99942)
+bones/3/rotation = Quaternion(0.0308547, 0, 0, 0.999524)
+bones/4/rotation = Quaternion(0.135039, 0, 0, 0.99084)
 bones/4/scale = Vector3(1, 1, 1)
 bones/6/rotation = Quaternion(-0.0937119, 0, 0, 0.995599)
-bones/8/rotation = Quaternion(-0.13252, 0.702271, -0.575897, 0.396985)
+bones/8/rotation = Quaternion(-0.125139, 0.689615, -0.582281, 0.411971)
 bones/8/scale = Vector3(1, 1, 1)
-bones/9/rotation = Quaternion(0.18897, 0.00133961, -0.0420974, 0.981079)
+bones/9/rotation = Quaternion(0.183415, 0.00134114, -0.0408599, 0.982185)
 bones/9/scale = Vector3(1, 1, 1)
 bones/11/rotation = Quaternion(-0.0308468, -0.019378, -0.0821465, 0.995954)
 bones/11/scale = Vector3(1, 1, 1)
 bones/12/rotation = Quaternion(-0.605155, 0.345862, 0.356134, 0.622363)
-bones/13/rotation = Quaternion(-0.152592, -0.761008, 0.478619, 0.410496)
+bones/13/rotation = Quaternion(-0.150079, -0.752972, 0.481782, 0.422368)
 bones/13/scale = Vector3(1, 1, 1)
-bones/14/rotation = Quaternion(0.408838, -0.00123993, 0.091078, 0.90805)
+bones/14/rotation = Quaternion(0.412183, -0.00123774, 0.0918233, 0.906461)
 bones/14/scale = Vector3(1, 1, 1)
 bones/16/scale = Vector3(1, 1, 1)
 bones/17/rotation = Quaternion(-0.152455, -0.793331, -0.285504, 0.515627)
-bones/18/rotation = Quaternion(0.951652, 0.0401678, -0.134393, 0.273284)
-bones/19/rotation = Quaternion(0.28515, 0.000425025, -0.027562, 0.958086)
+bones/18/rotation = Quaternion(0.951446, 0.0402195, -0.13445, 0.273962)
+bones/19/rotation = Quaternion(0.286622, 0.000424818, -0.0277043, 0.957643)
 bones/19/scale = Vector3(1, 1, 1)
-bones/20/rotation = Quaternion(-0.611032, -0.0883385, 0.0507273, 0.785024)
+bones/20/rotation = Quaternion(-0.612795, -0.0886552, 0.0501357, 0.783651)
 bones/20/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(0.681657, 0.681657, -0.187999, 0.187999)
 bones/22/scale = Vector3(1, 1, 1)
 bones/23/rotation = Quaternion(-0.152455, 0.793331, 0.285504, 0.515627)
-bones/24/rotation = Quaternion(0.967167, -0.0426201, 0.131623, 0.213184)
-bones/25/rotation = Quaternion(0.245288, -0.000429931, 0.023709, 0.96916)
+bones/24/rotation = Quaternion(0.966209, -0.0430824, 0.131263, 0.217609)
+bones/25/rotation = Quaternion(0.254884, -0.000428825, 0.0246366, 0.966658)
 bones/25/scale = Vector3(1, 1, 1)
-bones/26/rotation = Quaternion(-0.629242, 0.0974964, -0.0584382, 0.768853)
+bones/26/rotation = Quaternion(-0.633823, 0.09443, -0.0573356, 0.765548)
 bones/26/scale = Vector3(1, 1, 1)
 bones/28/rotation = Quaternion(0.681657, -0.681657, 0.187999, 0.187999)
 bones/28/scale = Vector3(1, 1, 1)
 
 [node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.908665, 0.105139, 0.404072, 0.152762, -0.816957, 0.556098, 0.388577, 0.567034, 0.726278, -0.366053, 1.08043, 0.102569)
+transform = Transform3D(-0.909093, 0.0985174, 0.404776, 0.160682, -0.813531, 0.558882, 0.384357, 0.573116, 0.723746, -0.369632, 1.08042, 0.109229)
 
 [node name="Pistol" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" index="1" instance=ExtResource("2_1em66")]
 
 [node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@44748")
+blackboard = NodePath("@Node@29700")
 
 [node name="Stats" parent="." index="10"]
 name_ = "Vincent"
 alias = "V"
 portrait_image = ExtResource("3_gvdhs")
+walk_speed = 5.0
 
 [node name="Name" parent="CharaHud/Control/VBoxContainer" index="1"]
 theme_override_styles/normal = SubResource("StyleBoxFlat_au8m8")
