@@ -2,15 +2,16 @@ class_name Weapon extends Node3D
 
 #enum Availability { EXCL, COMM, POOR, RARE }
 #@export var avail = Availability.EXCL
+@export var icon:Texture2D
 @export var name_:String
-enum Type { NONE = -1, MELEE, PISTOL, RIFLE, SMG, SHTG, HVY }
+enum Type { NONE = -1, MELEE, HANDGUN, RIFLE, SMG, SHTG, HVY }
 @export var type = Type.NONE
 func get_type():
 	return Type.keys()[type]
 @export var accuracy:int = 0 #weapon accuracy
 @export var clip_size:int = 0
 @export var rof:int = 1  #firerate (shots per turn)
-enum Rel { VR, ST, UR, NA }  #reliability (VeryReliabl, Standard, Unreliabl)
+enum Rel { NA, VR, ST, UR }  #reliability (VeryReliabl, Standard, Unreliabl)
 @export var reliabl:Rel
 @export var range_:float = 1
 

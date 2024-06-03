@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=70 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
@@ -19,8 +19,10 @@
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
 [ext_resource type="PackedScene" uid="uid://fg2c2ryioegl" path="res://character/actions/stealth_takedown.tscn" id="16_cvwkp"]
 [ext_resource type="PackedScene" uid="uid://bofr3crmdqnkr" path="res://character/actions/stealth_toggle.tscn" id="16_qlfo2"]
+[ext_resource type="Texture2D" uid="uid://44ls5qxe7420" path="res://gui/icons/lethal.png" id="20_w2vo2"]
 [ext_resource type="Script" path="res://character/chara_hud.gd" id="21_laepi"]
 [ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
+[ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 
@@ -2785,31 +2787,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.975543, -0.0552)
+bones/0/position = Vector3(0, 0.967468, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0566611, 0, 0, 0.998393)
-bones/3/rotation = Quaternion(0.015651, 0, 0, 0.999878)
-bones/4/rotation = Quaternion(0.16985, 0, 0, 0.98547)
+bones/2/rotation = Quaternion(-0.0167282, 0, 0, 0.99986)
+bones/3/rotation = Quaternion(0.0425147, 0, 0, 0.999096)
+bones/4/rotation = Quaternion(0.108237, 0, 0, 0.994125)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(-0.145172, 0.724627, -0.564012, 0.368417)
-bones/9/rotation = Quaternion(0.198215, 0.00133703, -0.0441568, 0.979163)
+bones/8/rotation = Quaternion(-0.107791, 0.66083, -0.595996, 0.443253)
+bones/9/rotation = Quaternion(0.169697, 0.00134468, -0.0378039, 0.98477)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.157001, -0.775607, 0.472284, 0.388243)
-bones/14/rotation = Quaternion(0.403426, -0.00124338, 0.0898724, 0.910587)
+bones/13/rotation = Quaternion(-0.144344, -0.735255, 0.487975, 0.447711)
+bones/14/rotation = Quaternion(0.420305, -0.00123239, 0.0936325, 0.902538)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/18/rotation = Quaternion(0.952027, 0.0400737, -0.134289, 0.272039)
-bones/19/rotation = Quaternion(0.282461, 0.000425372, -0.0273021, 0.95889)
-bones/20/rotation = Quaternion(-0.607721, -0.0877338, 0.0518295, 0.787586)
+bones/18/rotation = Quaternion(0.951057, 0.0403177, -0.134559, 0.275243)
+bones/19/rotation = Quaternion(0.289679, 0.000424394, -0.0279998, 0.956714)
+bones/20/rotation = Quaternion(-0.616831, -0.0893724, 0.0487721, 0.780483)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.968966, -0.0417572, 0.132296, 0.204597)
-bones/25/rotation = Quaternion(0.226508, -0.000431939, 0.0218938, 0.973763)
-bones/26/rotation = Quaternion(-0.620753, 0.10312, -0.060458, 0.77484)
+bones/24/rotation = Quaternion(0.964208, -0.0440567, 0.130511, 0.226557)
+bones/25/rotation = Quaternion(0.274557, -0.000426393, 0.0265382, 0.961204)
+bones/26/rotation = Quaternion(-0.643703, 0.0877412, -0.0549268, 0.758242)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.907045, 0.118194, 0.404102, 0.13843, -0.822709, 0.55135, 0.397625, 0.556039, 0.729873, -0.35946, 1.08042, 0.090338)
+transform = Transform3D(-0.908965, 0.0851311, 0.408087, 0.178313, -0.805455, 0.565196, 0.376811, 0.586511, 0.71695, -0.377439, 1.08053, 0.123725)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2929,14 +2931,19 @@ surface_material_override/0 = SubResource("StandardMaterial3D_pqcnk")
 [node name="Actions" type="Node" parent="."]
 
 [node name="Default" parent="Actions" instance=ExtResource("15_c2sng")]
-action_name = "Basic Attack"
+action_name = "Attack"
 action_description = "Attack with your equipped weapons"
+range_ = null
+options = null
+is_available = null
 
 [node name="Stealth" parent="Actions" instance=ExtResource("16_qlfo2")]
 action_name = "Stealth"
 action_description = "Enter or exit stealth mode"
 
-[node name="StealthTakedown" parent="Actions" instance=ExtResource("16_cvwkp")]
+[node name="Takedown" parent="Actions" instance=ExtResource("16_cvwkp")]
+icon = ExtResource("20_w2vo2")
+action_name = "Takedown"
 action_description = "Sneak to an enemy to take-him-down"
 
 [node name="Stats" type="Node" parent="."]
@@ -2950,7 +2957,6 @@ script = ExtResource("21_laepi")
 turnTimer = NodePath("../TurnTimer")
 
 [node name="Control" type="Control" parent="CharaHud"]
-visible = false
 custom_minimum_size = Vector2(100, 320)
 layout_mode = 3
 anchors_preset = 0
@@ -2983,6 +2989,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("23_reer0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_yh77o")
 text = "NAME"
 

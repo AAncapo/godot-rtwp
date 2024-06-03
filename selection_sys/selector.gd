@@ -6,8 +6,8 @@ const RAY_LENGTH = 1000
 
 
 func _ready():
-	Global.gui_select_unit.connect(_on_gui_select_unit)
-	#GameEvents.focus_world_object.connect(__on_unit_selected)
+	#TODO: GameEvents.focus_world_object.connect(__on_unit_selected)
+	pass
 
 
 func _unhandled_input(ev):
@@ -16,7 +16,8 @@ func _unhandled_input(ev):
 		if ev.is_action_pressed("right_click"):
 			command_selected_units(m_pos)
 		if ev.is_action_released("left_click"):
-			deselect_all_units()
+			Global.deselect_all_units()
+			#TODO: add await deselect_all before continue (?)
 			select_units(m_pos)
 
 
@@ -28,7 +29,7 @@ func command_selected_units(m_pos:Vector2):
 func select_units(m_pos):
 	var new_selected_units = []
 	var box = selection_box.get_generated_box()
-	if !box: #if single click the box will not me big enough to work
+	if !box: #if single click the box will not be big enough to work
 		var u = get_unit_under_mouse(m_pos)
 		if u != null:
 			new_selected_units.append(u)
@@ -38,16 +39,8 @@ func select_units(m_pos):
 				new_selected_units.append(unit)
 	
 	if new_selected_units.size() != 0:
-		deselect_all_units()
 		for unit in new_selected_units:
-			unit.selected.emit(true)
-		Global.selected_units = new_selected_units
-
-
-func deselect_all_units():
-	for unit in Global.selected_units:
-		unit.selected.emit(false)
-	Global.selected_units.clear()
+			Global.unit_selected.emit(unit)
 
 
 func get_unit_under_mouse(m_pos):
@@ -62,15 +55,3 @@ func raycast_from_mouse(m_pos, _collision_mask = null):
 	var space_state = cam.get_world_3d().direct_space_state
 	var params = PhysicsRayQueryParameters3D.create(ray_start,ray_end)
 	return space_state.intersect_ray(params)
-
-
-func _on_gui_select_unit(unit):
-	if not Global.selected_units.has(unit):
-		unit.selected.emit(true)
-		Global.selected_units.append(unit)
-
-## callback for selecting units using elements outside the SelectionSystem node tools (e.g. character portraits)
-func __on_unit_selected(unit):
-	if unit.is_in_group("units"):
-		deselect_all_units()
-		Global.selected_units.append(unit)

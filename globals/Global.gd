@@ -15,10 +15,13 @@ var enemy_units:Array = []
 var selected_units = []
 
 signal command(target)
-signal gui_select_unit(unit)
-signal focus_world_object(object)
 signal added_unit(unit)
 signal unit_died(unit)
+
+## SHOULD only be emitted by nodes that dont handle selection
+#portraits listen to the signals then call de sel/deselect_unit funcs
+signal unit_selected(unit)
+signal unit_deselected(unit)
 
 
 func add_unit(unit):
@@ -28,6 +31,17 @@ func add_unit(unit):
 	added_unit.emit(unit)
 
 
-func remove_unit(unit):
+func select_unit(unit):
+	if !selected_units.has(unit):
+		selected_units.append(unit)
+		unit.is_selected = true
+
+func deselect_unit(unit):
 	if selected_units.has(unit):
 		selected_units.remove_at(selected_units.find(unit))
+		unit.is_selected = false
+
+func deselect_all_units():
+	var _selected_units = selected_units.duplicate()
+	for u in _selected_units:
+		unit_deselected.emit(u)

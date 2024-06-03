@@ -5,6 +5,7 @@ func init():
 	pass
 
 func update():
+	icon = actor.equipped_wpn.icon
 	range_ = actor.equipped_wpn.range_
 
 func execute():

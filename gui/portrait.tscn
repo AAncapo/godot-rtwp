@@ -1,14 +1,311 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgltkspjoccnx"]
+[gd_scene load_steps=20 format=3 uid="uid://cgltkspjoccnx"]
 
+[ext_resource type="StyleBox" uid="uid://chktc41xo5c00" path="res://character/portraits/portrait_style.tres" id="1_e04eb"]
 [ext_resource type="Script" path="res://gui/portrait.gd" id="1_g7jkf"]
+[ext_resource type="FontFile" uid="uid://eonqgcevnco2" path="res://gui/fonts/play/Play-Bold.ttf" id="3_b5tax"]
+[ext_resource type="Shader" path="res://gui/portrait_wounded_status.gdshader" id="4_dnlku"]
+[ext_resource type="Texture2D" uid="uid://cvg2mpe286ad3" path="res://character/portraits/silverhand.png" id="5_5p8vx"]
 
-[node name="portrait" type="Button"]
-custom_minimum_size = Vector2(100, 100)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gtbk5"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+border_width_left = 3
+border_color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_03wmv"]
+bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1j6jy"]
+font = ExtResource("3_b5tax")
+font_size = 27
+outline_size = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uey3e"]
+resource_local_to_scene = true
+shader = ExtResource("4_dnlku")
+shader_parameter/percentage = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h76sa"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.117647, 0.117647, 1)
+corner_detail = 1
+shadow_size = 2
+anti_aliasing = false
+
+[sub_resource type="LabelSettings" id="LabelSettings_jmgrc"]
+font_size = 18
+font_color = Color(1, 0.117647, 0.117647, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="Animation" id="Animation_o3tv7"]
+resource_name = "mortal_alert"
+length = 0.75
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DANGER:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DANGER:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1qhws"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DANGER:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DANGER:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_201tj"]
+resource_name = "flatlined"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DANGER:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DANGER:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0v4kj"]
+_data = {
+"RESET": SubResource("Animation_1qhws"),
+"flatlined": SubResource("Animation_201tj"),
+"mortal_alert": SubResource("Animation_o3tv7")
+}
+
+[sub_resource type="Animation" id="Animation_tax7y"]
+resource_name = "executing_action"
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%CurrentAction/../Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["/", "- ", "\\", "|", "/", "-", "\\", "|", "/"]
+}
+
+[sub_resource type="Animation" id="Animation_wtxth"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%CurrentAction/../Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["/"]
+}
+
+[sub_resource type="Animation" id="Animation_xixf1"]
+resource_name = "init_action"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%CurrentAction/../Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [""]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n1f5p"]
+_data = {
+"RESET": SubResource("Animation_wtxth"),
+"executing_action": SubResource("Animation_tax7y"),
+"init_action": SubResource("Animation_xixf1")
+}
+
+[node name="portrait" type="Control"]
+texture_filter = 1
+texture_repeat = 1
+custom_minimum_size = Vector2(150, 210)
+layout_mode = 3
+anchors_preset = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-tooltip_text = "Select Payer 1
-F1"
-toggle_mode = true
-shortcut_in_tooltip = false
-text = "Alias"
+mouse_filter = 2
 script = ExtResource("1_g7jkf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="CurrentAction" type="Button" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/icon_max_width = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_gtbk5")
+alignment = 0
+text_overrun_behavior = 3
+expand_icon = true
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_03wmv")
+text = "/"
+label_settings = SubResource("LabelSettings_1j6jy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_styles/normal = ExtResource("1_e04eb")
+theme_override_styles/hover = ExtResource("1_e04eb")
+theme_override_styles/pressed = ExtResource("1_e04eb")
+theme_override_styles/disabled = ExtResource("1_e04eb")
+theme_override_styles/focus = ExtResource("1_e04eb")
+shortcut_in_tooltip = false
+
+[node name="image" type="TextureRect" parent="VBoxContainer/Button"]
+unique_name_in_owner = true
+texture_filter = 1
+texture_repeat = 1
+material = SubResource("ShaderMaterial_uey3e")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(75, 178)
+texture = ExtResource("5_5p8vx")
+stretch_mode = 6
+
+[node name="DANGER" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -10.0
+offset_right = 60.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1e-05)
+pivot_offset = Vector2(0, 15)
+mouse_filter = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h76sa")
+
+[node name="Label" type="Label" parent="DANGER"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DANGER"
+label_settings = SubResource("LabelSettings_jmgrc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 1
+libraries = {
+"": SubResource("AnimationLibrary_0v4kj")
+}
+
+[node name="ActionAnim" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../VBoxContainer/HBoxContainer/CurrentAction")
+libraries = {
+"": SubResource("AnimationLibrary_n1f5p")
+}
+
+[connection signal="mouse_entered" from="VBoxContainer/Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/Button" to="." method="_on_button_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

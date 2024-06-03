@@ -1,5 +1,6 @@
 class_name Stats extends Node
 
+signal new_wound_state(stat)
 
 const BODY_TYPES := {
 	#TYPE         : BTModf   
@@ -23,6 +24,10 @@ const WOUND_STATES := {
 	"MORTAL5":  [8,5],
 	"MORTAL6":  [9,6],
 	}
+
+@export var name_:String
+@export var alias:String
+@export var portrait_image:Texture2D
 
 @export var INTEL:int
 @export var REFLEX:int
@@ -56,6 +61,7 @@ var btm:int  #Body Type Modifier. subtract from any damage taken
 var current_wound_state:String:  #WOUND_STATE key
 	set(value):
 		current_wound_state = value
+		new_wound_state.emit(self)
 var ws_lvl := 0:  #WS levels go from 1-4, update state at 5
 	set(value):
 		ws_lvl = value
@@ -90,9 +96,7 @@ var is_stunned := false:
 			owner.end_turn()
 			owner.msg(Global.POPUP_NOTIF.STUN)
 			owner.current_state = Character.DOWNED
-			print("stun save failed")
 		else:
-			print("stun save succeed")
 			owner.msg(Global.POPUP_NOTIF.STUN,'',true)
 			owner.current_state = owner.previous_state
 var is_dead := false

@@ -1,18 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0mosry6wp8qq"]
+[gd_scene load_steps=6 format=3 uid="uid://d0mosry6wp8qq"]
 
 [ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_n5n5t"]
+[ext_resource type="Texture2D" uid="uid://dy25srpjdrtsm" path="res://weapons/icons/icon_rifle.png" id="2_570mt"]
 [ext_resource type="PackedScene" uid="uid://b4f6da60swcbh" path="res://imports/m16.glb" id="2_xlxts"]
 [ext_resource type="ArrayMesh" uid="uid://b1thkab3xg57x" path="res://imports/MuzzleRifle1.obj" id="3_558r8"]
 [ext_resource type="Material" uid="uid://cksrm3q0hd4np" path="res://weapons/muzzle_material.tres" id="4_6pslf"]
 
 [node name="Rifle" instance=ExtResource("1_n5n5t")]
+icon = ExtResource("2_570mt")
 name_ = "Ronin Light Assault"
 type = 2
 accuracy = 1
 clip_size = 35
 rof = 30
 range_ = 8.0
-cost = 450.0
 
 [node name="m16" parent="mesh" index="0" instance=ExtResource("2_xlxts")]
 transform = Transform3D(3.33333, 0, 0, 0, 3.33333, 0, 0, 0, 3.33333, 0, 0, 0)

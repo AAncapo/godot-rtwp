@@ -1,7 +1,5 @@
 extends Control
 
-signal mouse_enter(_action)
-signal mouse_exit
 
 @onready var button: Button = $Button
 @onready var hotkey: Label = $Button/hotkey
@@ -23,7 +21,8 @@ func init(_action, key):
 	action.set_available.connect(_on_action_available)
 	#button.tooltip_text = str(action.action_name,": ",action.action_description)
 	set_hotkey = key
-	
+	button.icon = _action.icon
+	#button.flat = button.icon != null
 	if action.options.size() > 0:
 		for option in action.options:
 			pass
@@ -44,10 +43,3 @@ func _on_option_pressed(option):
 
 func _on_action_available(avail:bool):
 	button.disabled = !avail
-
-
-func _on_button_mouse_entered() -> void:
-	mouse_enter.emit(action)
-
-func _on_button_mouse_exited() -> void:
-	mouse_exit.emit()

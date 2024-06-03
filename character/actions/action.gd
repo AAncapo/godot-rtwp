@@ -4,6 +4,7 @@ signal selected(_self)
 signal set_available(is_aval)
 
 var id:int
+@export var icon:Texture2D
 @export var action_name:String = "Action"
 @export var action_description:String = ""
 @export var range_:float = 1.5

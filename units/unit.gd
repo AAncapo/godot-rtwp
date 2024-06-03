@@ -6,7 +6,10 @@ signal target_updated(new_target)
 @export var team = 0
 
 var target
-var is_selected:bool =false
+var is_selected:bool =false:
+	set(value):
+		is_selected = value
+		selected.emit(is_selected)
 
 
 func _ready() -> void:
@@ -43,7 +46,8 @@ func remove_commands_listener():
 	if Global.command.is_connected(update_target):
 		Global.command.disconnect(update_target)
 
+
 func _on_selected(sel:bool):
-	is_selected = sel
+	#is_selected = sel
 	if sel: add_commands_listener()
 	else: remove_commands_listener()

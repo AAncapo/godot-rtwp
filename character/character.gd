@@ -1,6 +1,7 @@
 class_name Character extends Unit
 
 signal detected(detected_by)
+signal action_selected(_action)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var anim:AnimationController = %AnimationTree
@@ -64,6 +65,7 @@ var selected_action:Action:
 	set(value):
 		selected_action = value if value != null else default_action
 		selected_action.init()
+		action_selected.emit(selected_action)
 
 enum Assignment { NONE, PATROL }
 @export var assigned_job:Assignment
@@ -210,7 +212,6 @@ func set_unconsious():
 
 func _on_unit_died(unit):
 	if unit == self: 
-		Global.remove_unit(unit)
 		stats.is_dead = true
 		anim.die()
 		current_state = DEAD

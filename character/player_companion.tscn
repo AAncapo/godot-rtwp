@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://dixbrc03xx0ij"]
+
+[ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="1_1brf0"]
+[ext_resource type="Texture2D" uid="uid://dxdg31kuc6afb" path="res://character/portraits/jackie.png" id="2_avkga"]
+
+[node name="player_companion" instance=ExtResource("1_1brf0")]
+
+[node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
+bones/0/position = Vector3(0, 0.968938, -0.0552)
+bones/2/rotation = Quaternion(-0.0243091, 0, 0, 0.999705)
+bones/3/rotation = Quaternion(0.0374182, 0, 0, 0.9993)
+bones/4/rotation = Quaternion(0.11996, 0, 0, 0.992779)
+bones/8/rotation = Quaternion(-0.115592, 0.673626, -0.590033, 0.4298)
+bones/9/rotation = Quaternion(0.175998, 0.00134309, -0.0392077, 0.983608)
+bones/13/rotation = Quaternion(-0.146892, -0.74304, 0.485382, 0.436713)
+bones/14/rotation = Quaternion(0.416621, -0.00123485, 0.0928119, 0.904329)
+bones/18/rotation = Quaternion(0.951203, 0.0402808, -0.134518, 0.274763)
+bones/19/rotation = Quaternion(0.288379, 0.000424582, -0.0278742, 0.95711)
+bones/20/rotation = Quaternion(-0.615086, -0.0890651, 0.049364, 0.781857)
+bones/24/rotation = Quaternion(0.96506, -0.043641, 0.130831, 0.222795)
+bones/25/rotation = Quaternion(0.266145, -0.000427451, 0.0257251, 0.96359)
+bones/26/rotation = Quaternion(-0.6394, 0.0906673, -0.0559811, 0.761455)
+
+[node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
+transform = Transform3D(-0.909196, 0.0908105, 0.406345, 0.170539, -0.80909, 0.562397, 0.379841, 0.580626, 0.720135, -0.374026, 1.08045, 0.117387)
+
+[node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
+blackboard = NodePath("@Node@544524")
+
+[node name="Stats" parent="." index="10"]
+name_ = "Jackson Welles"
+alias = "Jackie"
+portrait_image = ExtResource("2_avkga")
+
+[editable path="model/Character3"]

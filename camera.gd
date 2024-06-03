@@ -8,9 +8,6 @@ var move_speed: float = .5
 var mouse_sens = 0.004
 
 
-func _ready() -> void:
-	Global.focus_world_object.connect(_on_focus)
-
 func _process(_delta: float) -> void:
 	#move with wasd
 	if Input.is_action_pressed("cam_left"):
@@ -39,7 +36,3 @@ func _unhandled_input(event: InputEvent) -> void:
 			new_pos -= cam.global_basis.z * zoom_speed
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			new_pos += cam.global_basis.z * zoom_speed
-
-
-func _on_focus(object):
-	pass

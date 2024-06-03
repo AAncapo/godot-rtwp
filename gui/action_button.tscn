@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr10h88mtsfdf"]
+[gd_scene load_steps=6 format=3 uid="uid://cr10h88mtsfdf"]
 
 [ext_resource type="Script" path="res://gui/action_button.gd" id="1_e6pdl"]
-[ext_resource type="Texture2D" uid="uid://b6ti5i31yjwsr" path="res://icon.svg" id="2_m2ese"]
+[ext_resource type="Texture2D" uid="uid://5u8hir1tfd3j" path="res://weapons/icons/icon_smartgun.png" id="2_sk8pr"]
+[ext_resource type="FontFile" uid="uid://b1v0io41gyt5b" path="res://gui/fonts/blenderpro/BlenderPro-Heavy.ttf" id="3_cki11"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2gc4v"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_okua7"]
+font = ExtResource("3_cki11")
+shadow_color = Color(0, 0, 0, 0.486275)
 
 [node name="ActionButton" type="Control"]
 custom_minimum_size = Vector2(60, 60)
@@ -21,20 +34,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2gc4v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2gc4v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2gc4v")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2gc4v")
+theme_override_styles/focus = SubResource("StyleBoxFlat_2gc4v")
 shortcut_in_tooltip = false
-icon = ExtResource("2_m2ese")
+icon = ExtResource("2_sk8pr")
 icon_alignment = 1
 expand_icon = true
 
 [node name="hotkey" type="Label" parent="Button"]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 5.0
 offset_top = -23.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 0
+label_settings = SubResource("LabelSettings_okua7")
+vertical_alignment = 2
+uppercase = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -55,6 +78,4 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 1
 
-[connection signal="mouse_entered" from="Button" to="." method="_on_button_mouse_entered"]
-[connection signal="mouse_exited" from="Button" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
