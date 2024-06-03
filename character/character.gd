@@ -30,7 +30,7 @@ var current_state = NORMAL:
 		actions.get_child(2).set_available.emit(current_state == STEALTH)
 		
 		anim.motion_y = current_state
-		#print(self.name," state changed to ", current_state)
+		print(self.name," state changed to ", current_state)
 var previous_state = NORMAL
 @export var starting_wpn:int=0
 var equipped_wpn:Weapon:
@@ -67,9 +67,9 @@ var selected_action:Action:
 		selected_action.init()
 		action_selected.emit(selected_action)
 
-enum Assignment { NONE, PATROL }
-@export var assigned_job:Assignment
-var job
+enum Assignment { NONE, PATROL, FOLLOW }
+@export var assignment:Assignment
+var current_job
 
 
 func _ready() -> void:
@@ -86,9 +86,8 @@ func _ready() -> void:
 	current_state = NORMAL
 	
 	end_turn()
-	find_job() #iduno maybe find job while in turn can cause problem
+	#find_job() #iduno maybe find job while in turn can cause problem
 	
-	#await get_tree().create_timer(2)
 	for a in actions.get_children():
 		a.actor = self
 	equip(weapons.get_child(1))
@@ -228,6 +227,7 @@ func _on_target_updated(new_target) -> void:
 	else:
 		target_unit = new_target.collider
 
+
 func _on_nav_target_reached() -> void:
 	target_vec = null
 
@@ -238,10 +238,12 @@ func _on_detected(detected_by:Character) -> void:
 
 
 func find_job():
-	match assigned_job:
+	match assignment:
 		Assignment.NONE:
 			#remain idle
 			pass
+		Assignment.FOLLOW:
+			current_job = Job.new()
 		Assignment.PATROL:
 			#search patrol paths in scene
 			var patrol_paths = get_tree().get_nodes_in_group("patrol_path")
@@ -249,11 +251,11 @@ func find_job():
 			for pp in patrol_paths:
 				if !pp.is_in_group("occupied"):
 					pp.add_to_group("occupied")
-					job = Job.new(pp.get_children())
+					current_job = Job.new(pp.get_children())
 					#print(self.name, " has patrol job at ",pp.name)
 					return
 			#no patrol path found
-			assigned_job = Assignment.NONE
+			assignment = Assignment.NONE
 
 
 func msg(pop, text="",remove=false):

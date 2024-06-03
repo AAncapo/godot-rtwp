@@ -219,6 +219,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_x3vti")
 text = "fps 000"
 
 [node name="minimap" type="PanelContainer" parent="GUI"]
+visible = false
 custom_minimum_size = Vector2(200, 250)
 layout_mode = 1
 anchors_preset = -1
@@ -504,7 +505,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.516621, 0, -5.36493)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.635849, 0, -12.5182)
 
 [node name="player" parent="." instance=ExtResource("7_s48wt")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 27.5705, 0, -46.8998)
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, 27.5705, 0, -46.8998)
 
 [node name="player_companion" parent="." instance=ExtResource("9_4ethv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, -45)

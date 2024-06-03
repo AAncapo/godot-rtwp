@@ -41,8 +41,8 @@ func choke():
 	request_oneshot(0)
 
 var die_after_choked:bool = false
-func get_choked(die:bool):
-	die_after_choked = die
+func get_choked(_die:bool):
+	die_after_choked = _die
 	request_oneshot(1)
 
 func die():

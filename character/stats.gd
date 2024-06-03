@@ -93,7 +93,6 @@ var is_stunned := false:
 	set(value):
 		is_stunned=value
 		if is_stunned: 
-			owner.end_turn()
 			owner.msg(Global.POPUP_NOTIF.STUN)
 			owner.current_state = Character.DOWNED
 		else:

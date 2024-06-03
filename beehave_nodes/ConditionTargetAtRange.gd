@@ -1,13 +1,13 @@
 extends ConditionLeaf
 
 
-func tick(actor, blackboard):
+func tick(actor, _blackboard):
 	if !actor.target_unit: return FAILURE
 	
 	var action = actor.selected_action
 	var enemy = actor.target_unit
 	var dist:Vector3 = (enemy.global_position - actor.global_position)
-	var max_desired_dist = action.range_ * .8
+	#var max_desired_dist = action.range_ * .8
 	#TODO: only take maxdesired if equipped wpn is ranged
 	
 	## Quite el check_visibility para limpiar un poco el script del chara.

@@ -1,7 +1,7 @@
 extends ActionLeaf
 
 
-func tick(actor, blackboard):
+func tick(actor, _blackboard):
 	var target = actor.target_unit
 	if target:
 		if actor.crosshair.get_collider() == target:

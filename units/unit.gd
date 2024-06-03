@@ -35,6 +35,10 @@ func is_ally(unit):
 	return false
 
 
+func is_leader():
+	return Global.player_leader == self
+
+
 func add_commands_listener():
 	if team != Global.PLAYER_TEAM: return
 	if !Global.command.is_connected(update_target):

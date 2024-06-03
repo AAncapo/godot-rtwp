@@ -3,10 +3,15 @@ class_name Job extends Node
 var path:Array[Vector3]
 var current_index:int = 0
 
-func _init(_path):
+
+func _init(_path = []):
 	path = []
 	for point in _path:
 		path.append(point.global_position)
+
+
+func work():
+	pass
 
 func get_initial_pos():
 	return path[0]
@@ -22,4 +27,5 @@ func get_next_pos():
 
 # return last position before leaving work or the initial if hasnt started
 func get_last_pos():
-	return path[current_index]
+	if path:
+		return path[current_index]

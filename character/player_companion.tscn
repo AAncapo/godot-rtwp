@@ -6,26 +6,26 @@
 [node name="player_companion" instance=ExtResource("1_1brf0")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.968938, -0.0552)
-bones/2/rotation = Quaternion(-0.0243091, 0, 0, 0.999705)
-bones/3/rotation = Quaternion(0.0374182, 0, 0, 0.9993)
-bones/4/rotation = Quaternion(0.11996, 0, 0, 0.992779)
-bones/8/rotation = Quaternion(-0.115592, 0.673626, -0.590033, 0.4298)
-bones/9/rotation = Quaternion(0.175998, 0.00134309, -0.0392077, 0.983608)
-bones/13/rotation = Quaternion(-0.146892, -0.74304, 0.485382, 0.436713)
-bones/14/rotation = Quaternion(0.416621, -0.00123485, 0.0928119, 0.904329)
-bones/18/rotation = Quaternion(0.951203, 0.0402808, -0.134518, 0.274763)
-bones/19/rotation = Quaternion(0.288379, 0.000424582, -0.0278742, 0.95711)
-bones/20/rotation = Quaternion(-0.615086, -0.0890651, 0.049364, 0.781857)
-bones/24/rotation = Quaternion(0.96506, -0.043641, 0.130831, 0.222795)
-bones/25/rotation = Quaternion(0.266145, -0.000427451, 0.0257251, 0.96359)
-bones/26/rotation = Quaternion(-0.6394, 0.0906673, -0.0559811, 0.761455)
+bones/0/position = Vector3(0, 0.978033, -0.0552)
+bones/2/rotation = Quaternion(-0.0689348, 0, 0, 0.997621)
+bones/3/rotation = Quaternion(0.00738041, 0, 0, 0.999973)
+bones/4/rotation = Quaternion(0.188687, 0, 0, 0.982037)
+bones/8/rotation = Quaternion(-0.154904, 0.742505, -0.553898, 0.343349)
+bones/9/rotation = Quaternion(0.205227, 0.00133496, -0.0457191, 0.977645)
+bones/13/rotation = Quaternion(-0.16046, -0.787706, 0.466425, 0.36908)
+bones/14/rotation = Quaternion(0.39972, -0.00124573, 0.0890467, 0.912301)
+bones/18/rotation = Quaternion(0.952353, 0.0399921, -0.1342, 0.270951)
+bones/19/rotation = Quaternion(0.280195, 0.000425656, -0.0270831, 0.959561)
+bones/20/rotation = Quaternion(-0.604899, -0.0872083, 0.0527598, 0.789752)
+bones/24/rotation = Quaternion(0.970554, -0.0409948, 0.132893, 0.196684)
+bones/25/rotation = Quaternion(0.209365, -0.000433673, 0.0202368, 0.977628)
+bones/26/rotation = Quaternion(-0.613556, 0.107832, -0.0621474, 0.779781)
 
 [node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.909196, 0.0908105, 0.406345, 0.170539, -0.80909, 0.562397, 0.379841, 0.580626, 0.720135, -0.374026, 1.08045, 0.117387)
+transform = Transform3D(-0.904797, 0.13012, 0.405476, 0.12659, -0.826943, 0.54785, 0.406592, 0.547023, 0.731744, -0.353907, 1.0804, 0.0800875)
 
 [node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@544524")
+blackboard = NodePath("@Node@45466")
 
 [node name="Stats" parent="." index="10"]
 name_ = "Jackson Welles"

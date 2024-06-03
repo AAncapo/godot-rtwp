@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=69 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
@@ -2730,10 +2730,7 @@ radius = 10.0
 [sub_resource type="BoxShape3D" id="BoxShape3D_yytsn"]
 size = Vector3(1, 2.05688, 1)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_pfgfk"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pqcnk"]
-albedo_color = Color(1, 0.243137, 0.243137, 1)
+[sub_resource type="PlaneMesh" id="PlaneMesh_6hwj4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yh77o"]
 content_margin_left = 4.0
@@ -2787,31 +2784,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.967468, -0.0552)
+bones/0/position = Vector3(0, 0.968076, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0167282, 0, 0, 0.99986)
-bones/3/rotation = Quaternion(0.0425147, 0, 0, 0.999096)
-bones/4/rotation = Quaternion(0.108237, 0, 0, 0.994125)
+bones/2/rotation = Quaternion(-0.0200548, 0, 0, 0.999799)
+bones/3/rotation = Quaternion(0.0402784, 0, 0, 0.999189)
+bones/4/rotation = Quaternion(0.113382, 0, 0, 0.993552)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(-0.107791, 0.66083, -0.595996, 0.443253)
-bones/9/rotation = Quaternion(0.169697, 0.00134468, -0.0378039, 0.98477)
+bones/8/rotation = Quaternion(-0.11126, 0.666488, -0.593382, 0.437393)
+bones/9/rotation = Quaternion(0.172531, 0.00134397, -0.0384352, 0.984253)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.144344, -0.735255, 0.487975, 0.447711)
-bones/14/rotation = Quaternion(0.420305, -0.00123239, 0.0936325, 0.902538)
+bones/13/rotation = Quaternion(-0.14547, -0.738678, 0.48686, 0.4429)
+bones/14/rotation = Quaternion(0.418662, -0.00123348, 0.0932665, 0.903339)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/18/rotation = Quaternion(0.951057, 0.0403177, -0.134559, 0.275243)
-bones/19/rotation = Quaternion(0.289679, 0.000424394, -0.0279998, 0.956714)
-bones/20/rotation = Quaternion(-0.616831, -0.0893724, 0.0487721, 0.780483)
+bones/18/rotation = Quaternion(0.951086, 0.0403103, -0.134551, 0.275147)
+bones/19/rotation = Quaternion(0.289143, 0.00042448, -0.027948, 0.956878)
+bones/20/rotation = Quaternion(-0.616062, -0.0892373, 0.0490335, 0.781089)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.964208, -0.0440567, 0.130511, 0.226557)
-bones/25/rotation = Quaternion(0.274557, -0.000426393, 0.0265382, 0.961204)
-bones/26/rotation = Quaternion(-0.643703, 0.0877412, -0.0549268, 0.758242)
+bones/24/rotation = Quaternion(0.964566, -0.0438819, 0.130645, 0.224987)
+bones/25/rotation = Quaternion(0.270903, -0.00042686, 0.0261849, 0.96225)
+bones/26/rotation = Quaternion(-0.641818, 0.0890257, -0.0553898, 0.759656)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.908965, 0.0851311, 0.408087, 0.178313, -0.805455, 0.565196, 0.376811, 0.586511, 0.71695, -0.377439, 1.08053, 0.123725)
+transform = Transform3D(-0.9091, 0.0875891, 0.407265, 0.174889, -0.80707, 0.563962, 0.378088, 0.583923, 0.718389, -0.375942, 1.08045, 0.120945)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2920,13 +2917,11 @@ script = ExtResource("14_4ueqc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02835, 0)
 shape = SubResource("BoxShape3D_yytsn")
 
-[node name="SelectedRing" type="MeshInstance3D" parent="MouseInputHandle"]
-process_mode = 3
+[node name="SelectionRing" type="MeshInstance3D" parent="MouseInputHandle"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
 visible = false
-mesh = SubResource("PlaneMesh_pfgfk")
+mesh = SubResource("PlaneMesh_6hwj4")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_pqcnk")
 
 [node name="Actions" type="Node" parent="."]
 

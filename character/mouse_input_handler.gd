@@ -12,8 +12,9 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	_on_mouse_over(false)
 func _on_mouse_over(mo:bool):
-	if not get_parent().is_selected: $SelectedRing.visible = mo
+	if not get_parent().is_selected: $SelectionRing.visible = mo
 
 
 func _on_character_selected(sel: bool) -> void:
-	$SelectedRing.visible = sel
+	$SelectionRing.visible = sel
+	

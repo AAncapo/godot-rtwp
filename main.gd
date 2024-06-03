@@ -15,7 +15,6 @@ func create_stats():
 	var units = get_tree().get_nodes_in_group(Global.UNIT_GROUP)
 	for u in units:
 		var pts := 40
-		var s = []
 		var stats = {
 			intl=0,
 			ref=0,
