@@ -1,7 +1,7 @@
 extends Node3D
 
 @onready var fov = $fov
-var actor
+var actor:Character
 var fov_enabled:bool = false
 var detect_motion:float = .5
 var enemies_in_area = []
@@ -15,7 +15,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if fov_enabled and actor.team != Global.PLAYER_TEAM:
+	if fov_enabled and !actor.is_player():
 		var collider = get_fov_collider()
 		if collider and collider != actor.target_unit:
 			collider.detected.emit(actor)
@@ -24,8 +24,8 @@ func _physics_process(delta: float) -> void:
 			# Calling allies in the area
 			var allies = get_units_in_area(0)
 			for a in allies:
-				if a.current_state != a.State.ALERT and !a.target_unit:
-					a.current_state = a.State.ALERT
+				if a.current_state != Character.State.ALERT and !a.target_unit:
+					a.current_state = Character.State.ALERT
 					a.target_vec = collider.global_position
 	
 	#TODO: only start counter when detects movement
@@ -52,7 +52,7 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 		var new_target = get_closest_unit_in_area(1)
 		if !new_target: enable_fov(false)
 		
-		if actor.team == Global.PLAYER_TEAM: return
+		if actor.is_player(): return
 		
 		# If the current target exited the area search other enemies nearby
 		if body == actor.target_unit:
@@ -67,16 +67,15 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 
 
 func handle_detected_body(body):
-	if body.current_state != body.STEALTH:
+	if !body.stealth_on:
 		#if this is player and not in stealth set to alert
-		if actor.team == Global.PLAYER_TEAM and actor.current_state != actor.STEALTH: 
-			actor.current_state = actor.ALERT
-		#or DOWNED (in states like downed the detectionHandler should be disabled)
+		if actor.is_player() and !actor.stealth_on: 
+			actor.current_state = Character.State.ALERT
 		
 		#if this is ENEMy and dont have a target already set body as target
-		if actor.team != Global.PLAYER_TEAM and not actor.target_unit:
+		if not actor.is_player() and not actor.target_unit:
 			actor.target_unit = body
-			actor.current_state = actor.ALERT
+			actor.current_state = Character.State.ALERT
 			
 			actor.end_turn()
 
@@ -113,7 +112,7 @@ func get_units_in_area(unit_team:int = 0):
 	for b in bodies:
 		var value:bool
 		match unit_team:
-			0: value = actor.is_ally(b)
+			0: value = !actor.is_enemy(b)
 			1: value = actor.is_enemy(b)
 		
 		if value: detected_units.append(b)

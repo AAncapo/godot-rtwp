@@ -17,14 +17,14 @@ var next_action:float = 2.0:
 		next_action = max(val, 0)
 		ttimer.wait_time = next_action
 
-enum State { DOWNED = -1, IDLE=0, WORKING=0, ALERT=1, COMBAT }
-var current_state = State.IDLE:
+## values edited to match the MotionState (AnimCtr)
+enum State { DOWNED, IDLE, WORKING, ALERT, COMBAT }
+var current_state := State.IDLE:
 	set(value):
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
-		anim.motion_y = current_state #TODO change this to a match
-		print(self.name," state changed to ", current_state)
+		anim.motion_state = current_state
 var previous_state
 var stealth_on:bool = false:
 	set(value):
@@ -40,13 +40,11 @@ var equipped_wpn:Weapon:
 var target_vec = null:
 	set(val):
 		if val and val.length() > 0:
-			nav.target_position = val #to check at next line if its reachable
-			#(!) still assigned value to nav.target_pos
+			nav.target_position = val
 			target_vec = nav.target_position if nav.is_target_reachable() else null
 		else: 
 			target_vec = null
-	get:
-		return target_vec if target_vec != null else null
+	get: return target_vec if target_vec != null else null
 var target_unit:
 	set(val):
 		target_unit = val
@@ -57,7 +55,10 @@ var target_unit:
 var is_moving:bool:
 	set(value):
 		is_moving = value
-		if is_moving: anim.move()
+		if is_moving:
+			if is_player():
+				print(current_state)
+			anim.move(current_state==State.IDLE)
 		else: anim.stop()
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
@@ -82,7 +83,6 @@ func _ready() -> void:
 	next_action = 2
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
-	current_state = State.IDLE
 	
 	end_turn()
 	
@@ -219,6 +219,8 @@ func _on_unit_died(unit):
 ## the var target only updates by the user input (command) so this func can be used to check if a new target was selected by the user or the ai ;)
 func _on_target_updated(new_target) -> void:
 	if !is_enemy(new_target.collider):
+		if !is_leader(): return
+		
 		if target_unit: target_unit = null
 		target_vec = new_target.position
 	else:
