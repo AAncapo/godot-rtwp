@@ -2783,31 +2783,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.976578, -0.0552)
+bones/0/position = Vector3(0, 0.968951, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0617688, 0, 0, 0.998091)
-bones/3/rotation = Quaternion(0.0122103, 0, 0, 0.999925)
-bones/4/rotation = Quaternion(0.177696, 0, 0, 0.984085)
+bones/2/rotation = Quaternion(-0.0243749, 0, 0, 0.999703)
+bones/3/rotation = Quaternion(0.037374, 0, 0, 0.999301)
+bones/4/rotation = Quaternion(0.120061, 0, 0, 0.992766)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(-0.149311, 0.732165, -0.559824, 0.358103)
-bones/9/rotation = Quaternion(0.201199, 0.00133616, -0.0448216, 0.978524)
+bones/8/rotation = Quaternion(-0.115658, 0.673735, -0.589981, 0.429682)
+bones/9/rotation = Quaternion(0.17605, 0.00134308, -0.0392193, 0.983599)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.158467, -0.780662, 0.469904, 0.380324)
-bones/14/rotation = Quaternion(0.401777, -0.00124442, 0.089505, 0.911352)
+bones/13/rotation = Quaternion(-0.146914, -0.743108, 0.485359, 0.436617)
+bones/14/rotation = Quaternion(0.41659, -0.00123487, 0.092805, 0.904344)
 bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
 bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/18/rotation = Quaternion(0.952162, 0.04004, -0.134252, 0.27159)
-bones/19/rotation = Quaternion(0.281521, 0.000425492, -0.0272112, 0.959169)
-bones/20/rotation = Quaternion(-0.606564, -0.0875191, 0.0522115, 0.788476)
+bones/18/rotation = Quaternion(0.951205, 0.0402804, -0.134518, 0.274758)
+bones/19/rotation = Quaternion(0.288368, 0.000424584, -0.0278731, 0.957114)
+bones/20/rotation = Quaternion(-0.615072, -0.0890626, 0.0493688, 0.781868)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.969625, -0.0414385, 0.132544, 0.201353)
-bones/25/rotation = Quaternion(0.219532, -0.00043267, 0.0212195, 0.975374)
-bones/26/rotation = Quaternion(-0.617767, 0.105082, -0.0611616, 0.776905)
+bones/24/rotation = Quaternion(0.965068, -0.0436373, 0.130834, 0.222761)
+bones/25/rotation = Quaternion(0.266071, -0.00042746, 0.0257179, 0.96361)
+bones/26/rotation = Quaternion(-0.639363, 0.0906927, -0.0559903, 0.761482)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.906211, 0.123032, 0.404531, 0.133488, -0.824555, 0.549809, 0.401202, 0.552242, 0.730797, -0.357156, 1.08041, 0.0860639)
+transform = Transform3D(-0.909196, 0.0908622, 0.406333, 0.170472, -0.809121, 0.562373, 0.379871, 0.580575, 0.72016, -0.373997, 1.08045, 0.117333)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2828,7 +2828,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17525")
+blackboard = NodePath("@Node@17503")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]

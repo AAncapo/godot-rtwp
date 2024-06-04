@@ -18,12 +18,13 @@ var next_action:float = 2.0:
 		ttimer.wait_time = next_action
 
 ## values edited to match the MotionState (AnimCtr)
-enum State { DOWNED, IDLE, WORKING, ALERT, COMBAT }
-var current_state := State.IDLE:
+enum State { DOWNED = -1, IDLE, WORKING, ALERT, COMBAT }
+var current_state:State= State.IDLE:
 	set(value):
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
+		print(State.keys()[current_state],current_state)
 		anim.motion_state = current_state
 var previous_state
 var stealth_on:bool = false:
@@ -56,9 +57,7 @@ var is_moving:bool:
 	set(value):
 		is_moving = value
 		if is_moving:
-			if is_player():
-				print(current_state)
-			anim.move(current_state==State.IDLE)
+			anim.move(is_player() and (current_state==0 or current_state==1))
 		else: anim.stop()
 @onready var default_action:Action = $Actions/Default
 var selected_action:Action:
