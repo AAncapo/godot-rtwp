@@ -1,7 +1,6 @@
 class_name Character extends Unit
 
 signal detected(detected_by)
-signal action_selected(_action)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var anim:AnimationController = %AnimationTree
@@ -10,6 +9,7 @@ signal action_selected(_action)
 @onready var ttimer:Timer = $TurnTimer
 @onready var actions = $Actions
 @onready var stats := $Stats
+@onready var bboard = $BeehaveTree.blackboard
 
 var is_turn:bool = true
 var next_action:float = 2.0:
@@ -30,7 +30,7 @@ var previous_state
 var stealth_on:bool = false:
 	set(value):
 		stealth_on=value
-		actions.get_child(2).set_available.emit(stealth_on)
+		actions.get_child(2).set_enabled.emit(stealth_on)
 
 @export var starting_wpn:int=0
 var equipped_wpn:Weapon:
@@ -53,19 +53,23 @@ var target_unit:
 		if !target_unit and !stealth_on:
 			current_state = State.IDLE
 		if !target_unit: anim.aim(false)
+		if target_unit and selected_action != actions.get_child(actions.TAKEDOWN):
+			actions.get_child(actions.MAIN_ATTACK).select()
 var is_moving:bool:
 	set(value):
 		is_moving = value
 		if is_moving:
-			anim.move(is_player() and (current_state==0 or current_state==1))
+			var run := is_player() and (current_state==0 or current_state==1)
+			anim.move(run)
 		else: anim.stop()
-@onready var default_action:Action = $Actions/Default
-var selected_action:Action:
-	set(value):
-		selected_action = value if value != null else default_action
-		selected_action.init()
-		action_selected.emit(selected_action)
 
+var selected_action:Action
+
+var is_leader:bool = false:
+	set(value):
+		is_leader = value
+		if is_player():
+			assignment = 0 if is_leader else 2
 enum Assignment { NONE, PATROL, FOLLOW }
 @export var assignment:Assignment
 var current_job
@@ -73,21 +77,17 @@ var current_job
 
 func _ready() -> void:
 	super._ready()
-	ttimer.timeout.connect(_on_turn_started)
 	target_updated.connect(_on_target_updated)
-	selected_action = default_action
 	
-	anim.disarm()
-	
-	next_action = 2
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
 	
-	end_turn()
-	
-	for a in actions.get_children():
-		a.actor = self
+	anim.disarm()
 	equip(weapons.get_child(1))
+	
+	ttimer.timeout.connect(_on_turn_started)
+	next_action = 2
+	end_turn()
 
 
 func _physics_process(_delta: float) -> void:
@@ -160,12 +160,8 @@ func equip(new_wpn:Weapon):
 			w.visible = false
 	
 	anim.equip(new_wpn.type)
-	default_action.update()
-
-
-func execute_action():
-	#print("execute -> ",selected_action.action_name)
-	selected_action.execute()
+	actions.get_child(actions.MAIN_ATTACK).icon = new_wpn.icon
+	actions.get_child(actions.MAIN_ATTACK).range_ = new_wpn.range_
 
 
 func attack(_target):
@@ -215,11 +211,10 @@ func _on_unit_died(unit):
 	if target_unit == unit:
 		target_unit = null
 
+
 ## the var target only updates by the user input (command) so this func can be used to check if a new target was selected by the user or the ai ;)
 func _on_target_updated(new_target) -> void:
 	if !is_enemy(new_target.collider):
-		if !is_leader(): return
-		
 		if target_unit: target_unit = null
 		target_vec = new_target.position
 	else:
@@ -257,10 +252,10 @@ func find_job():
 
 
 func msg(pop, text="",remove=false):
-	%CharaHud.add_notification(pop,text,remove)
+	%CharaHUD.add_notification(pop,text,remove)
 
 
 func disable():
 	$BeehaveTree.enabled = false
-	%CharaHud.clear_notifications()
+	%CharaHUD.clear_notifications()
 	process_mode = Node.PROCESS_MODE_DISABLED

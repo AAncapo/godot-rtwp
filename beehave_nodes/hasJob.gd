@@ -1,11 +1,11 @@
 extends ConditionLeaf
 
+
 func tick(actor, _blackboard):
-	if actor.team == Global.PLAYER_TEAM:
-		if Global.player_leader != actor: actor.assignment = Character.Assignment.FOLLOW
-		else: actor.assignment = 0
+	#if actor.is_player() and actor.assignment == Character.Assignment.NONE:
+		#return FAILURE
 	
-	#if has job assigned but no current job
+	#if has assignment but no current job
 	if actor.assignment != 0 and !actor.current_job:
 		actor.find_job()
 	

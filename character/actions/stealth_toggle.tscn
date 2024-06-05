@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bofr3crmdqnkr"]
-
-[ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://character/actions/action.tscn" id="1_hk6dm"]
-[ext_resource type="Script" path="res://character/actions/StealthToggle.gd" id="2_5yrh0"]
-
-[node name="StealthToggle" instance=ExtResource("1_hk6dm")]
-script = ExtResource("2_5yrh0")

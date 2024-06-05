@@ -1,0 +1,306 @@
+[gd_scene load_steps=8 format=3 uid="uid://bbyi4tcs1p770"]
+
+[ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="1_w52kg"]
+[ext_resource type="Script" path="res://gui/gui.gd" id="2_mdyyo"]
+[ext_resource type="PackedScene" uid="uid://cr10h88mtsfdf" path="res://gui/action_button.tscn" id="3_vskdv"]
+
+[sub_resource type="Theme" id="Theme_rejm5"]
+default_font = ExtResource("1_w52kg")
+default_font_size = 25
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kflpl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.0745098, 0.0745098, 1)
+shadow_color = Color(0, 0, 0, 0.254902)
+shadow_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_2bqex"]
+font_size = 48
+font_color = Color(1, 0.0745098, 0.0745098, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.411765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3vti"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_rejm5")
+script = ExtResource("2_mdyyo")
+
+[node name="Paused" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -92.5
+offset_top = -260.0
+offset_right = 92.5
+offset_bottom = -203.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_kflpl")
+text = " PAUSED "
+label_settings = SubResource("LabelSettings_2bqex")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="portraits" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -43.5
+offset_bottom = 43.5
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -84.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Weapon" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 60)
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Weapon"]
+layout_mode = 2
+alignment = 2
+
+[node name="Equipped" parent="HBoxContainer/Weapon/VBoxContainer" instance=ExtResource("3_vskdv")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 60)
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="RangedClip" type="HBoxContainer" parent="HBoxContainer/Weapon/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_constants/separation = 5
+alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect13" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect14" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect15" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect16" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect17" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect18" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect19" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect20" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect21" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect22" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect23" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect24" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect25" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect26" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect27" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect28" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect29" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="ColorRect30" type="ColorRect" parent="HBoxContainer/Weapon/VBoxContainer/RangedClip"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+color = Color(1, 0.819608, 0.282353, 1)
+
+[node name="Actions" type="GridContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 9
+
+[node name="ActionButton" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton2" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton3" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton4" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton5" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton6" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton7" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton8" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="ActionButton9" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="fps" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_x3vti")
+text = "fps 000"

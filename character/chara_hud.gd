@@ -16,7 +16,7 @@ func _ready() -> void:
 	await get_parent().ready
 	timer = get_node(turnTimer)
 	
-	name_color = ALLY_COLOR if get_parent().team==Global.PLAYER_TEAM else HOSTILE_COLOR
+	name_color = ALLY_COLOR if get_parent().is_player() else HOSTILE_COLOR
 	%Name.set("theme_override_colors/font_color",name_color)
 	%Name.get("theme_override_styles/normal").set("border_color",name_color)
 	%Name.text = get_parent().stats.alias.to_upper()

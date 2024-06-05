@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bor1xkrfba6j8"]
-
-[ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://character/actions/action.tscn" id="1_2tush"]
-[ext_resource type="Script" path="res://character/actions/BasicAttack.gd" id="2_xdi0x"]
-
-[node name="Default" instance=ExtResource("1_2tush")]
-script = ExtResource("2_xdi0x")

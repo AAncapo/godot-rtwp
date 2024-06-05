@@ -40,7 +40,6 @@ const WOUND_STATES := {
 @export var BODY:int:
 	set(value):
 		BODY = value
-		#toSAVE_NUMBER = BODY
 		
 		var bt = 0
 		if value in range(0,2+1): bt = 0
@@ -90,8 +89,6 @@ var at_death_door := false:  #true if death saves are required
 		if at_death_door: 
 			owner.msg(Global.POPUP_NOTIF.DEATH_DOOR)
 			owner.current_state = owner.State.DOWNED
-		else:
-			owner.current_state = owner.previous_state
 var is_stunned := false:
 	set(value):
 		is_stunned=value
@@ -100,7 +97,6 @@ var is_stunned := false:
 			owner.current_state = owner.State.DOWNED
 		else:
 			owner.msg(Global.POPUP_NOTIF.STUN,'',true)
-			owner.current_state = owner.previous_state
 var is_dead := false
 
 var total_dmg := 0

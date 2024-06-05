@@ -7,6 +7,10 @@ var move_speed: float = .5
 @onready var new_pos:Vector3 = self.global_position
 var mouse_sens = 0.004
 
+#Ackshually NO DAO camera control.
+#set a fixed X rotation, clamp the height to a lower val, pan w middle mouse and rotate with QE
+#i was going to leave QE for hotkeys but that can lead to dumb accidents while in combat
+
 
 func _process(_delta: float) -> void:
 	#move with wasd

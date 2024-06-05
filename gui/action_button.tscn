@@ -1,81 +1,81 @@
-[gd_scene load_steps=6 format=3 uid="uid://cr10h88mtsfdf"]
+[gd_scene load_steps=9 format=3 uid="uid://cr10h88mtsfdf"]
 
 [ext_resource type="Script" path="res://gui/action_button.gd" id="1_e6pdl"]
-[ext_resource type="Texture2D" uid="uid://5u8hir1tfd3j" path="res://weapons/icons/icon_smartgun.png" id="2_sk8pr"]
-[ext_resource type="FontFile" uid="uid://b1v0io41gyt5b" path="res://gui/fonts/blenderpro/BlenderPro-Heavy.ttf" id="3_cki11"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2gc4v"]
-bg_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7f0s8"]
+bg_color = Color(0.109804, 0.109804, 0.109804, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ol8qo"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ui8r0"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xdk00"]
+bg_color = Color(0.172549, 0.172549, 0.172549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n3vkh"]
+bg_color = Color(0.176471, 0.176471, 0.176471, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjuy2"]
 draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
 
-[sub_resource type="LabelSettings" id="LabelSettings_okua7"]
-font = ExtResource("3_cki11")
-shadow_color = Color(0, 0, 0, 0.486275)
+[sub_resource type="LabelSettings" id="LabelSettings_j0trc"]
+font_size = 15
+shadow_color = Color(0, 0, 0, 0.615686)
 
-[node name="ActionButton" type="Control"]
+[node name="ActionButton" type="Button"]
 custom_minimum_size = Vector2(60, 60)
-layout_mode = 3
-anchors_preset = 0
-offset_right = 60.0
-offset_bottom = 60.0
+offset_right = 40.0
+offset_bottom = 40.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("1_e6pdl")
-
-[node name="Button" type="Button" parent="."]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_2gc4v")
-theme_override_styles/hover = SubResource("StyleBoxFlat_2gc4v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_2gc4v")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_2gc4v")
-theme_override_styles/focus = SubResource("StyleBoxFlat_2gc4v")
-shortcut_in_tooltip = false
-icon = ExtResource("2_sk8pr")
+theme_override_styles/normal = SubResource("StyleBoxFlat_7f0s8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ol8qo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ui8r0")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_xdk00")
+theme_override_styles/focus = SubResource("StyleBoxFlat_n3vkh")
 icon_alignment = 1
 expand_icon = true
+script = ExtResource("1_e6pdl")
 
-[node name="hotkey" type="Label" parent="Button"]
+[node name="hotkey" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -7.0
+offset_right = -3.0
+offset_bottom = 18.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_gjuy2")
+text = "0"
+label_settings = SubResource("LabelSettings_j0trc")
+horizontal_alignment = 1
+
+[node name="amount" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 5.0
+offset_left = -19.0
 offset_top = -23.0
-offset_bottom = -3.0
-grow_horizontal = 2
+grow_horizontal = 0
 grow_vertical = 0
-label_settings = SubResource("LabelSettings_okua7")
-vertical_alignment = 2
-uppercase = true
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "99"
+horizontal_alignment = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-visible = false
-custom_minimum_size = Vector2(60, 60)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -30.0
-offset_right = 30.0
-offset_bottom = -15.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Options" type="VBoxContainer" parent="PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-alignment = 1
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

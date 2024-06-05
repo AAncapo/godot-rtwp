@@ -21,11 +21,13 @@ const POPUP_NOTIF = {
 var player_units:Array = []
 var enemy_units:Array = []
 var selected_units = []
-var player_leader:
-	set(value):
-		player_leader=value
-		if player_leader:
-			print("new player lead: ", player_leader.stats.alias)
+#var player_leader:
+	#set(value):
+		#player_leader=value
+		#if player_leader:
+			#for u in player_units:
+				#u.is_leader = u == player_leader
+			#print("new player lead: ", player_leader.stats.alias)
 
 
 func add_unit(unit):
@@ -40,7 +42,7 @@ func select_unit(unit):
 		selected_units.append(unit)
 		unit.is_selected = true
 		
-		player_leader = unit
+		#player_leader = unit
 
 
 func deselect_unit(unit):
@@ -48,11 +50,11 @@ func deselect_unit(unit):
 		selected_units.remove_at(selected_units.find(unit))
 		unit.is_selected = false
 		
-		if player_leader == unit:
-			player_leader = null
-			for u in selected_units:
-				player_leader=u
-				break
+		#if player_leader == unit:
+			#player_leader = null
+			#for u in selected_units:
+				#player_leader=u
+				#break
 
 
 func deselect_all_units():

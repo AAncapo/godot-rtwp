@@ -45,6 +45,4 @@ func is_enemy(unit):
 			return true
 	return false
 
-func is_leader(): return Global.player_leader == self
-
 func is_player(): return team == Global.PLAYER_TEAM

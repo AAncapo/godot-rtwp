@@ -6,14 +6,14 @@ class_name Weapon extends Node3D
 @export var name_:String
 enum Type { NONE = -1, MELEE, HANDGUN, RIFLE, SMG, SHTG, HVY }
 @export var type = Type.NONE
-func get_type():
-	return Type.keys()[type]
 @export var accuracy:int = 0 #weapon accuracy
 @export var clip_size:int = 0
 @export var rof:int = 1  #firerate (shots per turn)
 enum Rel { NA, VR, ST, UR }  #reliability (VeryReliabl, Standard, Unreliabl)
 @export var reliabl:Rel
 @export var range_:float = 1
+enum FireMode { SINGLE, BURST, SEMIAUTO, FULLAUTO }
+@export var firemode:FireMode = FireMode.SINGLE
 
 @export_category("Damage Calc")
 @export var dice_amount:int = 1

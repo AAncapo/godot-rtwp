@@ -29,8 +29,6 @@ mesh = SubResource("BoxMesh_nxlya")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_0n557")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-
 [node name="muzzle" parent="." instance=ExtResource("2_8gvdw")]
 
 [editable path="muzzle"]
