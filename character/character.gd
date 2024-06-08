@@ -1,5 +1,6 @@
 class_name Character extends Unit
 
+signal selected_action_updated(_action)  #connected to chara portrait
 signal detected(detected_by)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
@@ -7,9 +8,8 @@ signal detected(detected_by)
 @onready var weapons = %Weapon1
 @onready var crosshair:RayCast3D = $crosshair
 @onready var ttimer:Timer = $TurnTimer
-@onready var actions = $Actions
+@onready var actions := $Actions
 @onready var stats := $Stats
-@onready var bboard = $BeehaveTree.blackboard
 
 var is_turn:bool = true
 var next_action:float = 2.0:
@@ -24,19 +24,21 @@ var current_state:State= State.IDLE:
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
-		print(State.keys()[current_state],current_state)
-		anim.motion_state = current_state
+		#print(State.keys()[current_state],current_state)
+		#anim.motion_state = current_state
 var previous_state
 var stealth_on:bool = false:
 	set(value):
-		stealth_on=value
-		actions.get_child(2).set_enabled.emit(stealth_on)
+		stealth_on = value
+		anim.motion_state = anim.MotionState.CROUCH if stealth_on else anim.MotionState.NORMAL
+		actions.get_action("takedown").set_enabled.emit(stealth_on)
 
 @export var starting_wpn:int=0
 var equipped_wpn:Weapon:
 	set(value):
 		equipped_wpn = value
 		if equipped_wpn:
+			equipped_wpn._owner = self
 			crosshair.target_position = crosshair.transform.basis.z * -equipped_wpn.range_
 var target_vec = null:
 	set(val):
@@ -53,23 +55,23 @@ var target_unit:
 		if !target_unit and !stealth_on:
 			current_state = State.IDLE
 		if !target_unit: anim.aim(false)
-		if target_unit and selected_action != actions.get_child(actions.TAKEDOWN):
-			actions.get_child(actions.MAIN_ATTACK).select()
+		if target_unit and selected_action != actions.get_action('takedown'):
+			actions.get_action('attack').select()
 var is_moving:bool:
 	set(value):
 		is_moving = value
 		if is_moving:
-			var run := is_player() and (current_state==0 or current_state==1)
-			anim.move(run)
+			anim.move(is_running)
 		else: anim.stop()
-
+var is_running:bool:
+	get:
+		return is_player() and (current_state==0 or current_state==1) and !stealth_on
 var selected_action:Action
-
-var is_leader:bool = false:
-	set(value):
-		is_leader = value
-		if is_player():
-			assignment = 0 if is_leader else 2
+#var is_leader:bool = false:
+	#set(value):
+		#is_leader = value
+		#if is_player():
+			#assignment = 0 if is_leader else 2
 enum Assignment { NONE, PATROL, FOLLOW }
 @export var assignment:Assignment
 var current_job
@@ -82,11 +84,13 @@ func _ready() -> void:
 	Global.add_unit(self)
 	Global.unit_died.connect(_on_unit_died)
 	
+	actions.init(self)
+	
 	anim.disarm()
 	equip(weapons.get_child(1))
 	
 	ttimer.timeout.connect(_on_turn_started)
-	next_action = 2
+	next_action = 1
 	end_turn()
 
 
@@ -95,7 +99,7 @@ func _physics_process(_delta: float) -> void:
 	if is_moving:
 		var dir = Vector3()
 		dir = (nav.get_next_path_position() - self.global_position).normalized()
-		velocity = dir * stats.walk_speed
+		velocity = dir * stats.SPEED
 		move_and_slide()
 		rotate_to(nav.get_next_path_position())
 	
@@ -103,6 +107,12 @@ func _physics_process(_delta: float) -> void:
 	if target_unit:
 		if check_visibility(target_unit):
 			rotate_to(target_unit.global_position)
+
+
+
+func _on_action_selected(_action, _is_selected):
+	selected_action = _action if _is_selected else null
+	selected_action_updated.emit(selected_action)
 
 
 func _on_turn_started():
@@ -126,6 +136,7 @@ func _on_turn_started():
 func end_turn():
 	is_turn = false
 	ttimer.start()
+
 
 func rotate_to(_target:Vector3, rotation_speed:float = .2):
 	if self.global_transform.origin.is_equal_approx(_target):
@@ -159,13 +170,24 @@ func equip(new_wpn:Weapon):
 		else:
 			w.visible = false
 	
-	anim.equip(new_wpn.type)
-	actions.get_child(actions.MAIN_ATTACK).icon = new_wpn.icon
-	actions.get_child(actions.MAIN_ATTACK).range_ = new_wpn.range_
+	anim.update_equipped(equipped_wpn)
+	actions.get_action("attack").icon = new_wpn.icon
+	actions.get_action("attack").range_ = new_wpn.range_
+	
+	equipped_wpn.init(self)
+	
+	if !equipped_wpn.reload_requested.is_connected(_on_reload_request):
+		equipped_wpn.reload_requested.connect(_on_reload_request)
+
+
+func _on_reload_request():
+	#equipped_wpn send a (signal)request when no ammo
+	#gui.gd send the signal from his equipped_wpn reference
+	equipped_wpn.actions.get_action("reload").select()
 
 
 func attack(_target):
-	var atk = Attack.new(self, _target, equipped_wpn)
+	var atk = Attack.new(self, _target)
 	atk.calc_hit_chance()
 	match atk.result:
 		Attack.FAILED:
@@ -195,11 +217,6 @@ func choke():
 
 func get_choked(die:bool):
 	anim.get_choked(die)
-
-func set_unconsious():
-	print(self.name, " is unconsious")
-	current_state = State.DOWNED
-	process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _on_unit_died(unit):

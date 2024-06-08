@@ -2,7 +2,8 @@ extends ConditionLeaf
 
 
 func tick(actor, blackboard):
-	if !actor.target_unit: return FAILURE
+	if !actor.target_unit or !actor.selected_action: return FAILURE
+	if actor.selected_action.target_self: return FAILURE
 	
 	var action = actor.selected_action
 	var enemy = actor.target_unit

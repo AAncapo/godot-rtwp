@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckwt688wutcy4"]
+
+[ext_resource type="PackedScene" uid="uid://dpt0sxyoqs5dy" path="res://weapons/ranged/wpn_ranged.tscn" id="1_oktd4"]
+[ext_resource type="PackedScene" uid="uid://ckdjccg031bhl" path="res://weapons/model_pistol.tscn" id="2_4rnhp"]
+[ext_resource type="Texture2D" uid="uid://byyy3pno7jtww" path="res://weapons/icons/icon_pistol.png" id="2_qq6i1"]
+
+[node name="Test Pistol" instance=ExtResource("1_oktd4")]
+clip_size = 30
+icon = ExtResource("2_qq6i1")
+range_ = 50.0
+reliabl = 2
+
+[node name="mesh" parent="." index="0"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0267715, 0, -0.111826)
+
+[node name="model_test_pistol" parent="mesh" index="0" instance=ExtResource("2_4rnhp")]
+
+[node name="muzzle" parent="." index="1"]
+transform = Transform3D(0.412801, 0, 0, 0, 0.412801, 0, 0, 0, 0.412801, -0.0327953, 0.0659356, -0.350105)

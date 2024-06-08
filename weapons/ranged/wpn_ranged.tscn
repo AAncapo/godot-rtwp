@@ -1,0 +1,126 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpt0sxyoqs5dy"]
+
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_14nna"]
+[ext_resource type="Script" path="res://weapons/ranged/wpn_ranged.gd" id="2_p2ggo"]
+[ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://actions/action.tscn" id="3_s6a68"]
+[ext_resource type="Script" path="res://actions/action_reload.gd" id="4_hwqr8"]
+
+[sub_resource type="Animation" id="Animation_4lhu1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OmniLight3D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1)]
+}
+
+[sub_resource type="Animation" id="Animation_lun2x"]
+resource_name = "fire"
+length = 0.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.09, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("OmniLight3D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.09),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.04, 0.09, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.1, 0.1, 0.1), Vector3(1, 1, 1), Vector3(1, 1, 1), Vector3(0.1, 0.1, 0.1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t1lb5"]
+_data = {
+"RESET": SubResource("Animation_4lhu1"),
+"fire": SubResource("Animation_lun2x")
+}
+
+[node name="RangedWeapon" instance=ExtResource("1_14nna")]
+script = ExtResource("2_p2ggo")
+type = 0
+firemode = 0
+accuracy = 0
+clip_size = 0
+rof = 1
+
+[node name="mesh" parent="." index="0"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0473302, 0, 0)
+
+[node name="muzzle" type="Node3D" parent="." index="1"]
+transform = Transform3D(0.412801, 0, 0, 0, 0.412801, 0, 0, 0, 0.412801, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="muzzle" index="0"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, -0.0203607)
+visible = false
+
+[node name="OmniLight3D" type="OmniLight3D" parent="muzzle" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0583891)
+visible = false
+light_color = Color(1, 1, 0.603922, 1)
+light_energy = 1.2
+omni_range = 10.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="muzzle" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_t1lb5")
+}
+
+[node name="Reload" parent="Actions" index="0" instance=ExtResource("3_s6a68")]
+script = ExtResource("4_hwqr8")
+action_name = "Reload"

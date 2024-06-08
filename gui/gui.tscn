@@ -74,6 +74,7 @@ size_flags_horizontal = 2
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -86,13 +87,41 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Weapon" type="VBoxContainer" parent="HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(160, 60)
+[node name="Weapon" type="VBoxContainer" parent="HBoxContainer" groups=["unit_actions"]]
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 2
-alignment = 1
+
+[node name="EquippedActions" type="HBoxContainer" parent="HBoxContainer/Weapon"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="WpnAction" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
+
+[node name="WpnAction2" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
+
+[node name="WpnAction3" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
+
+[node name="WpnAction4" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
+
+[node name="WpnAction5" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
+
+[node name="WpnAction6" parent="HBoxContainer/Weapon/EquippedActions" instance=ExtResource("3_vskdv")]
+visible = false
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Weapon"]
 layout_mode = 2
@@ -262,7 +291,7 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 color = Color(1, 0.819608, 0.282353, 1)
 
-[node name="Actions" type="GridContainer" parent="HBoxContainer"]
+[node name="Actions" type="GridContainer" parent="HBoxContainer" groups=["unit_actions"]]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 9

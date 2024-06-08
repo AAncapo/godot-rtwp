@@ -9,11 +9,11 @@ enum { FAILED, FUMBLED, MISSED, SUCCEED }
 var result := Attack.SUCCEED
 
 
-func _init(_actor, _target, _wpn) -> void:
+func _init(_actor, _target) -> void:
 	actor = _actor
 	target = _target
-	wpn = _wpn
-	damage = _wpn.damage
+	wpn = actor.equipped_wpn
+	damage = wpn.damage
 
 
 func calc_hit_chance():
@@ -28,30 +28,21 @@ func calc_hit_chance():
 		res += Fnff.roll(1,10)
 	
 	## APPLY TO HIT MODIFIERS ##
-	var hit_modifier := 0
-	if !target.is_moving: hit_modifier += 4  #target immobile
-	if target.is_moving:  #target mobile
-		var m = 0
-		if target.stats.REFLEX > 10: m = 3
-		if target.stats.REFLEX > 12: m = 4
-		if target.stats.REFLEX > 14: m = 5
-		hit_modifier -= m
-	if target.current_state != Character.State.ALERT: #ambush
-		#TODO: cambiar a actor isnt detected
-		hit_modifier += 5
+	var hit_modifier := get_hit_modifier()
 	
-	actor.equipped_wpn.attack()  #play atk animation & sfx & projectile...
-	
-	var reflex = actor.stats.REFLEX
-	var wpn_skill = 0
-	var roll_to_hit = res + reflex + wpn_skill + wpn.accuracy + hit_modifier
-	#print(actor.name," TO HIT: ",to_hit_num," -  RESULT: ",roll_to_hit)
-	result = Attack.SUCCEED if roll_to_hit >= to_hit_num else Attack.MISSED
+	if wpn is RangedWeapon:
+		if wpn.shoot():  #play atk animation & sfx & projectile...
+			var reflex = actor.stats.REFLEX
+			var wpn_skill = 0
+			var roll_to_hit = res + reflex + wpn_skill + wpn.accuracy + hit_modifier
+			result = Attack.SUCCEED if roll_to_hit >= to_hit_num else Attack.MISSED
+	else:
+		printerr("MeleeWeapon attack logic hasnt been implemented")
 
 
 func get_toHit_number() -> int:
 	var to_hit := 0
-	var wpn_range = actor.equipped_wpn.range_
+	var wpn_range = wpn.range_
 	var dist = (actor.global_position - target.global_position).length()
 	
 	var distance = [
@@ -68,6 +59,21 @@ func get_toHit_number() -> int:
 			break
 	
 	return to_hit
+
+
+func get_hit_modifier() -> int:
+	var hit_modifier := 0
+	if !target.is_moving: hit_modifier += 4  #target immobile
+	if target.is_moving:  #target mobile
+		var m = 0
+		if target.stats.REFLEX > 10: m = 3
+		if target.stats.REFLEX > 12: m = 4
+		if target.stats.REFLEX > 14: m = 5
+		hit_modifier -= m
+	if target.current_state != Character.State.ALERT: #ambush
+		#TODO: cambiar a actor isnt detected
+		hit_modifier += 5
+	return hit_modifier
 
 
 func get_fumble_result():

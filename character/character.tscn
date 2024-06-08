@@ -1,11 +1,12 @@
-[gd_scene load_steps=71 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=76 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="PackedScene" uid="uid://ctvjo1dh5crhq" path="res://imports/Character3.glb" id="2_b8lnh"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="3_ng0gg"]
 [ext_resource type="Script" path="res://character/animation_controller.gd" id="3_roqug"]
-[ext_resource type="PackedScene" uid="uid://webkucbmkpxt" path="res://weapons/fists.tscn" id="4_tb457"]
+[ext_resource type="PackedScene" uid="uid://d1ea7vyv24586" path="res://weapons/fists.tscn" id="4_6lkyc"]
+[ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="5_gtrq2"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_45of8"]
 [ext_resource type="Script" path="res://beehave_nodes/ActionMove.gd" id="7_ha5bc"]
 [ext_resource type="Script" path="res://beehave_nodes/ConditionIsTurn.gd" id="8_ndwlh"]
@@ -16,8 +17,8 @@
 [ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
 [ext_resource type="Script" path="res://character/mouse_input_handler.gd" id="14_4ueqc"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
-[ext_resource type="Script" path="res://character/actions.gd" id="17_qkq8x"]
 [ext_resource type="Script" path="res://actions/unit_actions/main_attack.gd" id="19_01c18"]
+[ext_resource type="Script" path="res://character/actions_manager.gd" id="19_4bjx2"]
 [ext_resource type="Script" path="res://actions/unit_actions/CROUCH.gd" id="19_an5oo"]
 [ext_resource type="Script" path="res://actions/unit_actions/TAKEDOWN.gd" id="20_u4uhu"]
 [ext_resource type="Script" path="res://character/chara_hud.gd" id="21_laepi"]
@@ -2645,6 +2646,28 @@ animation = &"Character4/death"
 
 [sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_l1aho"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xc3cn"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ytv2r"]
+animation = &"aim_disarmed"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qy5xa"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dygyb"]
+animation = &"aim_disarmed"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_7wf6r"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_xc3cn")
+blend_point_0/pos = Vector2(0, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_ytv2r")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_qy5xa")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_dygyb")
+blend_point_3/pos = Vector2(1, 1)
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_n7mda"]
 animation = &"hold_handgun"
 
@@ -2657,26 +2680,15 @@ animation = &"aim_handgun"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q851h"]
 animation = &"aim_rifle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ip8ks"]
-animation = &"aim_disarmed"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hiyjy"]
-animation = &"idle"
-
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_wy7w8"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_n7mda")
-blend_point_0/pos = Vector2(1, 0)
+blend_point_0/pos = Vector2(0, 0)
 blend_point_1/node = SubResource("AnimationNodeAnimation_jfdy2")
-blend_point_1/pos = Vector2(2, 0)
+blend_point_1/pos = Vector2(1, 0)
 blend_point_2/node = SubResource("AnimationNodeAnimation_ofqp6")
-blend_point_2/pos = Vector2(1, 1)
+blend_point_2/pos = Vector2(0, 1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_q851h")
-blend_point_3/pos = Vector2(2, 1)
-blend_point_4/node = SubResource("AnimationNodeAnimation_ip8ks")
-blend_point_4/pos = Vector2(-1, 1)
-blend_point_5/node = SubResource("AnimationNodeAnimation_hiyjy")
-blend_point_5/pos = Vector2(-1, 0)
-max_space = Vector2(2, 1)
+blend_point_3/pos = Vector2(1, 1)
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kp18w"]
 animation = &"idle"
@@ -2706,7 +2718,10 @@ blend_point_4/node = SubResource("AnimationNodeAnimation_omus7")
 blend_point_4/pos = Vector2(1, 1)
 max_space = Vector2(2, 1)
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_pljoa"]
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
+graph_offset = Vector2(-551.59, 132.014)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
 nodes/IsArmed/position = Vector2(460, 80)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_1ncfo")
@@ -2719,12 +2734,16 @@ nodes/die/node = SubResource("AnimationNodeAnimation_s4hcw")
 nodes/die/position = Vector2(180, 420)
 nodes/die_choked_choke/node = SubResource("AnimationNodeBlend3_l1aho")
 nodes/die_choked_choke/position = Vector2(440, 460)
-nodes/hold_aim/node = SubResource("AnimationNodeBlendSpace2D_wy7w8")
-nodes/hold_aim/position = Vector2(280, 220)
+nodes/melee/node = SubResource("AnimationNodeBlendSpace2D_7wf6r")
+nodes/melee/position = Vector2(-190.718, 197.072)
 nodes/output/position = Vector2(1020, 200)
+nodes/ranged/node = SubResource("AnimationNodeBlendSpace2D_wy7w8")
+nodes/ranged/position = Vector2(-177.597, 403.426)
 nodes/state/node = SubResource("AnimationNodeBlendSpace2D_xg25e")
-nodes/state/position = Vector2(280, 20)
-node_connections = [&"IsArmed", 0, &"state", &"IsArmed", 1, &"hold_aim", &"OneShot", 0, &"IsArmed", &"OneShot", 1, &"die_choked_choke", &"die_choked_choke", 0, &"die", &"die_choked_choke", 1, &"choke", &"die_choked_choke", 2, &"choked", &"output", 0, &"OneShot"]
+nodes/state/position = Vector2(175.478, 4.05595)
+nodes/wpn_type/node = SubResource("AnimationNodeBlend2_pljoa")
+nodes/wpn_type/position = Vector2(108.345, 196.97)
+node_connections = [&"IsArmed", 0, &"state", &"IsArmed", 1, &"wpn_type", &"OneShot", 0, &"IsArmed", &"OneShot", 1, &"die_choked_choke", &"die_choked_choke", 0, &"die", &"die_choked_choke", 1, &"choke", &"die_choked_choke", 2, &"choked", &"output", 0, &"OneShot", &"wpn_type", 0, &"melee", &"wpn_type", 1, &"ranged"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1kbjy"]
 radius = 10.0
@@ -2771,13 +2790,15 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_p4co3")
 anim_player = NodePath("../model/Character3/AnimationPlayer")
-parameters/IsArmed/blend_amount = 0.0
+parameters/IsArmed/blend_amount = 1.0
 parameters/OneShot/active = false
 parameters/OneShot/internal_active = false
 parameters/OneShot/request = 0
 parameters/die_choked_choke/blend_amount = 0.0
-parameters/hold_aim/blend_position = Vector2(0, 0)
+parameters/melee/blend_position = Vector2(0, 0)
+parameters/ranged/blend_position = Vector2(0, 0)
 parameters/state/blend_position = Vector2(0, 0)
+parameters/wpn_type/blend_amount = 1.0
 script = ExtResource("3_roqug")
 
 [node name="model" type="Node3D" parent="."]
@@ -2786,31 +2807,31 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.978176, -0.0552)
+bones/0/position = Vector3(0, 0.979, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
-bones/2/rotation = Quaternion(-0.0695189, 0, 0, 0.997581)
-bones/3/rotation = Quaternion(0.0069866, 0, 0, 0.999976)
-bones/4/rotation = Quaternion(0.189582, 0, 0, 0.981865)
+bones/2/rotation = Quaternion(-0.0774642, 0, 0, 0.996995)
+bones/3/rotation = Quaternion(0.00162715, 0, 0, 0.999999)
+bones/4/rotation = Quaternion(0.201738, 0, 0, 0.97944)
 bones/7/rotation = Quaternion(-0.605155, -0.345862, -0.356134, 0.622363)
-bones/8/rotation = Quaternion(-0.155348, 0.743335, -0.553413, 0.342131)
-bones/9/rotation = Quaternion(0.205547, 0.00133486, -0.0457902, 0.977574)
+bones/8/rotation = Quaternion(-0.0887231, 0.625059, -0.718522, 0.291815)
+bones/9/rotation = Quaternion(0.429191, 0.00122639, -0.0956121, 0.898138)
 bones/10/rotation = Quaternion(0.06922, 0.00181033, -0.0771698, 0.994611)
-bones/13/rotation = Quaternion(-0.160619, -0.788278, 0.466134, 0.368156)
-bones/14/rotation = Quaternion(0.399566, -0.00124581, 0.0890124, 0.912372)
-bones/15/rotation = Quaternion(0.06922, -0.00181033, 0.0771698, 0.994611)
-bones/16/rotation = Quaternion(-0.0308468, 0.019378, 0.0821465, 0.995954)
-bones/18/rotation = Quaternion(0.952316, 0.0400015, -0.13421, 0.271075)
-bones/19/rotation = Quaternion(0.280064, 0.000425686, -0.0270704, 0.959599)
-bones/20/rotation = Quaternion(-0.604806, -0.0871906, 0.0527903, 0.789823)
+bones/13/rotation = Quaternion(0.180085, -0.648855, 0.706333, 0.21829)
+bones/14/rotation = Quaternion(0.491765, -0.0011795, 0.109552, 0.863808)
+bones/15/rotation = Quaternion(-0.0905718, 0.0471697, -0.0235842, 0.994493)
+bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
+bones/18/rotation = Quaternion(0.95244, 0.0399705, -0.134176, 0.27066)
+bones/19/rotation = Quaternion(0.279366, 0.000425762, -0.0270029, 0.959805)
+bones/20/rotation = Quaternion(-0.603756, -0.0869931, 0.0531342, 0.790625)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.97063, -0.0409582, 0.132922, 0.196293)
-bones/25/rotation = Quaternion(0.208514, -0.000433757, 0.0201546, 0.977812)
-bones/26/rotation = Quaternion(-0.613212, 0.108056, -0.0622277, 0.780015)
+bones/24/rotation = Quaternion(0.971225, -0.0406755, 0.133145, 0.193237)
+bones/25/rotation = Quaternion(0.201859, -0.000434373, 0.0195112, 0.97922)
+bones/26/rotation = Quaternion(-0.610571, 0.10977, -0.0628422, 0.781796)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.904668, 0.130715, 0.405573, 0.126029, -0.827128, 0.547701, 0.407053, 0.546602, 0.731802, -0.353641, 1.08043, 0.0796018)
+transform = Transform3D(-0.515252, 0.568164, 0.641642, 0.326172, -0.562335, 0.759862, 0.792545, 0.600806, 0.104425, -0.0746598, 1.1975, 0.295025)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2818,7 +2839,11 @@ bone_idx = 15
 unique_name_in_owner = true
 transform = Transform3D(1, -1.11759e-08, 0, 7.45058e-09, -5.06407e-08, -1, 0, 1, -3.94066e-08, 0, 0, 0)
 
-[node name="fists" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_tb457")]
+[node name="FISTS" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_6lkyc")]
+visible = false
+
+[node name="Test Pistol" parent="model/Character3/metarig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("5_gtrq2")]
+visible = false
 
 [node name="AnimationPlayer" parent="model/Character3" index="1"]
 libraries = {
@@ -2831,7 +2856,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17502")
+blackboard = NodePath("@Node@59258")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -2929,27 +2954,32 @@ skeleton = NodePath("../..")
 script = ExtResource("21_sr724")
 
 [node name="Actions" type="Node" parent="."]
-script = ExtResource("17_qkq8x")
+script = ExtResource("19_4bjx2")
 
-[node name="MAIN_ATTACK" type="Node" parent="Actions"]
+[node name="attack" type="Node" parent="Actions"]
 script = ExtResource("19_01c18")
+enabled = null
+target_self = false
+exec_on_selected = null
+oneshot = null
 action_name = "Attack"
+action_description = null
+range_ = null
 
-[node name="CROUCH" type="Node" parent="Actions"]
+[node name="crouch" type="Node" parent="Actions"]
 script = ExtResource("19_an5oo")
 exec_on_selected = true
-oneshot = true
 icon = ExtResource("21_rcb5j")
 action_name = "Stealth"
 action_description = "Enter or exit stealth mode"
 
-[node name="TAKEDOWN" type="Node" parent="Actions"]
+[node name="takedown" type="Node" parent="Actions"]
 script = ExtResource("20_u4uhu")
 enabled = false
+target_self = false
 oneshot = true
 icon = ExtResource("23_jbviw")
 action_name = "Takedown"
-action_description = "Sneak to an enemy to take-him-down"
 range_ = 1.2
 
 [node name="CharaHUD" type="Node3D" parent="."]

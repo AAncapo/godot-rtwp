@@ -1,10 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://webkucbmkpxt"]
+[gd_scene load_steps=3 format=3 uid="uid://d1ea7vyv24586"]
 
-[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_tmqwt"]
+[ext_resource type="PackedScene" uid="uid://ctxvsxy3wp6sm" path="res://weapons/melee/wpn_melee.tscn" id="1_0e6nx"]
+[ext_resource type="Texture2D" uid="uid://cw63hogo4q263" path="res://imports/placeholder/icosn/second_wind_action_baldursgate3_wiki_guide_64px.webp" id="2_7nr7t"]
 
-[node name="fists" instance=ExtResource("1_tmqwt")]
-name_ = "Disarmed"
-reliabl = 3
-range_ = 1.5
-
-[editable path="muzzle"]
+[node name="FISTS" instance=ExtResource("1_0e6nx")]
+icon = ExtResource("2_7nr7t")
+name_ = "Fists"

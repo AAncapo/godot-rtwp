@@ -3,39 +3,46 @@ class_name AnimationController extends AnimationTree
 enum MotionState { DOWNED = -1, NORMAL, CROUCH, INJURED }
 var motion_state = MotionState.NORMAL:
 	set(value):
-		match value:
-			Character.State.WORKING:
-				value = MotionState.NORMAL
 		motion_state = value
 		var blend_pos = get("parameters/state/blend_position")
 		blend_pos.y = motion_state
 		set_motion_state(blend_pos)
 
-var is_armed:String = "parameters/IsArmed/blend_amount"
-var holdaim_path:String = "parameters/hold_aim/blend_position"
-var equipped_type:int
-var aim_vec:Vector2i
-
+var is_armed_path := "parameters/IsArmed/blend_amount"
+var equipped_type := {
+	'blend_amount':0,
+	'param':"melee",
+	'blend_pos':Vector2i()
+}
 
 func move(run:bool = false): set_motion_state(Vector2(1 if !run else 2, motion_state))
 
 func stop(): set_motion_state(Vector2(0, motion_state))
 
 
-func equip(type:int):
-	equipped_type = type
-	set(is_armed, 1)
-	aim(true if aim_vec.y > 0 else false)  #continue aiming if already
+func update_equipped(_wpn):
+	if !_wpn: return
+	
+	equipped_type.blend_amount = 0 if _wpn is MeleeWeapon else 1
+	equipped_type.param = "melee" if _wpn is MeleeWeapon else "ranged"
+	equipped_type.blend_pos.x = _wpn.type
+	
+	set("parameters/wpn_type/blend_amount",equipped_type.blend_amount)
+	set(str("parameters/",equipped_type.param,"/blend_position"),equipped_type.blend_pos)
+	set(is_armed_path, 1)
 
 
-func disarm(): set(is_armed, 0)
+func disarm(): set(is_armed_path, 0)
 
 
-func aim(_aim:bool = false):
-	aim_vec = Vector2i(0,0)
-	aim_vec.x = equipped_type
-	aim_vec.y = 0 if not _aim else 1
-	set(holdaim_path, aim_vec)
+func aim(_aim:bool):
+	var _current_pos:Vector2 = get(str("parameters/",equipped_type.param,"/blend_position"))
+	_current_pos.y = 0 if !_aim else 1
+	set(str("parameters/",equipped_type.param,"/blend_position"), _current_pos)
+
+
+func reload_gun():
+	print(" RELOADING...")
 
 
 func choke(): request_oneshot(0)
