@@ -17,13 +17,13 @@
 [ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
 [ext_resource type="Script" path="res://character/mouse_input_handler.gd" id="14_4ueqc"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
-[ext_resource type="Script" path="res://actions/unit_actions/main_attack.gd" id="19_01c18"]
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="19_4bjx2"]
-[ext_resource type="Script" path="res://actions/unit_actions/CROUCH.gd" id="19_an5oo"]
-[ext_resource type="Script" path="res://actions/unit_actions/TAKEDOWN.gd" id="20_u4uhu"]
+[ext_resource type="Script" path="res://actions/unit_actions/action_crouch.gd" id="19_an5oo"]
+[ext_resource type="Script" path="res://actions/unit_actions/action_attack.gd" id="20_omnef"]
 [ext_resource type="Script" path="res://character/chara_hud.gd" id="21_laepi"]
 [ext_resource type="Texture2D" uid="uid://bcueipkn8gxmx" path="res://imports/placeholder/icosn/cunning_action_hide_baldur's_gate_3_wiki_guide_64px.png" id="21_rcb5j"]
 [ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
+[ext_resource type="Script" path="res://actions/unit_actions/action_takedown.gd" id="23_h3fpd"]
 [ext_resource type="Texture2D" uid="uid://ddulu80l7o3fg" path="res://imports/placeholder/icosn/sneak_attack_melee_action_baldursgate3_wiki_guide_64px.png" id="23_jbviw"]
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
 
@@ -2721,7 +2721,7 @@ max_space = Vector2(2, 1)
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_pljoa"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
-graph_offset = Vector2(-551.59, 132.014)
+graph_offset = Vector2(-328.614, -40.865)
 nodes/IsArmed/node = SubResource("AnimationNodeBlend2_42tck")
 nodes/IsArmed/position = Vector2(460, 80)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_1ncfo")
@@ -2807,7 +2807,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 [node name="Character3" parent="model" instance=ExtResource("2_b8lnh")]
 
 [node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.979, -0.0552)
+bones/0/position = Vector3(0, 0.979386, -0.0552)
 bones/0/rotation = Quaternion(0.12582, 0, 0, 0.992053)
 bones/1/rotation = Quaternion(-0.0644764, 0, 0, 0.997919)
 bones/2/rotation = Quaternion(-0.0774642, 0, 0, 0.996995)
@@ -2821,17 +2821,17 @@ bones/13/rotation = Quaternion(0.180085, -0.648855, 0.706333, 0.21829)
 bones/14/rotation = Quaternion(0.491765, -0.0011795, 0.109552, 0.863808)
 bones/15/rotation = Quaternion(-0.0905718, 0.0471697, -0.0235842, 0.994493)
 bones/16/rotation = Quaternion(-0.0110495, -0.040837, 0.270179, 0.96188)
-bones/18/rotation = Quaternion(0.95244, 0.0399705, -0.134176, 0.27066)
-bones/19/rotation = Quaternion(0.279366, 0.000425762, -0.0270029, 0.959805)
-bones/20/rotation = Quaternion(-0.603756, -0.0869931, 0.0531342, 0.790625)
+bones/18/rotation = Quaternion(0.952484, 0.0399595, -0.134164, 0.270513)
+bones/19/rotation = Quaternion(0.279061, 0.000425806, -0.0269735, 0.959894)
+bones/20/rotation = Quaternion(-0.603449, -0.086935, 0.0532347, 0.790859)
 bones/21/rotation = Quaternion(6.41252e-08, 0.972284, -0.233801, 6.52932e-07)
-bones/24/rotation = Quaternion(0.971225, -0.0406755, 0.133145, 0.193237)
-bones/25/rotation = Quaternion(0.201859, -0.000434373, 0.0195112, 0.97922)
-bones/26/rotation = Quaternion(-0.610571, 0.10977, -0.0628422, 0.781796)
+bones/24/rotation = Quaternion(0.971443, -0.0405722, 0.133227, 0.192104)
+bones/25/rotation = Quaternion(0.199263, -0.000434625, 0.0192603, 0.979757)
+bones/26/rotation = Quaternion(-0.609614, 0.11039, -0.063064, 0.782437)
 bones/27/rotation = Quaternion(-6.41252e-08, 0.972284, -0.233801, -6.52932e-07)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.515252, 0.568164, 0.641642, 0.326172, -0.562335, 0.759862, 0.792545, 0.600806, 0.104425, -0.0746598, 1.1975, 0.295025)
+transform = Transform3D(-0.515252, 0.568164, 0.641642, 0.326172, -0.562335, 0.759862, 0.792545, 0.600806, 0.104425, -0.0746598, 1.19788, 0.295025)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -2856,7 +2856,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@59258")
+blackboard = NodePath("@Node@17524")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -2957,7 +2957,7 @@ script = ExtResource("21_sr724")
 script = ExtResource("19_4bjx2")
 
 [node name="attack" type="Node" parent="Actions"]
-script = ExtResource("19_01c18")
+script = ExtResource("20_omnef")
 enabled = null
 target_self = false
 exec_on_selected = null
@@ -2974,7 +2974,7 @@ action_name = "Stealth"
 action_description = "Enter or exit stealth mode"
 
 [node name="takedown" type="Node" parent="Actions"]
-script = ExtResource("20_u4uhu")
+script = ExtResource("23_h3fpd")
 enabled = false
 target_self = false
 oneshot = true

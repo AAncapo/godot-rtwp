@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://xyk2ao68r3av"]
+
+[ext_resource type="Script" path="res://occlusion_camera.gd" id="1_6sl63"]
+
+[sub_resource type="Environment" id="Environment_0gjvd"]
+background_mode = 1
+ambient_light_source = 1
+
+[sub_resource type="Shader" id="Shader_0s1v5"]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+void fragment() {
+	if (COLOR.r != 0.0) {
+		discard;
+	}
+	COLOR.rgb = vec3(0.0,0.0,0.0);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_21dsc"]
+shader = SubResource("Shader_0s1v5")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_lo1g5"]
+viewport_path = NodePath("CamBase/OcclusionCamera/VisibilitySubViewport")
+
+[sub_resource type="QuadMesh" id="QuadMesh_mwwbm"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0osc7"]
+viewport_path = NodePath("CamBase/OcclusionCamera/MaskSubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3g6gf"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_0osc7")
+
+[node name="OcclusionCamera" type="Camera3D"]
+transform = Transform3D(0.999913, 0.00968096, 0.0090574, -0.0129126, 0.556404, 0.830811, 0.00300347, -0.830855, 0.556481, 0, 0, 0)
+cull_mask = 1
+current = true
+script = ExtResource("1_6sl63")
+
+[node name="VisibilitySubViewport" type="SubViewport" parent="."]
+
+[node name="VisibilityCamera" type="Camera3D" parent="VisibilitySubViewport"]
+cull_mask = 524288
+environment = SubResource("Environment_0gjvd")
+
+[node name="MaskSubViewport" type="SubViewport" parent="."]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+
+[node name="TextureRect" type="TextureRect" parent="MaskSubViewport"]
+material = SubResource("ShaderMaterial_21dsc")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("ViewportTexture_lo1g5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, -1.86265e-09, 3.72529e-09, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, -0.5)
+mesh = SubResource("QuadMesh_mwwbm")
+surface_material_override/0 = SubResource("StandardMaterial3D_3g6gf")

@@ -1,16 +1,14 @@
 extends Node3D
 
-var move_speed: float = .5
 @export var zoom_speed: float = 3.0
-
 @onready var cam = $Camera3D
 @onready var new_pos:Vector3 = self.global_position
 var mouse_sens = 0.004
+var move_speed: float = .5
 
 #Ackshually NO DAO camera control.
 #set a fixed X rotation, clamp the height to a lower val, pan w middle mouse and rotate with QE
 #i was going to leave QE for hotkeys but that can lead to dumb accidents while in combat
-
 
 func _process(_delta: float) -> void:
 	#move with wasd
@@ -27,7 +25,7 @@ func _process(_delta: float) -> void:
 	
 	if global_position.y <= 2: global_position.y = 2
 	if global_position.y >= 15: global_position.y = 15
-	
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:  #rotate holding middle mouse button

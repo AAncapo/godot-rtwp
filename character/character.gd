@@ -24,7 +24,7 @@ var current_state:State= State.IDLE:
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
-		#print(State.keys()[current_state],current_state)
+		print(stats.alias," ",State.keys()[current_state+1])
 		#anim.motion_state = current_state
 var previous_state
 var stealth_on:bool = false:
@@ -52,11 +52,12 @@ var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-		if !target_unit and !stealth_on:
-			current_state = State.IDLE
-		if !target_unit: anim.aim(false)
 		if target_unit and selected_action != actions.get_action('takedown'):
 			actions.get_action('attack').select()
+		if !target_unit: 
+			anim.aim(false)
+			if !stealth_on:
+				current_state = State.IDLE
 var is_moving:bool:
 	set(value):
 		is_moving = value

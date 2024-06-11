@@ -50,9 +50,11 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 		if enemies_in_area.has(body): enemies_in_area.remove_at(enemies_in_area.find(body))
 		# disable fov if no more enmies around
 		var new_target = get_closest_unit_in_area(1)
-		if !new_target: enable_fov(false)
+		if !new_target: 
+			enable_fov(false)
+			actor.current_state = Character.State.IDLE
 		
-		if actor.is_player(): return
+		#if actor.is_player(): return
 		
 		# If the current target exited the area search other enemies nearby
 		if body == actor.target_unit:
@@ -62,18 +64,22 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 			#(?) sort the detected_enemies array prioritizing visible targets over close ones
 			actor.target_vec = null if !new_target else new_target.global_position
 			
-			#Move to the previous target last position if no enemies around then 
-			if !actor.target_vec: actor.target_vec = body.global_position
+			if !actor.is_player():
+				#Move to the previous target last position if no enemies around then 
+				if !actor.target_vec: actor.target_vec = body.global_position
 
 
 func handle_detected_body(body):
 	if !body.stealth_on:
-		#if this is player and not in stealth set to alert
+		#PLAYER: if not in stealth set to alert
 		if actor.is_player() and !actor.stealth_on: 
 			actor.current_state = Character.State.ALERT
+			if not actor.selected_action:
+				#TODO make action_move
+				actor.target_unit = body
 		
-		#if this is ENEMy and dont have a target already set body as target
-		if not actor.is_player() and not actor.target_unit:
+		#ENEMY: if dont have a target already set body as target
+		if !actor.is_player() and !actor.target_unit:
 			actor.target_unit = body
 			actor.current_state = Character.State.ALERT
 			
