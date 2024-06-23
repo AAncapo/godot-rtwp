@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://etl7nftl6mhr"
-path="res://.godot/imported/scavengers_hideout.glb-7df3bbafc2bc27df4189384e1127b584.scn"
+uid="uid://cn1n6llu4lpar"
+path="res://.godot/imported/Character.glb-5ec7e53a69ab7b80159f226116e11796.scn"
 
 [deps]
 
-source_file="res://world/scavengers_hideout.glb"
-dest_files=["res://.godot/imported/scavengers_hideout.glb-7df3bbafc2bc27df4189384e1127b584.scn"]
+source_file="res://character/model/Character.glb"
+dest_files=["res://.godot/imported/Character.glb-5ec7e53a69ab7b80159f226116e11796.scn"]
 
 [params]
 

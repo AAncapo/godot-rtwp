@@ -2,54 +2,43 @@ class_name Stats extends Node
 
 signal new_wound_state(stat)
 
-const BODY_TYPES := {
-	#TYPE         :BTM  
-	"VERY_WEAK"   : 0, 
-	"WEAK"        : 1, 
-	"AVERAGE"     : 2, 
-	"STRONG"      : 3,
-	"VERY_STRONG" : 4,
-	"SUPERMAN"    : 5
-	}
-const WOUND_STATES := {
-	#state:   stun/death (modf)
-	"LIGHT":    [0,0],
-	"SERIOUS":  [1,0],
-	"CRITICAL": [2,0],
-	"MORTAL":   [3,0],
-	"MORTAL1":  [4,1],
-	"MORTAL2":  [5,2],
-	"MORTAL3":  [6,3],
-	"MORTAL4":  [7,4],
-	"MORTAL5":  [8,5],
-	"MORTAL6":  [9,6],
-	}
-
 @export var name_:String
 @export var alias:String
 @export var portrait_image:Texture2D
 
-@export var INTEL:int
-@export var REFLEX:int
-@export var COOL:int
-@export var TECH:int
-@export var LUCK:int
-@export var ATTRACT:int
-@export var MOV_ALLOW:int
-@export var EMPATHY:int
-@export var BODY:int:
-	set(value):
-		BODY = value
-		var idx
-		match value:
-			0,1,2: idx=0
-			3,4  : idx=1
-			5,6,7: idx=2
-			8,9  : idx=3
-			_    : idx=4
-		body_type = BODY_TYPES.keys()[idx]
-		btm = BODY_TYPES[body_type]
+var INT  :int
+var WILL :int
+var EMP  :int
+var COOL :int
+var REF  :int
+var LUCK :int
+var DEX  :int
+var TECH :int
+var MOVE :int
+var BODY :int
+var starting_stats = {
+	"INT"  : 0,
+	"WILL" : 0,
+	"EMP"  : 0,
+	"COOL" : 0,
+	"REF"  : 0,
+	"LUCK" : 0,
+	"DEX"  : 0,
+	"TECH" : 0,
+	"MOVE" : 0,
+	"BODY" : 0
+	}
+var hitpoints:int
+var humanity:int
+var death_save:int
 
+var current_hp:int:
+	set(value):
+		current_hp = clamp(value, 0, hitpoints)
+		_update_hp(current_hp)
+		#print(name_, " HP: ",current_hp)
+
+var skills:Dictionary
 @export var visibility_range:float = 10.0
 
 @export var SPEED:float = 10.0:
@@ -69,66 +58,42 @@ const WOUND_STATES := {
 var run_speed:float
 var crouch_speed:float
 
-@export var skills = {}
-
-var body_type:String #BODY_TYPE key
-var btm:int  #BODTYP MODIFIER: subtract from any damage taken
-var damage_modifier:int = 0: #add to MELEE attacks damage
-	get:
-		var dmg_mod:int
-		match body_type:
-			"VERY_WEAK"   : dmg_mod = -2
-			"WEAK"        : dmg_mod = -1
-			"AVERAGE"     : dmg_mod = 0 
-			"STRONG"      : dmg_mod = 1
-			"VERY_STRONG" : dmg_mod = 2
-			"SUPERMAN"    :
-				match BODY:
-					11,12: dmg_mod = 4
-					13,14: dmg_mod = 6
-					_: dmg_mod = 8
-		return dmg_mod
-var current_wound_state:String:  #WOUND_STATE key
+var current_wound_state:String:
 	set(value):
 		current_wound_state = value
 		new_wound_state.emit(self)
-var ws_lvl := 0:  #WS levels go from 1-4, update state at 5
-	set(value):
-		ws_lvl = value
-		
-		if current_wound_state.is_empty():
-			current_wound_state = WOUND_STATES.keys()[0]
-			ws_lvl = 1
-		
-		var next_ws = (WOUND_STATES.keys()).find(current_wound_state) + 1
-		if ws_lvl > 4 and next_ws < WOUND_STATES.size():
-			ws_lvl = 1
-			current_wound_state = WOUND_STATES.keys()[next_ws]
-		
-		stun_penal_modf = WOUND_STATES[current_wound_state][0]
-		death_penal_modf = WOUND_STATES[current_wound_state][1]
-
-var death_penal_modf := 0 
-var stun_penal_modf := 0
-
-var at_death_door := false:  #true if death saves are required
-	set(value):
-		at_death_door = value
-		if at_death_door: 
-			owner.msg(Global.POPUP_NOTIF.DEATH_DOOR)
-			owner.current_state = owner.State.DOWNED
-var is_stunned := false:
-	set(value):
-		is_stunned=value
-		if is_stunned: 
-			owner.msg(Global.POPUP_NOTIF.STUN)
-			owner.current_state = owner.State.DOWNED
-			owner.end_turn()
-		else:
-			owner.msg(Global.POPUP_NOTIF.STUN,'',true)
+var stabilization_dv:int
+var death_save_penalty := 0 
+var action_penalty := 0
+var at_death_door := false
 var is_dead := false
 
 var total_dmg := 0
+
+
+func _init():
+	## Stats
+	for s in starting_stats.keys():
+		var pts = Fnff.roll(1,10)
+		self[s] = pts
+		starting_stats[s] = pts
+	
+	hitpoints = roundi(10 + (((BODY + WILL)/2) * 5))
+	current_hp = hitpoints
+	humanity = EMP * 10
+	death_save = BODY
+	
+	## Skills
+	var pts = 86
+	#get skills from db
+	for s in Fnff.skills:
+		for _s in Fnff.skills.get(s):
+			skills[_s] = 2
+			pts -= 2
+	while pts > 0:
+		pts -= 1
+		skills[skills.keys().pick_random()] += 1
+	#print(name_," skills: ",skills)
 
 
 func calc_damage(atk:Attack) -> Dictionary:
@@ -146,49 +111,45 @@ func calc_damage(atk:Attack) -> Dictionary:
 				damage_status.text = "HEADSHOT"
 				dmg *= 2
 	
-	dmg -= btm  ##substract BTM
+	current_hp -= dmg
+	
 	total_dmg += dmg
-	for _pts in range(dmg):  ##update wounded state
-		ws_lvl += 1
-	
-	#make death/stun save roll
-	at_death_door = death_penal_modf > 0
-	if at_death_door: 
-		if !Fnff.save_roll(self, Fnff.DEATH_SAVE):
-			Global.unit_died.emit(owner)
-			damage_status.amount = dmg
-			return damage_status
-	
-	if stun_penal_modf > 0 and !is_stunned: 
-		is_stunned = !Fnff.save_roll(self, Fnff.STUN_SAVE)
 	
 	damage_status.amount = dmg
 	return damage_status
 
 
-func gen_stats(intl,ref,cl,tch,lk,att,ma,emp,bod) -> void:
-	INTEL = intl
-	REFLEX = ref
-	COOL = cl
-	TECH = tch
-	LUCK = lk
-	ATTRACT = att
-	MOV_ALLOW = ma
-	EMPATHY = emp
-	BODY = bod
+func _update_hp(value):
+	#mortally wounded
+	if current_hp <= 1 and !is_dead: 
+		action_penalty = 4
+		stabilization_dv = 15
+		if !at_death_door:
+			at_death_door = true
+			roll_death_save()
+			#TODO get back to prev value when out of wound state
+			MOVE = max(MOVE - 6, 1)
+			return
+	#seriously wounded
+	if current_hp <= hitpoints / 2: 
+		action_penalty = 2
+		stabilization_dv = 13
+		return
+	#lightly wounded
+	if current_hp != hitpoints: 
+		action_penalty = 0
+		stabilization_dv = 10
+		return
 
-func get_stats_dictionary():
-	return {
-		"INTEL" : INTEL,
-		"REFLEX" : REFLEX,
-		"COOL" : COOL,
-		"TECH" : TECH,
-		"LUCK" : LUCK,
-		"ATTRACT" : ATTRACT,
-		"MOV_ALLOW" : MOV_ALLOW,
-		"EMPATHY" : EMPATHY,
-		"BODY" : BODY
-		}
+
+func roll_death_save():
+	var res = Fnff.roll(1,10,death_save_penalty)
+	if res > death_save:
+		Global.unit_died.emit(owner)
+	else:
+		death_save_penalty += 1
+		owner.end_turn()
+
 
 var BODY_PARTS = [
 	BodyPart.new("HEAD",[1]),

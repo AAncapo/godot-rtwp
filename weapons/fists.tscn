@@ -6,3 +6,4 @@
 [node name="FISTS" instance=ExtResource("1_0e6nx")]
 icon = ExtResource("2_7nr7t")
 name_ = "Fists"
+related_skill = "brawling"

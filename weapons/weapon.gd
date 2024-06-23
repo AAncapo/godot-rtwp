@@ -5,6 +5,7 @@ class_name Weapon extends Node3D
 @export var range_:float = 1
 enum Reliability { NA, VR, ST, UR }  # (VeryReliabl, Standard, Unreliabl)
 @export var reliabl := Reliability.NA
+@export var related_skill:String
 @export_category("Damage Calc")
 @export var dice_amount:int = 1
 enum Dice { D6 = 6, D10 = 10 }

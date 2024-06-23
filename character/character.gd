@@ -25,7 +25,6 @@ var current_state:State= State.IDLE:
 		previous_state = current_state
 		current_state = value
 		print(stats.alias," ",State.keys()[current_state+1])
-		#anim.motion_state = current_state
 var previous_state
 var stealth_on:bool = false:
 	set(value):
@@ -52,11 +51,14 @@ var target_unit:
 	set(val):
 		target_unit = val
 		crosshair.enabled = target_unit != null
-		if target_unit and selected_action != actions.get_action('takedown'):
-			actions.get_action('attack').select()
-		if !target_unit: 
+		if target_unit:
+			anim.motion_state = AnimationController.MotionState.ALERTED
+			if selected_action != actions.get_action('takedown'):
+				actions.get_action('attack').select()
+		else:
 			anim.aim(false)
 			if !stealth_on:
+				anim.motion_state = AnimationController.MotionState.NORMAL
 				current_state = State.IDLE
 var is_moving:bool:
 	set(value):
@@ -117,21 +119,11 @@ func _on_action_selected(_action, _is_selected):
 
 
 func _on_turn_started():
-	#save rolls
 	if stats.is_dead: return
 	
-	if stats.at_death_door:
-		var saved = Fnff.save_roll(stats, Fnff.DEATH_SAVE)
-		if !saved: 
-			Global.unit_died.emit(self)
-			return
-	
 	is_turn = true
-	
-	## check if still stunned from previous turn
-	if stats.is_stunned:
-		var saved = Fnff.save_roll(stats, Fnff.STUN_SAVE)
-		stats.is_stunned = !saved
+	if stats.at_death_door:
+		stats.roll_death_save()
 
 
 func end_turn():
@@ -189,16 +181,10 @@ func _on_reload_request():
 
 func attack(_target):
 	var atk = Attack.new(self, _target)
-	atk.calc_hit_chance()
-	match atk.result:
-		Attack.FAILED:
-			msg(Global.POPUP_NOTIF.NORMAL,"Failed")
-		Attack.FUMBLED:
-			msg(Global.POPUP_NOTIF.NORMAL,"Fumbled")
-		Attack.MISSED:
-			msg(Global.POPUP_NOTIF.NORMAL,"Miss")
-		Attack.SUCCEED:
-			_target.take_damage(atk)
+	var hit = atk.calc_hit_chance()
+	
+	if hit: _target.take_damage(atk) 
+	else: msg(Global.POPUP_NOTIF.NORMAL,"Miss")
 
 
 func take_damage(atk:Attack):
@@ -224,6 +210,7 @@ func _on_unit_died(unit):
 	if unit == self: 
 		stats.is_dead = true
 		anim.die()
+		disable()
 		print(self.name, " died")
 	
 	if target_unit == unit:
@@ -274,6 +261,6 @@ func msg(pop, text="",remove=false):
 
 
 func disable():
+	$CollisionShape3D.disabled = true
 	$BeehaveTree.enabled = false
 	%CharaHUD.clear_notifications()
-	process_mode = Node.PROCESS_MODE_DISABLED

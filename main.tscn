@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://selection_sys/selector.gd" id="3_yxkw6"]
 [ext_resource type="Script" path="res://selection_sys/selection_box.gd" id="4_3a13g"]
 [ext_resource type="PackedScene" uid="uid://bbyi4tcs1p770" path="res://gui/gui.tscn" id="5_0g4r5"]
-[ext_resource type="PackedScene" uid="uid://ug1bxwake28y" path="res://world/scavengers_hideout.tscn" id="6_ufcan"]
+[ext_resource type="PackedScene" uid="uid://bmcaaiugyh4ui" path="res://world/scavengers_hideout.tscn" id="6_ufcan"]
 [ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="7_s48wt"]
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
 [ext_resource type="PackedScene" uid="uid://dixbrc03xx0ij" path="res://character/player_companion.tscn" id="9_4ethv"]
