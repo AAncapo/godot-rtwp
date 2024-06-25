@@ -4685,7 +4685,7 @@ bones/17/rotation = Quaternion(0.271282, -0.00279396, -0.0464408, 0.961375)
 bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.969311, 0.226892, -0.0946384, -0.245694, -0.907267, 0.341323, -0.00841873, 0.3541, 0.935169, -0.241533, 0.919437, 0.122145)
+transform = Transform3D(-0.969311, 0.226893, -0.094639, -0.245695, -0.907266, 0.341323, -0.00841918, 0.3541, 0.935169, -0.241534, 0.919437, 0.122145)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -4704,7 +4704,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@25010")
+blackboard = NodePath("@Node@17524")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]

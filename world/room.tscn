@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw1o6gt7x6r8t"]
+
+[ext_resource type="Script" path="res://world/room.gd" id="1_h7tir"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_24b0s"]
+size = Vector3(10.887, 4.75793, 10.541)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_omyyu"]
+size = Vector3(3.31665, 3.07324, 4.88062)
+
+[node name="Room" type="Node3D"]
+script = ExtResource("1_h7tir")
+
+[node name="InteriorArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteriorArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87897, 0.296875)
+shape = SubResource("BoxShape3D_24b0s")
+
+[node name="PeekArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PeekArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.64061, 1.03662, 3.33957)
+shape = SubResource("BoxShape3D_omyyu")
+
+[connection signal="body_entered" from="InteriorArea" to="." method="_update_interior_area"]
+[connection signal="body_exited" from="InteriorArea" to="." method="_update_interior_area"]
+[connection signal="body_entered" from="PeekArea" to="." method="_on_peek_area_body_entered"]
+[connection signal="body_exited" from="PeekArea" to="." method="_on_peek_area_body_exited"]

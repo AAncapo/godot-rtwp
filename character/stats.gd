@@ -41,22 +41,7 @@ var current_hp:int:
 var skills:Dictionary
 @export var visibility_range:float = 10.0
 
-@export var SPEED:float = 10.0:
-	get:
-		walk_speed = SPEED * .2
-		crouch_speed = SPEED * .2
-		run_speed = SPEED
-		var _speed = walk_speed
-		var motion_state = owner.anim.motion_state
-		match motion_state:
-			AnimationController.MotionState.NORMAL:
-				_speed = run_speed if owner.is_running else walk_speed
-			AnimationController.MotionState.CROUCH:
-				_speed = crouch_speed
-		return _speed
-@export var walk_speed:float
-var run_speed:float
-var crouch_speed:float
+@export var SPEED:float = 5.0
 
 var current_wound_state:String:
 	set(value):
