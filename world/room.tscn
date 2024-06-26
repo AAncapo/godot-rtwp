@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://world/room.gd" id="1_h7tir"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_24b0s"]
-size = Vector3(10.887, 4.75793, 10.541)
+size = Vector3(11.1048, 4.75793, 10.5331)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_omyyu"]
 size = Vector3(3.31665, 3.07324, 4.88062)

@@ -6,10 +6,11 @@ extends Node3D
 @onready var roof = get_node(roof_path)
 
 
+
 func _update_interior_area(body: Node3D) -> void:
 	if is_player(body):
 		var players_remaining = interior_area.get_overlapping_bodies()
-		roof.visible = players_remaining.is_empty()
+		roof.visible = !players_remaining.is_empty()
 
 
 func _on_peek_area_body_entered(body: Node3D) -> void:

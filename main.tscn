@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=10 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
@@ -10,29 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
 [ext_resource type="PackedScene" uid="uid://dixbrc03xx0ij" path="res://character/player_companion.tscn" id="9_4ethv"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ppise"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_sjls7"]
-sky_material = SubResource("ProceduralSkyMaterial_ppise")
-
-[sub_resource type="Environment" id="Environment_m5s7i"]
-background_mode = 2
-sky = SubResource("Sky_sjls7")
-tonemap_mode = 2
-
 [node name="Main" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_ot487")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_m5s7i")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.834627, 0.406973, -0.371175, -0.541528, -0.48304, 0.688055, 0.100728, 0.775271, 0.623546, 0, 13.0509, 0)
-light_energy = 0.5
-shadow_enabled = true
 
 [node name="CamBase" type="Node3D" parent="."]
 transform = Transform3D(-0.21071, 0, -0.977548, 0, 1, 0, 0.977548, 0, -0.21071, -4.13024, 14.2501, -62.0264)
