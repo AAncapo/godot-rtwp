@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 					a.target_vec = collider.global_position
 	
 	#TODO: only start counter when detects movement
-	if enemies_in_area and !actor.target_unit:
+	if !actor.is_player() and enemies_in_area and !actor.target_unit:
 		detect_motion -= delta
 		if detect_motion < 0:
 			for e in enemies_in_area:
@@ -48,13 +48,11 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 func _on_detection_area_body_exited(body: Node3D) -> void:
 	if actor.is_enemy(body):
 		if enemies_in_area.has(body): enemies_in_area.remove_at(enemies_in_area.find(body))
-		# disable fov if no more enmies around
+		# disable fov when no more enmies around
 		var new_target = get_closest_unit_in_area(1)
 		if !new_target: 
 			enable_fov(false)
 			actor.current_state = Character.State.IDLE
-		
-		#if actor.is_player(): return
 		
 		# If the current target exited the area search other enemies nearby
 		if body == actor.target_unit:

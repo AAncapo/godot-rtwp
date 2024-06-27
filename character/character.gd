@@ -193,7 +193,6 @@ func take_damage(atk:Attack):
 		if !target_unit && atk.actor:
 			end_turn()
 			target_unit = atk.actor
-			#target_vec = atk.actor.global_position
 	var dmg = stats.calc_damage(atk)
 	msg(Global.POPUP_NOTIF.NORMAL,str("-",dmg.amount))
 	#TODO: display status in log
@@ -257,10 +256,10 @@ func find_job():
 
 
 func msg(pop, text="",remove=false):
-	%CharaHUD.add_notification(pop,text,remove)
+	$MouseInputHandle.add_notification(pop,text,remove)
 
 
 func disable():
 	$CollisionShape3D.disabled = true
 	$BeehaveTree.enabled = false
-	%CharaHUD.clear_notifications()
+	$MouseInputHandle.clear_notifications()

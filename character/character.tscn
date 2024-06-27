@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=95 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -20,7 +20,6 @@
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="19_4bjx2"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_crouch.gd" id="19_an5oo"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_attack.gd" id="20_omnef"]
-[ext_resource type="Script" path="res://character/chara_hud.gd" id="21_laepi"]
 [ext_resource type="Texture2D" uid="uid://bcueipkn8gxmx" path="res://imports/placeholder/icosn/cunning_action_hide_baldur's_gate_3_wiki_guide_64px.png" id="21_rcb5j"]
 [ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_takedown.gd" id="23_h3fpd"]
@@ -4787,6 +4786,7 @@ collision_layer = 2
 collision_mask = 0
 monitoring = false
 script = ExtResource("14_4ueqc")
+turnTimer = NodePath("../TurnTimer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MouseInputHandle"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02835, 0)
@@ -4797,6 +4797,68 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
 visible = false
 mesh = SubResource("PlaneMesh_6hwj4")
 skeleton = NodePath("../..")
+
+[node name="CharaHUD" type="Node3D" parent="MouseInputHandle"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16513, 0)
+
+[node name="Control" type="Control" parent="MouseInputHandle/CharaHUD"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 320.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MouseInputHandle/CharaHUD/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 2
+
+[node name="log" type="VBoxContainer" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Name" type="Button" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("23_reer0")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yh77o")
+text = "NAME"
+
+[node name="Control" type="Control" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+custom_minimum_size = Vector2(60, 3)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="TurnCounter" type="ProgressBar" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_wsysv")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ro2wj")
+show_percentage = false
 
 [node name="Stats" type="Node" parent="."]
 script = ExtResource("21_sr724")
@@ -4829,70 +4891,6 @@ oneshot = true
 icon = ExtResource("23_jbviw")
 action_name = "Takedown"
 range_ = 1.2
-
-[node name="CharaHUD" type="Node3D" parent="."]
-unique_name_in_owner = true
-process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16513, 0)
-script = ExtResource("21_laepi")
-turnTimer = NodePath("../TurnTimer")
-
-[node name="Control" type="Control" parent="CharaHUD"]
-custom_minimum_size = Vector2(100, 320)
-layout_mode = 3
-anchors_preset = 0
-offset_right = 100.0
-offset_bottom = 320.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CharaHUD/Control"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-alignment = 2
-
-[node name="log" type="VBoxContainer" parent="CharaHUD/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 2
-
-[node name="Name" type="Button" parent="CharaHUD/Control/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("23_reer0")
-theme_override_styles/normal = SubResource("StyleBoxFlat_yh77o")
-text = "NAME"
-
-[node name="Control" type="Control" parent="CharaHUD/Control/VBoxContainer"]
-custom_minimum_size = Vector2(60, 3)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="TurnCounter" type="ProgressBar" parent="CharaHUD/Control/VBoxContainer/Control"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = -2.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_wsysv")
-theme_override_styles/fill = SubResource("StyleBoxFlat_ro2wj")
-show_percentage = false
 
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
 [connection signal="body_entered" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_entered"]
