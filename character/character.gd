@@ -1,6 +1,6 @@
 class_name Character extends Unit
 
-signal selected_action_updated(_action)  #connected to chara portrait
+signal selected_action_updated(_action)  #connected to character portrait
 signal detected(detected_by)
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
@@ -10,6 +10,7 @@ signal detected(detected_by)
 @onready var ttimer:Timer = $TurnTimer
 @onready var actions := $Actions
 @onready var stats := $Stats
+@onready var bound_area := $BoundArea
 
 var is_turn:bool = true
 var next_action:float = 2.0:
@@ -256,10 +257,10 @@ func find_job():
 
 
 func msg(pop, text="",remove=false):
-	$MouseInputHandle.add_notification(pop,text,remove)
+	bound_area.add_notification(pop,text,remove)
 
 
 func disable():
 	$CollisionShape3D.disabled = true
 	$BeehaveTree.enabled = false
-	$MouseInputHandle.clear_notifications()
+	bound_area.clear_notifications()

@@ -1,4 +1,5 @@
 extends Area3D
+# Used to handle mouse input and detect overlapping areas
 
 const HOSTILE_COLOR := Color('e3003a')
 const ALLY_COLOR := Color('9fe2ff')
@@ -36,6 +37,14 @@ func  _process(_delta: float) -> void:
 	if timer:
 		update_turn_counter(timer.time_left, timer.wait_time)
 		tc.visible = tc.value > tc.min_value and tc.value < tc.max_value
+
+
+func get_current_room() -> Room:
+	var areas = get_overlapping_areas()
+	for a in areas:
+		if a is Room:
+			return a
+	return null
 
 
 func add_notification(pop=Global.POPUP_NOTIF.NORMAL, text:String="", remove=false):

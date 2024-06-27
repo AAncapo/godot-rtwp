@@ -15,8 +15,8 @@
 [ext_resource type="Script" path="res://beehave_nodes/ActionAttack.gd" id="10_nix71"]
 [ext_resource type="Script" path="res://character/Work.gd" id="12_lhebl"]
 [ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
-[ext_resource type="Script" path="res://character/mouse_input_handler.gd" id="14_4ueqc"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
+[ext_resource type="Script" path="res://character/character_bound_area.gd" id="17_00t7m"]
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="19_4bjx2"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_crouch.gd" id="19_an5oo"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_attack.gd" id="20_omnef"]
@@ -4684,7 +4684,7 @@ bones/17/rotation = Quaternion(0.271282, -0.00279396, -0.0464408, 0.961375)
 bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.969311, 0.226893, -0.094639, -0.245695, -0.907266, 0.341323, -0.00841918, 0.3541, 0.935169, -0.241534, 0.919437, 0.122145)
+transform = Transform3D(-0.969311, 0.226892, -0.0946384, -0.245694, -0.907267, 0.341323, -0.00841873, 0.3541, 0.935169, -0.241533, 0.919437, 0.122145)
 bone_name = "hand.R"
 bone_idx = 15
 
@@ -4703,7 +4703,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@17524")
+blackboard = NodePath("@Node@51253")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -4780,29 +4780,27 @@ enabled = false
 target_position = Vector3(0, 0, -1)
 collision_mask = 3
 
-[node name="MouseInputHandle" type="Area3D" parent="."]
+[node name="BoundArea" type="Area3D" parent="."]
 process_mode = 3
 collision_layer = 2
-collision_mask = 0
-monitoring = false
-script = ExtResource("14_4ueqc")
+script = ExtResource("17_00t7m")
 turnTimer = NodePath("../TurnTimer")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MouseInputHandle"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoundArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02835, 0)
 shape = SubResource("BoxShape3D_yytsn")
 
-[node name="SelectionRing" type="MeshInstance3D" parent="MouseInputHandle"]
+[node name="SelectionRing" type="MeshInstance3D" parent="BoundArea"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
 visible = false
 mesh = SubResource("PlaneMesh_6hwj4")
 skeleton = NodePath("../..")
 
-[node name="CharaHUD" type="Node3D" parent="MouseInputHandle"]
+[node name="CharaHUD" type="Node3D" parent="BoundArea"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.16513, 0)
 
-[node name="Control" type="Control" parent="MouseInputHandle/CharaHUD"]
+[node name="Control" type="Control" parent="BoundArea/CharaHUD"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 320)
 layout_mode = 3
@@ -4813,7 +4811,7 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MouseInputHandle/CharaHUD/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="BoundArea/CharaHUD/Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -4823,13 +4821,13 @@ grow_vertical = 0
 mouse_filter = 2
 alignment = 2
 
-[node name="log" type="VBoxContainer" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+[node name="log" type="VBoxContainer" parent="BoundArea/CharaHUD/Control/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 2
 
-[node name="Name" type="Button" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+[node name="Name" type="Button" parent="BoundArea/CharaHUD/Control/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
@@ -4840,13 +4838,13 @@ theme_override_fonts/font = ExtResource("23_reer0")
 theme_override_styles/normal = SubResource("StyleBoxFlat_yh77o")
 text = "NAME"
 
-[node name="Control" type="Control" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer"]
+[node name="Control" type="Control" parent="BoundArea/CharaHUD/Control/VBoxContainer"]
 custom_minimum_size = Vector2(60, 3)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 
-[node name="TurnCounter" type="ProgressBar" parent="MouseInputHandle/CharaHUD/Control/VBoxContainer/Control"]
+[node name="TurnCounter" type="ProgressBar" parent="BoundArea/CharaHUD/Control/VBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

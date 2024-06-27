@@ -22,6 +22,7 @@ func _physics_process(delta: float) -> void:
 			if !actor.target_unit: actor.target_unit = collider
 			
 			# Calling allies in the area
+			#TODO change this to only alert ally units in connected rooms
 			var allies = get_units_in_area(0)
 			for a in allies:
 				if a.current_state != Character.State.ALERT and !a.target_unit:
@@ -69,6 +70,13 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 
 func handle_detected_body(body):
 	if !body.stealth_on:
+		#Check if target is in the same or a connected room
+		var curr_room = actor.bound_area.get_current_room()
+		var target_room = body.bound_area.get_current_room()
+		if curr_room and target_room:
+			if !curr_room.is_room_equal_or_connected(target_room):
+				return
+		
 		#PLAYER: if not in stealth set to alert
 		if actor.is_player() and !actor.stealth_on: 
 			actor.current_state = Character.State.ALERT

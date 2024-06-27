@@ -5,14 +5,11 @@ extends Area3D
 @export var auto_door:bool #open/close doors on unit detection
 var connected_rooms := []
 var door:Door
-var is_connection_open := false:  #the neighbour rooms interior should be visible(?)
-	set(value):
-		is_connection_open = value
-		#TODO peek (light up neighboor room) when is_open and body entered or hide otherwise
+var is_connection_open := true  #is door open or does have a door(always true if not)
 
 
 func _ready() -> void:
-	#TODO var por que get_overlapping no funciona pero si area_entered (???)
+	#TODO get_overlapping no funciona pero si area_entered (???)
 	#for area in get_overlapping_areas():
 		#if area is Room:
 			#area.connectors.append(self)
@@ -24,6 +21,7 @@ func _ready() -> void:
 			is_connection_open = door.is_open
 
 
+#TODO peek (light up neighboor room) when is_open and body entered or hide otherwise
 func _on_body_entered(body: Node3D) -> void:
 	if door:
 		is_connection_open = door.is_open

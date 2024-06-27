@@ -19,6 +19,7 @@ func calc_hit_chance():
 	
 	var wpn_skill = 0 if !actor.stats.skills.has(wpn.related_skill) else actor.stats.skills[wpn.related_skill]
 	if wpn is RangedWeapon:
+		#TODO meter esto en el script de weapon y cambiar el return nose. la cosa es q si wpn.shoot returns false (xq esta reloading x ejemplo) attacker/defender_roll va a devolver null
 		if wpn.shoot():  #play atk animation & sfx & projectile...
 			attacker_roll = actor.stats.REF + wpn_skill + Fnff.roll(1,10)
 			defender_roll = Fnff.get_ranged_hit_dv(wpn.range_, actor.global_position, target.global_position)
