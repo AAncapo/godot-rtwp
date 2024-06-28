@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=96 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -4602,6 +4602,8 @@ nodes/grab/position = Vector2(440, 580)
 nodes/output/position = Vector2(1000, 260)
 node_connections = [&"Blend3", 0, &"grab", &"Blend3", 1, &"choked", &"Blend3", 2, &"die", &"EquippedOneshot", 0, &"EquippedType", &"EquippedOneshot", 1, &"EquippedOneshotAnimation", &"EquippedType", 0, &"Melee", &"EquippedType", 1, &"Ranged", &"GeneralOneshot", 0, &"IsEquipped", &"GeneralOneshot", 1, &"Blend3", &"IsEquipped", 0, &"MotionStates", &"IsEquipped", 1, &"EquippedOneshot", &"output", 0, &"GeneralOneshot"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eum68"]
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_1kbjy"]
 radius = 10.0
 
@@ -4683,6 +4685,9 @@ bones/16/rotation = Quaternion(0.994107, -0.0512411, 0.0041883, 0.0954393)
 bones/17/rotation = Quaternion(0.271282, -0.00279396, -0.0464408, 0.961375)
 bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 
+[node name="character_model" parent="model/Character/character_rig/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eum68")
+
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
 transform = Transform3D(-0.969311, 0.226892, -0.0946384, -0.245694, -0.907267, 0.341323, -0.00841873, 0.3541, 0.935169, -0.241533, 0.919437, 0.122145)
 bone_name = "hand.R"
@@ -4703,7 +4708,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@51253")
+blackboard = NodePath("@Node@17524")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]

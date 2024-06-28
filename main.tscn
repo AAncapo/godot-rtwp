@@ -15,12 +15,15 @@ process_mode = 3
 script = ExtResource("1_ot487")
 
 [node name="CamBase" type="Node3D" parent="."]
-transform = Transform3D(-0.21071, 0, -0.977548, 0, 1, 0, 0.977548, 0, -0.21071, -4.13024, 14.2501, -62.0264)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.58703, 0, -44.6945)
 script = ExtResource("2_lgycl")
 
-[node name="Camera3D" type="Camera3D" parent="CamBase"]
+[node name="CamPivot" type="Node3D" parent="CamBase"]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CamBase/CamPivot"]
 unique_name_in_owner = true
-transform = Transform3D(0.999913, 0.00968094, 0.00905738, -0.0129126, 0.556404, 0.830811, 0.00300346, -0.830856, 0.556481, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
 current = true
 size = 15.394
 
