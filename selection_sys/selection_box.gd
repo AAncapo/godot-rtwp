@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 	_is_visible = Input.is_action_pressed("left_click")
 	if _is_visible: m_pos = get_viewport().get_mouse_position()
 	
-	queue_redraw()
+	queue_redraw() #TODO only if visible?
 
 
 func get_generated_box():

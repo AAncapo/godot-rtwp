@@ -70,10 +70,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.38119, 0, -0.52095)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.111, 0, 6.58527)
 
 [node name="player" parent="." instance=ExtResource("7_s48wt")]
-transform = Transform3D(0.290569, 0, -0.956854, 0, 1, 0, 0.956854, 0, 0.290569, 1.84032, 0, -48.0819)
+transform = Transform3D(-0.471135, 0, -0.882061, 0, 1, 0, 0.882061, 0, -0.471135, 1.25085, 0, -48.0819)
 
 [node name="player_companion" parent="." instance=ExtResource("9_4ethv")]
-transform = Transform3D(-0.0706795, 0, -0.997499, 0, 1, 0, 0.997499, 0, -0.0706795, 1.63264, 0, -45.4456)
+transform = Transform3D(0.189901, 0, -0.981803, 0, 1, 0, 0.981803, 0, 0.189901, 1.00716, 0, -45.4456)
+collision_mask = 0
 
 [node name="enemy2" parent="." instance=ExtResource("8_4bqg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.755, 0, -13.3711)

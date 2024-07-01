@@ -43,4 +43,4 @@ func _on_area_entered(area: Area3D) -> void:
 	if area is Room:
 		connected_rooms.append(area)
 		area.connectors.append(self)
-		print(area.name, " added to ",name," connected_rooms")
+		#print(area.name, " added to ",name," connected_rooms")

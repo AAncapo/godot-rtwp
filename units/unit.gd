@@ -12,7 +12,7 @@ var is_selected:bool =false:
 		selected.emit(is_selected)
 
 
-func _ready() -> void:
+func _init() -> void:
 	selected.connect(_on_selected)
 
 

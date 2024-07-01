@@ -25,7 +25,8 @@ var current_state:State= State.IDLE:
 		if value == current_state: return
 		previous_state = current_state
 		current_state = value
-		print(stats.alias," ",State.keys()[current_state+1])
+		if current_state == State.ALERT:
+			$DetectedIcon/Label3D/AnimationPlayer.play("detect")
 var previous_state
 var stealth_on:bool = false:
 	set(value):
@@ -47,12 +48,18 @@ var target_vec = null:
 			target_vec = nav.target_position if nav.is_target_reachable() else null
 		else: 
 			target_vec = null
+		if is_player(): _update_vec_visual(target_vec)
 	get: return target_vec if target_vec != null else null
-var target_unit:
+var target_unit:Character:
 	set(val):
+		if target_unit: #Remove mark from previous target (if existed)
+			if target_unit.team != Global.PLAYER_TEAM:
+				target_unit.set_as_marked(false)
 		target_unit = val
 		crosshair.enabled = target_unit != null
 		if target_unit:
+			if target_unit.team != Global.PLAYER_TEAM:
+				target_unit.set_as_marked(true)
 			anim.motion_state = AnimationController.MotionState.ALERTED
 			if selected_action != actions.get_action('takedown'):
 				actions.get_action('attack').select()
@@ -82,7 +89,6 @@ var current_job
 
 
 func _ready() -> void:
-	super._ready()
 	target_updated.connect(_on_target_updated)
 	
 	Global.add_unit(self)
@@ -113,10 +119,12 @@ func _physics_process(_delta: float) -> void:
 			rotate_to(target_unit.global_position)
 
 
-
 func _on_action_selected(_action, _is_selected):
 	selected_action = _action if _is_selected else null
 	selected_action_updated.emit(selected_action)
+	
+	if is_player():
+		bound_area.update_range_visual(selected_action.range_ if selected_action else 0)
 
 
 func _on_turn_started():
@@ -258,6 +266,21 @@ func find_job():
 
 func msg(pop, text="",remove=false):
 	bound_area.add_notification(pop,text,remove)
+
+
+func set_as_marked(value:bool):
+	bound_area.is_marked = value
+
+
+func _update_vec_visual(pos):
+	var pos_visual := $PositionIndicator
+	var _anim := pos_visual.get_node("AnimationPlayer")
+	if !pos:
+		_anim.play("RESET")
+	else:
+		_anim.play('start')
+		pos_visual.global_position = pos
+		pos_visual.global_position.y = 0.05
 
 
 func disable():

@@ -13,6 +13,8 @@ const UNIT_GROUP = "units"
 const ITEM_GROUP = "items"
 const PLAYER_TEAM = 0
 const ENEMY_TEAM = 1
+var player_team_color = Color("265cffc8")
+var hostile_team_color = Color("ff2626c8")
 const POPUP_NOTIF = {
 	NORMAL     = { text="", fsize=10, fcolor=Color.WHITE_SMOKE, auto_fade=true },
 	DEATH_DOOR = { text="DEATH DOOR", fsize=15, fcolor=Color.RED, auto_fade=false },

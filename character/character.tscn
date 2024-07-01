@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=113 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -17,16 +17,22 @@
 [ext_resource type="Script" path="res://beehave_nodes/hasJob.gd" id="12_mrapr"]
 [ext_resource type="Script" path="res://character/detection_handler.gd" id="15_hpcgr"]
 [ext_resource type="Script" path="res://character/character_bound_area.gd" id="17_00t7m"]
+[ext_resource type="Texture2D" uid="uid://5l8ynabhg3gu" path="res://gui/selection_ring.png" id="18_dim1i"]
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="19_4bjx2"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_crouch.gd" id="19_an5oo"]
+[ext_resource type="Script" path="res://character/range_visual.gd" id="20_lxsem"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_attack.gd" id="20_omnef"]
+[ext_resource type="Shader" path="res://gui/selection_ring.gdshader" id="20_x85pw"]
 [ext_resource type="Texture2D" uid="uid://bcueipkn8gxmx" path="res://imports/placeholder/icosn/cunning_action_hide_baldur's_gate_3_wiki_guide_64px.png" id="21_rcb5j"]
 [ext_resource type="Script" path="res://character/stats.gd" id="21_sr724"]
 [ext_resource type="Script" path="res://actions/unit_actions/action_takedown.gd" id="23_h3fpd"]
 [ext_resource type="Texture2D" uid="uid://ddulu80l7o3fg" path="res://imports/placeholder/icosn/sneak_attack_melee_action_baldursgate3_wiki_guide_64px.png" id="23_jbviw"]
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
+[ext_resource type="Texture2D" uid="uid://cno1iuyl38gsd" path="res://gui/position.png" id="29_o1pm1"]
+[ext_resource type="Script" path="res://character/inventory.gd" id="30_pbdwl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
+radius = 0.32999
 
 [sub_resource type="Animation" id="Animation_72vwr"]
 resource_name = "attack_fist"
@@ -4612,6 +4618,27 @@ size = Vector3(1, 2.05688, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6hwj4"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q2vki"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_texture = ExtResource("18_dim1i")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_u7qui"]
+viewport_path = NodePath("BoundArea/MarkedCircle/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u466q"]
+shader = ExtResource("20_x85pw")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/diameter = 1.0
+shader_parameter/thickness = 0.05
+shader_parameter/frequency = 6.0
+shader_parameter/phase = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1eran"]
+viewport_path = NodePath("BoundArea/RangeVisualizer/SubViewport")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yh77o"]
 resource_local_to_scene = true
 content_margin_left = 4.0
@@ -4629,6 +4656,160 @@ bg_color = Color(0.27451, 0.27451, 0.27451, 0.392157)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ro2wj"]
 bg_color = Color(0.917647, 0.917647, 0.917647, 1)
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_b4048"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vkmuj"]
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_texture = ExtResource("29_o1pm1")
+
+[sub_resource type="Animation" id="Animation_np5ch"]
+resource_name = "start"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.4, 0.4, 0.4), Vector3(0.5, 0.5, 0.5), Vector3(0.4, 0.4, 0.4)]
+}
+
+[sub_resource type="Animation" id="Animation_udut3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uhos5"]
+_data = {
+"RESET": SubResource("Animation_udut3"),
+"start": SubResource("Animation_np5ch")
+}
+
+[sub_resource type="Animation" id="Animation_fvplv"]
+resource_name = "detect"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.2, 1.2, 1.2), Vector3(1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jpo2j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f2it2"]
+_data = {
+"RESET": SubResource("Animation_jpo2j"),
+"detect": SubResource("Animation_fvplv")
+}
+
 [node name="character" type="CharacterBody3D" groups=["units"]]
 process_mode = 1
 collision_layer = 2
@@ -4639,6 +4820,10 @@ script = ExtResource("1_x5oe7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_angsg")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+process_mode = 3
+debug_enabled = true
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
@@ -4775,10 +4960,6 @@ collision_mask = 3
 debug_shape_custom_color = Color(0, 0.0980392, 0.666667, 1)
 debug_shape_thickness = 4
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
-process_mode = 3
-debug_enabled = true
-
 [node name="crosshair" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 enabled = false
@@ -4797,9 +4978,51 @@ shape = SubResource("BoxShape3D_yytsn")
 
 [node name="SelectionRing" type="MeshInstance3D" parent="BoundArea"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
-visible = false
 mesh = SubResource("PlaneMesh_6hwj4")
 skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_q2vki")
+
+[node name="MarkedCircle" type="Sprite3D" parent="BoundArea"]
+unique_name_in_owner = true
+transform = Transform3D(1.2, 0, 0, 0, -5.24537e-08, -1.2, 0, 1.2, -5.24537e-08, 0, 0.1, 0)
+visible = false
+texture = SubResource("ViewportTexture_u7qui")
+
+[node name="SubViewport" type="SubViewport" parent="BoundArea/MarkedCircle"]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+gui_disable_input = true
+size = Vector2i(100, 100)
+
+[node name="ColorRect" type="ColorRect" parent="BoundArea/MarkedCircle/SubViewport"]
+material = SubResource("ShaderMaterial_u466q")
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RangeVisualizer" type="Sprite3D" parent="BoundArea"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
+no_depth_test = true
+texture = SubResource("ViewportTexture_1eran")
+
+[node name="SubViewport" type="SubViewport" parent="BoundArea/RangeVisualizer"]
+disable_3d = true
+own_world_3d = true
+transparent_bg = true
+gui_disable_input = true
+
+[node name="RangeArc" type="Control" parent="BoundArea/RangeVisualizer/SubViewport"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("20_lxsem")
 
 [node name="CharaHUD" type="Node3D" parent="BoundArea"]
 unique_name_in_owner = true
@@ -4895,9 +5118,81 @@ icon = ExtResource("23_jbviw")
 action_name = "Takedown"
 range_ = 1.2
 
+[node name="PositionIndicator" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
+top_level = true
+visible = false
+mesh = SubResource("PlaneMesh_b4048")
+skeleton = NodePath("../BoundArea")
+surface_material_override/0 = SubResource("StandardMaterial3D_vkmuj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PositionIndicator"]
+libraries = {
+"": SubResource("AnimationLibrary_uhos5")
+}
+
+[node name="DetectedIcon" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.20842, 0)
+visible = false
+
+[node name="Label3D" type="Label3D" parent="DetectedIcon"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28202, 0)
+billboard = 2
+text = "!"
+font_size = 128
+outline_size = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DetectedIcon/Label3D"]
+libraries = {
+"": SubResource("AnimationLibrary_f2it2")
+}
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("30_pbdwl")
+
+[node name="Items" type="Node3D" parent="Inventory"]
+
+[node name="InventoryUI" type="Control" parent="Inventory"]
+custom_minimum_size = Vector2(500, 500)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Inventory/InventoryUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/InventoryUI/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Armour" type="Label" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Armour"
+horizontal_alignment = 1
+
+[node name="Items" type="VBoxContainer" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]
 [connection signal="body_entered" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionHandler/DetectionArea" to="DetectionHandler" method="_on_detection_area_body_exited"]
-[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 
 [editable path="model/Character"]
