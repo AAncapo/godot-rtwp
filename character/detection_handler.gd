@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 	if fov_enabled and !actor.is_player():
 		var collider = get_fov_collider()
 		if collider and collider != actor.target_unit:
-			collider.detected.emit(actor)
+			collider.detected.emit()
 			if !actor.target_unit: actor.target_unit = collider
 			
 			# Calling allies in the area

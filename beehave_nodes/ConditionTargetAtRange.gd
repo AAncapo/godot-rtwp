@@ -1,7 +1,7 @@
 extends ConditionLeaf
 
 
-func tick(actor, blackboard):
+func tick(actor, _blackboard):
 	if !actor.target_unit or !actor.selected_action: return FAILURE
 	if actor.selected_action.target_self: return FAILURE
 	

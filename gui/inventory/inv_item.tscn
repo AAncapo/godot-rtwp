@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://nytd0heyl3q"]
+
+[ext_resource type="Script" path="res://gui/inventory/inv_item.gd" id="1_4axfa"]
+
+[node name="inv_item" type="Button"]
+custom_minimum_size = Vector2(50, 50)
+offset_right = 8.0
+offset_bottom = 8.0
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("1_4axfa")
+
+[node name="draggable_icon" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.784314)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

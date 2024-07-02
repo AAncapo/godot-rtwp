@@ -35,7 +35,7 @@ var death_save:int
 var current_hp:int:
 	set(value):
 		current_hp = clamp(value, 0, hitpoints)
-		_update_hp(current_hp)
+		_update_wound_state()
 		#print(name_, " HP: ",current_hp)
 
 var skills:Dictionary
@@ -59,9 +59,9 @@ var total_dmg := 0
 func _init():
 	## Stats
 	for s in starting_stats.keys():
-		var pts = Fnff.roll(1,10)
-		self[s] = pts
-		starting_stats[s] = pts
+		var _pts = Fnff.roll(1,10)
+		self[s] = _pts
+		starting_stats[s] = _pts
 	
 	hitpoints = roundi(10 + (((BODY + WILL)/2) * 5))
 	current_hp = hitpoints
@@ -104,7 +104,7 @@ func calc_damage(atk:Attack) -> Dictionary:
 	return damage_status
 
 
-func _update_hp(value):
+func _update_wound_state():
 	#mortally wounded
 	if current_hp <= 1 and !is_dead: 
 		action_penalty = 4

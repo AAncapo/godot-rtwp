@@ -1,12 +1,10 @@
-[gd_scene load_steps=113 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=114 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/composites/selector.gd" id="3_ng0gg"]
 [ext_resource type="Script" path="res://character/animation_controller.gd" id="3_roqug"]
 [ext_resource type="PackedScene" uid="uid://cn1n6llu4lpar" path="res://character/model/Character.glb" id="3_wg5hk"]
-[ext_resource type="PackedScene" uid="uid://d1ea7vyv24586" path="res://weapons/fists.tscn" id="4_6lkyc"]
-[ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="5_gtrq2"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/decorators/inverter.gd" id="7_45of8"]
 [ext_resource type="Script" path="res://beehave_nodes/ActionMove.gd" id="7_ha5bc"]
 [ext_resource type="Script" path="res://beehave_nodes/ConditionIsTurn.gd" id="8_ndwlh"]
@@ -29,7 +27,10 @@
 [ext_resource type="Texture2D" uid="uid://ddulu80l7o3fg" path="res://imports/placeholder/icosn/sneak_attack_melee_action_baldursgate3_wiki_guide_64px.png" id="23_jbviw"]
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
 [ext_resource type="Texture2D" uid="uid://cno1iuyl38gsd" path="res://gui/position.png" id="29_o1pm1"]
+[ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="30_avtgg"]
 [ext_resource type="Script" path="res://character/inventory.gd" id="30_pbdwl"]
+[ext_resource type="Script" path="res://character/chara_equipment.gd" id="31_hwb0q"]
+[ext_resource type="Texture2D" uid="uid://cw63hogo4q263" path="res://imports/placeholder/icosn/second_wind_action_baldursgate3_wiki_guide_64px.webp" id="31_s58mp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 radius = 0.32999
@@ -4581,6 +4582,7 @@ animation = &"die1"
 animation = &"grab"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
+graph_offset = Vector2(-80.1436, 156.34)
 nodes/Blend3/node = SubResource("AnimationNodeBlend3_wcjds")
 nodes/Blend3/position = Vector2(680, 660)
 nodes/EquippedOneshot/node = SubResource("AnimationNodeOneShot_68oed")
@@ -4664,6 +4666,33 @@ no_depth_test = true
 shading_mode = 0
 albedo_texture = ExtResource("29_o1pm1")
 
+[sub_resource type="Animation" id="Animation_udut3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5)]
+}
+
 [sub_resource type="Animation" id="Animation_np5ch"]
 resource_name = "start"
 loop_mode = 1
@@ -4692,12 +4721,18 @@ tracks/1/keys = {
 "values": [Vector3(0.4, 0.4, 0.4), Vector3(0.5, 0.5, 0.5), Vector3(0.4, 0.4, 0.4)]
 }
 
-[sub_resource type="Animation" id="Animation_udut3"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uhos5"]
+_data = {
+"RESET": SubResource("Animation_udut3"),
+"start": SubResource("Animation_np5ch")
+}
+
+[sub_resource type="Animation" id="Animation_jpo2j"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
+tracks/0/path = NodePath("..:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -4709,20 +4744,26 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale")
+tracks/1/path = NodePath("..:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.5, 0.5, 0.5)]
+"values": [Vector3(1, 1, 1)]
 }
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_uhos5"]
-_data = {
-"RESET": SubResource("Animation_udut3"),
-"start": SubResource("Animation_np5ch")
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_fvplv"]
@@ -4763,45 +4804,6 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_jpo2j"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f2it2"]
@@ -4873,20 +4875,47 @@ bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 [node name="character_model" parent="model/Character/character_rig/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_eum68")
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
+[node name="HandR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
 transform = Transform3D(-0.969311, 0.226892, -0.0946384, -0.245694, -0.907267, 0.341323, -0.00841873, 0.3541, 0.935169, -0.241533, 0.919437, 0.122145)
 bone_name = "hand.R"
 bone_idx = 15
 
-[node name="Weapon1" type="Node3D" parent="model/Character/character_rig/Skeleton3D/BoneAttachment3D"]
-unique_name_in_owner = true
+[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/HandR"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
-[node name="FISTS" parent="model/Character/character_rig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("4_6lkyc")]
-visible = false
+[node name="Head" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="2"]
+transform = Transform3D(1, 1.06581e-14, 2.38418e-07, -2.92385e-09, 0.999925, 0.0122636, -2.38401e-07, -0.0122636, 0.999925, 0.0100161, 1.73859, 0.0177077)
+bone_name = "head"
+bone_idx = 7
 
-[node name="Test Pistol" parent="model/Character/character_rig/Skeleton3D/BoneAttachment3D/Weapon1" instance=ExtResource("5_gtrq2")]
-visible = false
+[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/Head"]
+
+[node name="Torso" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="3"]
+transform = Transform3D(1, 0, -2.38419e-07, -1.6722e-09, 0.999975, -0.00701374, 2.38413e-07, 0.00701374, 0.999975, 0.0100161, 1.14481, -0.000849743)
+bone_name = "spine"
+bone_idx = 5
+
+[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/Torso"]
+
+[node name="ArmR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="4"]
+transform = Transform3D(-0.976158, -0.0270057, 0.215373, 0.105578, -0.926021, 0.362407, 0.189653, 0.376505, 0.906794, -0.242223, 1.24289, -0.00731437)
+bone_name = "forearm.R"
+bone_idx = 13
+
+[node name="ArmL" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="5"]
+transform = Transform3D(-0.976158, 0.0270055, -0.215374, -0.105578, -0.926021, 0.362407, -0.189653, 0.376506, 0.906794, 0.262256, 1.24289, -0.00731477)
+bone_name = "forearm.L"
+bone_idx = 9
+
+[node name="LegR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="6"]
+transform = Transform3D(0.999763, -0.000566076, 0.0218832, -0.00810321, -0.938234, 0.345907, 0.0203359, -0.346003, -0.938015, -0.136659, 0.521698, 0.0793788)
+bone_name = "shin.R"
+bone_idx = 17
+
+[node name="LegL" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="7"]
+transform = Transform3D(0.998091, 0.0557494, 0.0266756, 0.0461925, -0.959668, 0.277314, 0.0410597, -0.275553, -0.96041, 0.165958, 0.529195, 0.107241)
+bone_name = "shin.L"
+bone_idx = 3
 
 [node name="TurnTimer" type="Timer" parent="."]
 one_shot = true
@@ -5094,13 +5123,8 @@ script = ExtResource("19_4bjx2")
 
 [node name="attack" type="Node" parent="Actions"]
 script = ExtResource("20_omnef")
-enabled = null
 target_self = false
-exec_on_selected = null
-oneshot = null
 action_name = "Attack"
-action_description = null
-range_ = null
 
 [node name="crouch" type="Node" parent="Actions"]
 script = ExtResource("19_an5oo")
@@ -5151,44 +5175,16 @@ libraries = {
 script = ExtResource("30_pbdwl")
 
 [node name="Items" type="Node3D" parent="Inventory"]
+visible = false
 
-[node name="InventoryUI" type="Control" parent="Inventory"]
-custom_minimum_size = Vector2(500, 500)
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Test Pistol" parent="Inventory/Items" instance=ExtResource("30_avtgg")]
 
-[node name="PanelContainer" type="PanelContainer" parent="Inventory/InventoryUI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Inventory/InventoryUI/PanelContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Armour" type="Label" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-text = "Armour"
-horizontal_alignment = 1
-
-[node name="Items" type="VBoxContainer" parent="Inventory/InventoryUI/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Equipment" type="Node3D" parent="."]
+script = ExtResource("31_hwb0q")
+skeleton_path = NodePath("../model/Character/character_rig/Skeleton3D")
+inventory_path = NodePath("../Inventory")
+unarmed_range = 1.2
+unarmed_icon = ExtResource("31_s58mp")
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]

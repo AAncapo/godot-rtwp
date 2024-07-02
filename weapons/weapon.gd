@@ -1,7 +1,5 @@
-class_name Weapon extends Node3D
+class_name Weapon extends Item
 
-@export var icon:Texture2D
-@export var name_:String
 @export var range_:float = 1
 enum Reliability { NA, VR, ST, UR }  # (VeryReliabl, Standard, Unreliabl)
 @export var reliabl := Reliability.NA

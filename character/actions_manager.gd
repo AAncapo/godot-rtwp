@@ -3,7 +3,8 @@ extends Node
 func init(_actor):
 	for a in get_children():
 		a.actor = _actor
-		a.selected.connect(_actor._on_action_selected)
+		if !a.selected.is_connected(_actor._on_action_selected):
+			a.selected.connect(_actor._on_action_selected)
 
 
 func get_action(_action_id:String):

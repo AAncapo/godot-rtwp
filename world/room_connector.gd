@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 #TODO peek (light up neighboor room) when is_open and body entered or hide otherwise
-func _on_body_entered(body: Node3D) -> void:
+func _on_body_entered(_body: Node3D) -> void:
 	if door:
 		is_connection_open = door.is_open
 		if auto_door:
@@ -33,7 +33,7 @@ func _on_body_entered(body: Node3D) -> void:
 	if !is_connection_open: is_connection_open = true
 
 
-func _on_body_exited(body: Node3D) -> void:
+func _on_body_exited(_body: Node3D) -> void:
 	if get_overlapping_bodies().is_empty():
 		if door and auto_door and door.is_open: door.close()
 		is_connection_open = false

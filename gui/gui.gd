@@ -4,6 +4,7 @@ extends Control
 @onready var portraits = %portraits
 @onready var actions_view := %Actions
 @onready var ranged_clip := %RangedClip
+@onready var inv :InventoryUI = $InventoryUI
 var portrait_tscn = preload("res://gui/portrait.tscn")
 var equipped_ranged:RangedWeapon:
 	set(value):
@@ -24,6 +25,12 @@ func _ready() -> void:
 func _process(_delta):
 	fps.text = str(Engine.get_frames_per_second(),"fps")
 	$Paused.visible = get_tree().paused
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.is_pressed():
+		if event.is_action("inventory"):
+			inv.visible = !inv.visible
 
 
 func _on_added_unit(unit):
@@ -49,7 +56,7 @@ func _on_Global_selected_unit(_unit):
 		else:
 			%Equipped.action = _unit.actions.get_action("attack")
 			update_clip_view(%Equipped.action.count)
-			var unit_wpn = _unit.equipped_wpn
+			var unit_wpn = _unit.equipment.equipped_wpn
 			if unit_wpn is RangedWeapon:
 				equipped_ranged = unit_wpn
 				#TODO change to on_new_equipped
@@ -75,10 +82,11 @@ func update_weapon_actions_view(wpn:Weapon):
 	var wpn_actions_view = %EquippedActions.get_children()
 	for w in wpn_actions_view:
 		w.hide()
-	var wpn_actions = wpn.actions.get_children()
-	for w in wpn_actions:
-		wpn_actions_view[w.get_index()].show()
-		wpn_actions_view[w.get_index()].action = w
+	if wpn:
+		var wpn_actions = wpn.actions.get_children()
+		for w in wpn_actions:
+			wpn_actions_view[w.get_index()].show()
+			wpn_actions_view[w.get_index()].action = w
 
 
 func update_clip_view(_count):

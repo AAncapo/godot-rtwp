@@ -15,7 +15,7 @@ var equipped_type := {
 	'blend_pos':Vector2i()
 }
 
-func move(run:bool = false): set_motion_state(Vector2(motion_state,1))
+func move(_run:bool = false): set_motion_state(Vector2(motion_state,1))
 
 func stop(): set_motion_state(Vector2(motion_state, 0))
 

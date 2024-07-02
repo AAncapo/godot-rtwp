@@ -1,10 +1,11 @@
 extends Control
 
-const BOX_COLOR = Color(1,1,1)
-const BOX_LINE_WIDTH = 3
-var _is_visible = false
-var m_pos = Vector2()
-var start_sel_pos = Vector2()
+const BOX_COLOR := Color(1,1,1)
+const BOX_LINE_WIDTH := 3
+var _is_visible := false
+var m_pos := Vector2()
+var start_sel_pos := Vector2()
+var is_dragging := false
 
 
 func _draw():
@@ -15,14 +16,20 @@ func _draw():
 		draw_line(m_pos, Vector2(start_sel_pos.x, m_pos.y), BOX_COLOR, BOX_LINE_WIDTH)
 
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("left_click"):
-		start_sel_pos = get_viewport().get_mouse_position()
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.is_action_released("left_click"):
+			is_dragging = false
 	
-	_is_visible = Input.is_action_pressed("left_click")
+	if event is InputEventMouseMotion:
+		if Input.is_action_pressed("left_click"):
+			if !is_dragging:
+				start_sel_pos = get_viewport().get_mouse_position()
+				is_dragging = true
+	
+	_is_visible = is_dragging
 	if _is_visible: m_pos = get_viewport().get_mouse_position()
-	
-	queue_redraw() #TODO only if visible?
+	queue_redraw()
 
 
 func get_generated_box():
@@ -39,4 +46,5 @@ func get_generated_box():
 		top_left.y = bottom_right.y
 		bottom_right.y = tmp
 	var box = Rect2(top_left, bottom_right - top_left)
+	
 	return box

@@ -1,15 +1,16 @@
 class_name Character extends Unit
 
 signal selected_action_updated(_action)  #connected to character portrait
-signal detected(detected_by)
+signal detected
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var anim:AnimationController = %AnimationTree
-@onready var weapons = %Weapon1
 @onready var crosshair:RayCast3D = $crosshair
 @onready var ttimer:Timer = $TurnTimer
 @onready var actions := $Actions
 @onready var stats := $Stats
+@onready var inventory := $Inventory
+@onready var equipment := $Equipment
 @onready var bound_area := $BoundArea
 
 var is_turn:bool = true
@@ -34,13 +35,6 @@ var stealth_on:bool = false:
 		anim.motion_state = anim.MotionState.CROUCH if stealth_on else anim.MotionState.NORMAL
 		actions.get_action("takedown").set_enabled.emit(stealth_on)
 
-@export var starting_wpn:int=0
-var equipped_wpn:Weapon:
-	set(value):
-		equipped_wpn = value
-		if equipped_wpn:
-			equipped_wpn._owner = self
-			crosshair.target_position = crosshair.transform.basis.z * -equipped_wpn.range_
 var target_vec = null:
 	set(val):
 		if val and val.length() > 0:
@@ -97,7 +91,9 @@ func _ready() -> void:
 	actions.init(self)
 	
 	anim.disarm()
-	equip(weapons.get_child(1))
+	actions.get_action("attack").icon = equipment.unarmed_icon
+	actions.get_action("attack").range_ = equipment.unarmed_range
+	crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
 	
 	ttimer.timeout.connect(_on_turn_started)
 	next_action = 1
@@ -157,35 +153,10 @@ func check_visibility(_target):
 	return vcheck.get_collider() == _target
 
 
-func equip(new_wpn:Weapon):
-	if equipped_wpn and equipped_wpn == new_wpn:
-		anim.disarm()
-		equipped_wpn.visible = false
-		equipped_wpn = null
-		return
-	
-	var wpns = weapons.get_children()
-	for w in wpns:
-		if w == new_wpn:
-			w.visible = true
-			equipped_wpn = w
-		else:
-			w.visible = false
-	
-	anim.update_equipped(equipped_wpn)
-	actions.get_action("attack").icon = new_wpn.icon
-	actions.get_action("attack").range_ = new_wpn.range_
-	
-	equipped_wpn.init(self)
-	
-	if !equipped_wpn.reload_requested.is_connected(_on_reload_request):
-		equipped_wpn.reload_requested.connect(_on_reload_request)
-
-
 func _on_reload_request():
 	#equipped_wpn send a (signal)request when no ammo
 	#gui.gd send the signal from his equipped_wpn reference
-	equipped_wpn.actions.get_action("reload").select()
+	equipment.equipped_wpn.actions.get_action("reload").select()
 
 
 func attack(_target):
@@ -238,7 +209,7 @@ func _on_nav_target_reached() -> void:
 	target_vec = null
 
 
-func _on_detected(detected_by:Character) -> void:
+func _on_detected() -> void:
 	if stealth_on: stealth_on = false
 	msg(Global.POPUP_NOTIF.NORMAL,"DETECTED")
 
@@ -287,3 +258,28 @@ func disable():
 	$CollisionShape3D.disabled = true
 	$BeehaveTree.enabled = false
 	bound_area.clear_notifications()
+
+
+func _on_equipment_updated(_item: Item, _set_equipped: bool) -> void:
+	match _item.equipment_class:
+		Item.EquipmentClass.WEAPON:
+			if _set_equipped:
+				anim.update_equipped(_item)
+				actions.get_action("attack").icon = _item.icon
+				actions.get_action("attack").range_ = _item.range_
+				crosshair.target_position = crosshair.transform.basis.z * -_item.range_
+				if !_item.reload_requested.is_connected(_on_reload_request):
+					_item.reload_requested.connect(_on_reload_request)
+				
+				equipment.equip(_item)
+			else:
+				if _item.reload_requested.is_connected(_on_reload_request):
+					_item.reload_requested.disconnect(_on_reload_request)
+				anim.disarm()
+				actions.get_action("attack").icon = equipment.unarmed_icon
+				actions.get_action("attack").range_ = equipment.unarmed_range
+				crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
+				
+				equipment.unequip(_item)
+	
+	_item.is_equipped = _set_equipped

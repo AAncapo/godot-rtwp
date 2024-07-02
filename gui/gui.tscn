@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbyi4tcs1p770"]
+[gd_scene load_steps=9 format=3 uid="uid://bbyi4tcs1p770"]
 
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="1_w52kg"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="2_mdyyo"]
 [ext_resource type="PackedScene" uid="uid://cr10h88mtsfdf" path="res://gui/action_button.tscn" id="3_vskdv"]
+[ext_resource type="PackedScene" uid="uid://ckt5wnil2rjvh" path="res://gui/inventory/inventory_ui.tscn" id="4_gunvp"]
 
 [sub_resource type="Theme" id="Theme_rejm5"]
 default_font = ExtResource("1_w52kg")
@@ -333,3 +334,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_x3vti")
 text = "fps 000"
+
+[node name="InventoryUI" parent="." instance=ExtResource("4_gunvp")]
+visible = false
+layout_mode = 1

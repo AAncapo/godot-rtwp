@@ -1,15 +1,15 @@
 class_name Attack extends Node
 
-var actor:Character
+var actor
 var target
 var wpn
-var damage:float
+var damage:int
 
 
 func _init(_actor, _target) -> void:
 	actor = _actor
 	target = _target
-	wpn = actor.equipped_wpn
+	wpn = actor.equipment.equipped_wpn
 	damage = wpn.damage
 
 
