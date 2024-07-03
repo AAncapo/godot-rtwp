@@ -3,6 +3,7 @@ class_name InvSlot extends Button
 signal mouseover(_self, _is_mouseover)
 
 @export var compatible_equipmt_class = Item.EquipmentClass.ANY
+@export var link_key:String #MUST MATCH THE BONE ATTACHMENTS NAMES IN CHARACTER SKELETON
 var item:InvItem
 
 
@@ -23,7 +24,9 @@ func add_item(new_item:InvItem):
 
 
 func highlight():
-	button_pressed = true
+	#TODO higlight effect
+	pass
+
 
 func clear():
 	if get_child_count()>0:

@@ -9,7 +9,6 @@ signal detected
 @onready var ttimer:Timer = $TurnTimer
 @onready var actions := $Actions
 @onready var stats := $Stats
-@onready var inventory := $Inventory
 @onready var equipment := $Equipment
 @onready var bound_area := $BoundArea
 
@@ -260,7 +259,7 @@ func disable():
 	bound_area.clear_notifications()
 
 
-func _on_equipment_updated(_item: Item, _set_equipped: bool) -> void:
+func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:String = "") -> void:
 	match _item.equipment_class:
 		Item.EquipmentClass.WEAPON:
 			if _set_equipped:
@@ -271,7 +270,7 @@ func _on_equipment_updated(_item: Item, _set_equipped: bool) -> void:
 				if !_item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.connect(_on_reload_request)
 				
-				equipment.equip(_item)
+				equipment.equip(_item,link_key)
 			else:
 				if _item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.disconnect(_on_reload_request)

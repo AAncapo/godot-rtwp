@@ -12,6 +12,7 @@ var item:Item:
 			icon = item.icon
 			draggable.texture = icon
 
+
 func _ready() -> void:
 	mouse_entered.connect(_is_mouse_over.bind(true))
 	mouse_exited.connect(_is_mouse_over.bind(false))

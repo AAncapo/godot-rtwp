@@ -1,7 +1,7 @@
 extends Node3D
 
 @export_node_path("Skeleton3D") var skeleton_path
-@export_node_path("Node") var inventory_path
+@onready var inventory = $Inventory
 var links:Dictionary
 var equipped_wpn:Weapon
 
@@ -20,23 +20,32 @@ func _ready() -> void:
 		if bone_att is BoneAttachment3D and bone_att.get_child_count() > 0:
 			var offset: Node3D = bone_att.get_child(0)
 			links[bone_att.name] = {
-				"bone":bone_att,
-				"offset":offset
+				"bone"  : bone_att,
+				"offset": offset,
+				"item"  : null
 				}
 		else: continue
 
 
-func equip(_item:Item):
-	#compare item type and find appropiate slot
+func _process(delta: float) -> void:
+	for key in links.keys():
+		if links[key].item != null:
+			links[key].item.global_transform = links[key].offset.global_transform
+
+
+func equip(_item:Item, link_key:String):
 	if _item is Weapon:
 		equipped_wpn = _item
 		equipped_wpn.init(get_parent())
 	
-	var handr = links["HandR"].offset
-	_item.reparent(handr, false)
+		links[link_key].item = _item
 
 
 func unequip(_item:Item):
-	if !inventory_path: printerr("Failed to get Inventory: An Inventory needs to be assigned")
-	var inventory = get_node_or_null(inventory_path)
-	_item.reparent(inventory.get_child(0), false)
+	for key in links.keys():
+		if links[key].item == _item:
+			links[key].item = null
+
+
+func get_inventory_items():
+	return inventory.get_children()

@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckt5wnil2rjvh"]
+[gd_scene load_steps=4 format=3 uid="uid://ckt5wnil2rjvh"]
 
 [ext_resource type="Script" path="res://character/inventory_ui.gd" id="1_t0udm"]
 [ext_resource type="PackedScene" uid="uid://de00klpej03f7" path="res://gui/inventory/inv_slot.tscn" id="2_fa67w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kmtpb"]
+bg_color = Color(0.141176, 0.141176, 0.141176, 1)
 
 [node name="InventoryUI" type="Control"]
 custom_minimum_size = Vector2(500, 270)
@@ -27,6 +30,7 @@ anchor_bottom = 1.0
 offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kmtpb")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -78,10 +82,12 @@ layout_mode = 2
 [node name="WeaponSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
+link_key = "HandR"
 
 [node name="WeaponSlot2" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
+link_key = "HandL"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots"]
 layout_mode = 2
@@ -98,10 +104,12 @@ layout_mode = 2
 [node name="HeadSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 2
+link_key = "Head"
 
 [node name="TorsoSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 3
+link_key = "Torso"
 
 [node name="ArmsSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2

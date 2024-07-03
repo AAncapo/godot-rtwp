@@ -1,6 +1,6 @@
 class_name InventoryUI extends Control
 
-signal equipment_updated(_item:Item, set_equipped:bool)
+signal equipment_updated(_item:Item, set_equipped:bool, link_key:String)
 
 @onready var chara_name := %CharacterName
 @onready var slot_container := %SlotContainer
@@ -54,22 +54,28 @@ func _process(_delta: float) -> void:
 
 
 func update_slots():
-	for es in equipment_slots:
-		es.clear()
-	for slot in slot_container.get_children():
-		slot.clear()
+	for es in equipment_slots: es.clear()
+	for slot in slot_container.get_children(): slot.clear()
 	
-	for i in _character.inventory.items:
-		var s = slot_container.get_child(_character.inventory.items.find(i))
+	var inventory = _character.equipment.get_inventory_items()
+	for i in inventory:
 		var item_btn = inv_item.instantiate()
-		s.add_item(item_btn)
+		if !i.is_equipped:
+			var s = slot_container.get_child(inventory.find(i))
+			s.add_item(item_btn)
+		else:
+			for es in equipment_slots:
+				#find slot that shares link key w item
+				for key in _character.equipment.links.keys():
+					var link = _character.equipment.links[key]
+					if link.item == i and key == es.link_key:
+						es.add_item(item_btn)
 		item_btn.item = i
 		item_btn._is_dragging.connect(_on_item_dragging)
 		item_btn.mouseover.connect(_on_item_mouseover)
 
 
 func drop_item():
-	## Para slots con items es necesario comprobar el item_target.get_parent() / si el slot tiene un item no emite la signal de mouseover (el item(child) consume el InputEvent)
 	if item_target and item_dragging.get_parent() == item_target:
 		return #dropped in the same slot
 	if !slot_target and !item_target:
@@ -80,29 +86,25 @@ func drop_item():
 	
 	if slot_target: #target is EMPTY slot
 		var target_slot_cl = slot_target.compatible_equipmt_class
-		# If item & slot cls are compatible or slot cls is ANY -- OK
-		if dragged_item_cl == target_slot_cl or target_slot_cl == Item.EquipmentClass.ANY:
-			# unequip if current slot parent is equipmnt slot
-			if curr_slot_cl != Item.EquipmentClass.ANY:
-				equipment_updated.emit(item_dragging.item, false)
-			# equip if target slot parent is equipmnt slot
-			if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
-				equipment_updated.emit(item_dragging.item, true)
-			slot_target.add_item(item_dragging)
+		#unequip if current slot is an equipmnt slot (was equipped)
+		if curr_slot_cl != Item.EquipmentClass.ANY:
+			equipment_updated.emit(item_dragging.item, false)
+		# equip if target slot parent is equipmnt slot
+		if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
+			equipment_updated.emit(item_dragging.item, true, slot_target.link_key)
 	
 	if item_target: #target is OCCUPIED slot
-		if item_target.get_parent().compatible_equipmt_class != Item.EquipmentClass.ANY:
+		slot_target = item_target.get_parent()
+		if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
 			# Unequip existent item in slot target
 			equipment_updated.emit(item_target.item, false)
-			
-			if curr_slot_cl == item_target.get_parent().compatible_equipmt_class:
-				# If current slot & target item.slt class are equal (swapping hands)..
-				# equip again the target item
-				equipment_updated.emit(item_target.item, true)
-			
-			equipment_updated.emit(item_dragging.item, true)
-			
-		item_target.get_parent().add_item(item_dragging)
+			if curr_slot_cl == slot_target.compatible_equipmt_class:
+				# Re-Equip that item in the other slot if is the same class
+				equipment_updated.emit(item_target.item, true, item_dragging.get_parent().link_key)
+		
+			equipment_updated.emit(item_dragging.item, true, slot_target.link_key)
+	
+	slot_target.add_item(item_dragging)
 
 
 func reset_dragging():
@@ -111,34 +113,35 @@ func reset_dragging():
 	item_dragging = null
 
 
+func _on_item_dragging(item_btn:InvItem):
+	item_dragging = item_btn
+	#search and highlight the compatible slots in equipment
+	#var equipmt_class = item_btn.item.equipment_class
+	#for s in equipment_slots:
+		#if equipmt_class == s.compatible_equipmt_class:
+			#s.highlight()
+
+
+func _on_slot_mouseover(_slot, is_mo:bool):
+	slot_target = _slot if is_mo else null
+
+
 func _on_next_pressed():
 	var idx = Global.player_units.find(_character) + 1
 	if idx >= Global.player_units.size(): idx = 0
 	_character = Global.player_units[idx]
+
 
 func _on_prev_pressed():
 	var idx = Global.player_units.find(_character) - 1
 	if idx < 0: idx = Global.player_units.size()-1
 	_character = Global.player_units[idx]
 
+func _on_item_mouseover(_item,is_mo:bool):
+	item_target = _item if is_mo else null
+
 
 func _on_visibility_changed() -> void:
 	if self.visible:
 		if !_character:
 			_character = Global.player_units[0]
-
-
-func _on_item_dragging(item_btn:InvItem):
-	item_dragging = item_btn
-	#search and highlight the compatible slots in equipment
-	var equipmt_class = item_btn.item.equipment_class
-	for s in equipment_slots:
-		if equipmt_class == s.compatible_equipmt_class:
-			s.highlight()
-
-
-func _on_slot_mouseover(_slot, is_mo:bool):
-	slot_target = _slot if is_mo else null
-
-func _on_item_mouseover(_item,is_mo:bool):
-	item_target = _item if is_mo else null
