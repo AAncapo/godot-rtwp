@@ -3,7 +3,7 @@ class_name InvSlot extends Button
 signal mouseover(_self, _is_mouseover)
 
 @export var compatible_equipmt_class = Item.EquipmentClass.ANY
-@export var link_key:String #MUST MATCH THE BONE ATTACHMENTS NAMES IN CHARACTER SKELETON
+@export var link_key:Stats.BL  #the body location that represents (if EquipmentClass.GEAR)
 var item:InvItem
 
 

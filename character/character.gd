@@ -259,7 +259,7 @@ func disable():
 	bound_area.clear_notifications()
 
 
-func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:String = "") -> void:
+func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:int = 0) -> void:
 	match _item.equipment_class:
 		Item.EquipmentClass.WEAPON:
 			if _set_equipped:
@@ -279,6 +279,17 @@ func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:String = "
 				actions.get_action("attack").range_ = equipment.unarmed_range
 				crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
 				
+				equipment.unequip(_item)
+		
+		Item.EquipmentClass.GEAR:
+			if _set_equipped:
+				#apply penalties
+				#stats.REF -= _item.penalty
+				#stats.DEX -= _item.penalty
+				#stats.MOVE -= _item.penalty
+				equipment.equip(_item,link_key)
+			else:
+				#remove penals
 				equipment.unequip(_item)
 	
 	_item.is_equipped = _set_equipped

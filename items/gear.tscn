@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://divtmm0scmjlb"]
+
+[ext_resource type="Script" path="res://items/gear.gd" id="1_nj7nq"]
+
+[node name="Gear" type="Node3D"]
+script = ExtResource("1_nj7nq")
+equipment_class = 2

@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://blm3o5emacldf"]
+
+[ext_resource type="PackedScene" uid="uid://divtmm0scmjlb" path="res://items/gear.tscn" id="1_4unfq"]
+[ext_resource type="Texture2D" uid="uid://bmq1uk5dxc8mp" path="res://imports/placeholder/icosn/chest.png" id="2_vsvyg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3buww"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01yys"]
+albedo_color = Color(0.254902, 0.254902, 0.254902, 1)
+
+[node name="ChestGear" instance=ExtResource("1_4unfq")]
+armor_type = 4
+body_location = 2
+icon = ExtResource("2_vsvyg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]
+transform = Transform3D(0.428808, 0, 0, 0, 0.561171, 0, 0, 0, 0.283966, 0, 0.281588, -0.00959939)
+mesh = SubResource("BoxMesh_3buww")
+surface_material_override/0 = SubResource("StandardMaterial3D_01yys")

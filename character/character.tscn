@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=114 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -28,6 +28,7 @@
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
 [ext_resource type="Texture2D" uid="uid://cno1iuyl38gsd" path="res://gui/position.png" id="29_o1pm1"]
 [ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="30_avtgg"]
+[ext_resource type="PackedScene" uid="uid://blm3o5emacldf" path="res://items/chest_gear.tscn" id="31_drjph"]
 [ext_resource type="Script" path="res://character/chara_equipment.gd" id="31_hwb0q"]
 [ext_resource type="Texture2D" uid="uid://cw63hogo4q263" path="res://imports/placeholder/icosn/second_wind_action_baldursgate3_wiki_guide_64px.webp" id="31_s58mp"]
 
@@ -4874,56 +4875,6 @@ bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 [node name="character_model" parent="model/Character/character_rig/Skeleton3D" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_eum68")
 
-[node name="HandR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.969311, 0.226892, -0.0946384, -0.245694, -0.907267, 0.341323, -0.00841873, 0.3541, 0.935169, -0.241533, 0.919437, 0.122145)
-bone_name = "hand.R"
-bone_idx = 15
-
-[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/HandR"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-
-[node name="HandL" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="2"]
-transform = Transform3D(-0.969311, -0.226892, 0.0946384, 0.245694, -0.907267, 0.341323, 0.00841879, 0.3541, 0.935169, 0.261566, 0.919438, 0.122145)
-bone_name = "hand.L"
-bone_idx = 11
-
-[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/HandL"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-
-[node name="Head" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="3"]
-transform = Transform3D(1, 1.06581e-14, 2.38418e-07, -2.92385e-09, 0.999925, 0.0122636, -2.38401e-07, -0.0122636, 0.999925, 0.0100161, 1.73859, 0.0177077)
-bone_name = "head"
-bone_idx = 7
-
-[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/Head"]
-
-[node name="Torso" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="4"]
-transform = Transform3D(1, 0, -2.38419e-07, -1.6722e-09, 0.999975, -0.00701374, 2.38413e-07, 0.00701374, 0.999975, 0.0100161, 1.14481, -0.000849743)
-bone_name = "spine"
-bone_idx = 5
-
-[node name="Node3D" type="Node3D" parent="model/Character/character_rig/Skeleton3D/Torso"]
-
-[node name="ArmR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="5"]
-transform = Transform3D(-0.976158, -0.0270057, 0.215373, 0.105578, -0.926021, 0.362407, 0.189653, 0.376505, 0.906794, -0.242223, 1.24289, -0.00731437)
-bone_name = "forearm.R"
-bone_idx = 13
-
-[node name="ArmL" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="6"]
-transform = Transform3D(-0.976158, 0.0270055, -0.215374, -0.105578, -0.926021, 0.362407, -0.189653, 0.376506, 0.906794, 0.262256, 1.24289, -0.00731477)
-bone_name = "forearm.L"
-bone_idx = 9
-
-[node name="LegR" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="7"]
-transform = Transform3D(0.999763, -0.000566076, 0.0218832, -0.00810321, -0.938234, 0.345907, 0.0203359, -0.346003, -0.938015, -0.136659, 0.521698, 0.0793788)
-bone_name = "shin.R"
-bone_idx = 17
-
-[node name="LegL" type="BoneAttachment3D" parent="model/Character/character_rig/Skeleton3D" index="8"]
-transform = Transform3D(0.998091, 0.0557494, 0.0266756, 0.0461925, -0.959668, 0.277314, 0.0410597, -0.275553, -0.96041, 0.165958, 0.529195, 0.107241)
-bone_name = "shin.L"
-bone_idx = 3
-
 [node name="TurnTimer" type="Timer" parent="."]
 one_shot = true
 
@@ -5180,7 +5131,6 @@ libraries = {
 
 [node name="Equipment" type="Node3D" parent="."]
 script = ExtResource("31_hwb0q")
-skeleton_path = NodePath("../model/Character/character_rig/Skeleton3D")
 unarmed_range = 1.2
 unarmed_icon = ExtResource("31_s58mp")
 
@@ -5188,6 +5138,78 @@ unarmed_icon = ExtResource("31_s58mp")
 
 [node name="Test Pistol" parent="Equipment/Inventory" instance=ExtResource("30_avtgg")]
 visible = false
+
+[node name="ChestGear" parent="Equipment/Inventory" instance=ExtResource("31_drjph")]
+visible = false
+
+[node name="Bones" type="Node3D" parent="Equipment"]
+
+[node name="Head" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(1, -1.20792e-13, 2.38418e-07, -2.92371e-09, 0.999925, 0.0122635, -2.384e-07, -0.0122635, 0.999925, 0.0100161, 1.73859, 0.0177077)
+bone_name = "head"
+bone_idx = 7
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="Node3D" type="Node3D" parent="Equipment/Bones/Head"]
+
+[node name="Torso" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(1, -2.66454e-15, -2.38419e-07, -1.6722e-09, 0.999975, -0.00701375, 2.38413e-07, 0.00701375, 0.999975, 0.0100161, 1.1448, -0.000849746)
+bone_name = "spine"
+bone_idx = 5
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="Node3D" type="Node3D" parent="Equipment/Bones/Torso"]
+transform = Transform3D(1, 0, 0, 1.11022e-16, 1, 0, 0, 0, 1, 0, -0.0629089, 0.0190878)
+
+[node name="ShoulderR" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.974589, -0.1286, 0.183407, 0.120127, -0.991142, -0.0566333, 0.189066, -0.0331621, 0.981404, -0.197464, 1.58786, 0.00422775)
+bone_name = "upperarm.R"
+bone_idx = 12
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="ShoulderL" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.974589, 0.128601, -0.183407, -0.120127, -0.991142, -0.0566345, -0.189066, -0.0331632, 0.981404, 0.217496, 1.58786, 0.00422775)
+bone_name = "upperarm.L"
+bone_idx = 8
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="HandR" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.969311, 0.226893, -0.094639, -0.245695, -0.907266, 0.341323, -0.00841918, 0.3541, 0.935169, -0.241534, 0.919437, 0.122145)
+bone_name = "hand.R"
+bone_idx = 15
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="Node3D" type="Node3D" parent="Equipment/Bones/HandR"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="HandL" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.969311, -0.226891, 0.0946386, 0.245693, -0.907267, 0.341323, 0.00841942, 0.3541, 0.935169, 0.261566, 0.919437, 0.122145)
+bone_name = "hand.L"
+bone_idx = 11
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="Node3D" type="Node3D" parent="Equipment/Bones/HandL"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="LowerarmR" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.976158, -0.0270058, 0.215373, 0.105578, -0.926021, 0.362406, 0.189653, 0.376505, 0.906794, -0.242223, 1.24289, -0.0073144)
+bone_name = "forearm.R"
+bone_idx = 13
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="LowerarmL" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(-0.976158, 0.0270055, -0.215374, -0.105578, -0.926021, 0.362407, -0.189653, 0.376505, 0.906794, 0.262256, 1.24289, -0.00731479)
+bone_name = "forearm.L"
+bone_idx = 9
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
 
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_nav_target_reached"]
 [connection signal="animation_finished" from="AnimationTree" to="AnimationTree" method="_on_animation_finished"]

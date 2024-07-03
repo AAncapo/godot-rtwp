@@ -85,7 +85,10 @@ func drop_item():
 	var curr_slot_cl = item_dragging.get_parent().compatible_equipmt_class
 	
 	if slot_target: #target is EMPTY slot
-		var target_slot_cl = slot_target.compatible_equipmt_class
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_key:
+			return
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and item_dragging.item.body_location != Stats.BL.Any:
+			return
 		#unequip if current slot is an equipmnt slot (was equipped)
 		if curr_slot_cl != Item.EquipmentClass.ANY:
 			equipment_updated.emit(item_dragging.item, false)
@@ -95,6 +98,10 @@ func drop_item():
 	
 	if item_target: #target is OCCUPIED slot
 		slot_target = item_target.get_parent()
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_key:
+			return
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and item_dragging.item.body_location != Stats.BL.Any:
+			return
 		if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
 			# Unequip existent item in slot target
 			equipment_updated.emit(item_target.item, false)

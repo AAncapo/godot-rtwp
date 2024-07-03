@@ -2,6 +2,8 @@ class_name Stats extends Node
 
 signal new_wound_state(stat)
 
+enum BL { Any, Head, Torso, ShoulderR, ShoulderL, LowerarmR, LowerarmL, HandR, HandL }
+
 @export var name_:String
 @export var alias:String
 @export var portrait_image:Texture2D
