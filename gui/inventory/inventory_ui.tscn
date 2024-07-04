@@ -82,12 +82,12 @@ layout_mode = 2
 [node name="WeaponSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
-link_key = 7
+link_idx = 4
 
 [node name="WeaponSlot2" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
-link_key = 8
+link_idx = 7
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots"]
 layout_mode = 2
@@ -104,12 +104,11 @@ layout_mode = 2
 [node name="HeadSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 2
-link_key = 1
 
 [node name="TorsoSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 2
-link_key = 2
+link_idx = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
 clip_contents = false

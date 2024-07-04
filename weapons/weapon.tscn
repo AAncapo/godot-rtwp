@@ -5,6 +5,7 @@
 
 [node name="weapon" type="Node3D"]
 script = ExtResource("1_1y0ef")
+body_location = 4
 
 [node name="mesh" type="Node3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

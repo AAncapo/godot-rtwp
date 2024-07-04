@@ -22,14 +22,14 @@ func _ready() -> void:
 
 func update_wounded_overlay(stats:Stats):
 	#grayscale shader in character portrait
-	var step = 1.0 / stats.WOUND_STATES.size()
-	var ws_idx = stats.WOUND_STATES.keys().find(stats.current_wound_state)
-	var percent = (stats.WOUND_STATES.size()-ws_idx) * step
+	var step = 1.0 / stats.WoundedState.size()
+	var ws_idx = stats.wounded_state
+	var percent = (stats.WoundedState.size()-ws_idx) * step
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(wound_status,"shader_parameter/percentage",percent, .1)
 	
-	var death_door = stats.current_wound_state.contains("MORTAL")
+	var death_door = stats.wounded_state == Stats.WoundedState.MORTAL
 	var anim = "mortal_alert" if death_door else "RESET"
 	%AnimationPlayer.play(anim)
 

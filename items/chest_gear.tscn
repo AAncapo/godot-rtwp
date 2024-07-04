@@ -10,7 +10,7 @@ albedo_color = Color(0.254902, 0.254902, 0.254902, 1)
 
 [node name="ChestGear" instance=ExtResource("1_4unfq")]
 armor_type = 4
-body_location = 2
+body_location = 1
 icon = ExtResource("2_vsvyg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="0"]

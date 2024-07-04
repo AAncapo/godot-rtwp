@@ -1,7 +1,5 @@
 class_name InventoryUI extends Control
 
-signal equipment_updated(_item:Item, set_equipped:bool, link_key:String)
-
 @onready var chara_name := %CharacterName
 @onready var slot_container := %SlotContainer
 var equipment_slots := []
@@ -9,14 +7,8 @@ var inv_slot = preload("res://gui/inventory/inv_slot.tscn")
 var inv_item = preload("res://gui/inventory/inv_item.tscn")
 var _character:Character:
 	set(value):
-		if _character:
-			if equipment_updated.is_connected(_character._on_equipment_updated):
-				equipment_updated.disconnect(_character._on_equipment_updated)
-		
 		_character = value
 		if !_character: return #shouldnt be null at any point but warever
-		
-		equipment_updated.connect(_character._on_equipment_updated)
 		chara_name.text = str(_character.stats.alias," ",_character.stats.name_)
 		update_slots()
 var all_slots := []
@@ -74,7 +66,8 @@ func update_slots():
 		item_btn._is_dragging.connect(_on_item_dragging)
 		item_btn.mouseover.connect(_on_item_mouseover)
 
-
+# The weapons.body_location is set to HandR by default but is not taken into consideration at any point
+#when equipping a weapon the only thing that needs to know which hand it belongs to its the slot
 func drop_item():
 	if item_target and item_dragging.get_parent() == item_target:
 		return #dropped in the same slot
@@ -85,31 +78,31 @@ func drop_item():
 	var curr_slot_cl = item_dragging.get_parent().compatible_equipmt_class
 	
 	if slot_target: #target is EMPTY slot
-		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_key:
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_idx:
 			return
-		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and item_dragging.item.body_location != Stats.BL.Any:
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and !item_dragging.item is Weapon:
 			return
 		#unequip if current slot is an equipmnt slot (was equipped)
 		if curr_slot_cl != Item.EquipmentClass.ANY:
-			equipment_updated.emit(item_dragging.item, false)
+			_character.equipment.equipment_updated.emit(item_dragging.item, false)
 		# equip if target slot parent is equipmnt slot
 		if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
-			equipment_updated.emit(item_dragging.item, true, slot_target.link_key)
+			_character.equipment.equipment_updated.emit(item_dragging.item, true, slot_target.link_idx)
 	
 	if item_target: #target is OCCUPIED slot
 		slot_target = item_target.get_parent()
-		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_key:
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.GEAR and item_dragging.item.body_location != slot_target.link_idx:
 			return
-		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and item_dragging.item.body_location != Stats.BL.Any:
+		if slot_target.compatible_equipmt_class==Item.EquipmentClass.WEAPON and !item_dragging.item is Weapon:
 			return
 		if slot_target.compatible_equipmt_class != Item.EquipmentClass.ANY:
 			# Unequip existent item in slot target
-			equipment_updated.emit(item_target.item, false)
+			_character.equipment.equipment_updated.emit(item_target.item, false)
 			if curr_slot_cl == slot_target.compatible_equipmt_class:
 				# Re-Equip that item in the other slot if is the same class
-				equipment_updated.emit(item_target.item, true, item_dragging.get_parent().link_key)
+				_character.equipment.equipment_updated.emit(item_target.item, true, item_dragging.get_parent().link_idx)
 		
-			equipment_updated.emit(item_dragging.item, true, slot_target.link_key)
+			_character.equipment.equipment_updated.emit(item_dragging.item, true, slot_target.link_idx)
 	
 	slot_target.add_item(item_dragging)
 

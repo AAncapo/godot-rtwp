@@ -1,6 +1,6 @@
 class_name Gear extends Item
 #Cyberpunk RED Rules: Armor (pg.96)
-#Armor must be purchased individually for either the head or body locations. Wearing even a single piece of heavier armor will lower your REF, DEX, and MOVE by the most punishing Armor Penalty of armor you are wearing. You take this penalty only once even though you are likely wearing armor on both your body and head. This penalty can even leave your Character (at a minimum of MOVE 0) completely immobile
+#Armor must be purchased individually for either the head or body locations. 
 #SP gained by armor does not "stack;" Only your highest source of SP in a location determines your SP for that location. All your worn armor in a location is ablated (SP lowered by one) simultaneously whenever you take damage.
 const ARMOR_TABLE = { 
 	"Leather"            : { sp =  4, penal = 0, cost =   20 }, 
@@ -27,8 +27,11 @@ enum ArmorType {
 	Shield 
 	}
 @export var armor_type:ArmorType
-var sp:int  #Stopping Power
-var current_sp:int
+var base_sp:int  #Stopping Power
+var sp:int:
+	set(value):
+		sp = value
+		sp = clamp(sp, 0, base_sp)
 var penalty:int  #How much does interfere with ability to move and respond
 var hp:int
 
@@ -36,8 +39,8 @@ var hp:int
 func _ready() -> void:
 	var armor_data = ARMOR_TABLE[ARMOR_TABLE.keys()[armor_type]]
 	
-	sp = armor_data.sp
-	current_sp = sp
+	base_sp = armor_data.sp
+	sp = base_sp
 	
 	penalty = armor_data.penal
 	cost = armor_data.cost

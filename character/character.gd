@@ -9,7 +9,7 @@ signal detected
 @onready var ttimer:Timer = $TurnTimer
 @onready var actions := $Actions
 @onready var stats := $Stats
-@onready var equipment := $Equipment
+@onready var equipment: CharacterEquipment = $Equipment
 @onready var bound_area := $BoundArea
 
 var is_turn:bool = true
@@ -93,6 +93,12 @@ func _ready() -> void:
 	actions.get_action("attack").icon = equipment.unarmed_icon
 	actions.get_action("attack").range_ = equipment.unarmed_range
 	crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
+	
+	if !is_player():
+		for i in $Equipment/Inventory.get_children():
+			if i is Weapon:
+				equipment.equipment_updated.emit(i, true, Stats.BL.HandR)
+				break
 	
 	ttimer.timeout.connect(_on_turn_started)
 	next_action = 1
@@ -259,7 +265,7 @@ func disable():
 	bound_area.clear_notifications()
 
 
-func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:int = 0) -> void:
+func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx:int = 0) -> void:
 	match _item.equipment_class:
 		Item.EquipmentClass.WEAPON:
 			if _set_equipped:
@@ -270,7 +276,7 @@ func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:int = 0) -
 				if !_item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.connect(_on_reload_request)
 				
-				equipment.equip(_item,link_key)
+				equipment.equip(_item,link_idx)
 			else:
 				if _item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.disconnect(_on_reload_request)
@@ -283,13 +289,9 @@ func _on_equipment_updated(_item: Item, _set_equipped: bool, link_key:int = 0) -
 		
 		Item.EquipmentClass.GEAR:
 			if _set_equipped:
-				#apply penalties
-				#stats.REF -= _item.penalty
-				#stats.DEX -= _item.penalty
-				#stats.MOVE -= _item.penalty
-				equipment.equip(_item,link_key)
+				equipment.equip(_item,link_idx)
 			else:
-				#remove penals
 				equipment.unequip(_item)
 	
 	_item.is_equipped = _set_equipped
+	stats.update()
