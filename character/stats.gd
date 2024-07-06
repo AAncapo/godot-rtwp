@@ -1,5 +1,6 @@
 class_name Stats extends Node
 
+signal updated
 signal new_wound_state(state:Stats)
 
 ##Use this enum from any script as indexed reference to all the BoneAttachment nodes in the model linked to body parts that can use equipment, be affected by damage or replaced
@@ -43,19 +44,18 @@ var starting_stats = {
 	"MOVE" : 0,
 	"BODY" : 0
 	}
-var hitpoints:int
-var humanity:int
-var death_save:int
 
+var hitpoints:int
 var current_hp:int:
 	set(value):
 		current_hp = clamp(value, 0, hitpoints)
 		update_wound_state()
-		#print(name_, " HP: ",current_hp)
+var humanity:int
+var death_save:int
+
 
 var skills:Dictionary
 @export var visibility_range:float = 10.0
-
 @export var SPEED:float = 5.0
 
 enum WoundedState { ANY, LIGHT, SERIOUS, MORTAL }
@@ -69,7 +69,7 @@ var stat_modifiers := []
 
 
 func _ready() -> void:
-	## Stats
+	## Stats ##
 	for s in starting_stats.keys():
 		var _pts = Fnff.roll(1,10)
 		self[s] = _pts
@@ -80,9 +80,8 @@ func _ready() -> void:
 	humanity = EMP * 10
 	death_save = BODY
 	
-	## Skills
+	## Skills ##
 	var pts = 86
-	#get skills from db
 	for s in Fnff.skills:
 		for _s in Fnff.skills.get(s):
 			skills[_s] = 2
@@ -90,7 +89,6 @@ func _ready() -> void:
 	while pts > 0:
 		pts -= 1
 		skills[skills.keys().pick_random()] += 1
-	#print(name_," skills: ",skills)
 
 
 func calc_damage(atk:Attack) -> Dictionary:
@@ -141,9 +139,12 @@ func update():
 		return
 	
 	#Reset all stats
+	stat_modifiers = []
 	for s in starting_stats:
-		set(s,starting_stats[s])
+		self.set(s,starting_stats[s])
 	
+	## Armor Penalties (CPRED Corebook pg.96)
+	#Wearing even a single piece of heavier armor will lower your REF, DEX, and MOVE by the most punishing Armor Penalty of armor you are wearing. You take this penalty only once even though you are likely wearing armor on both your body and head. This penalty can even leave your Character (at a minimum of MOVE 0) completely immobile
 	var hpa  #heaviest penalty armor
 	for key in equipmt.equipped_gear:
 		if equipmt.equipped_gear[key] != null:
@@ -153,10 +154,8 @@ func update():
 				hpa = equipped
 	if hpa:
 		var penal = -hpa.penalty
-		var armor = { hpa.name_: { "REF": penal, "DEX" : penal, "MOVE": penal }}
+		var armor = { hpa.name_: { "REF":penal, "DEX":penal, "MOVE":penal }}
 		stat_modifiers.append(armor)
-	## Armor Penalties (CPRED Corebook pg.96)
-	#Wearing even a single piece of heavier armor will lower your REF, DEX, and MOVE by the most punishing Armor Penalty of armor you are wearing. You take this penalty only once even though you are likely wearing armor on both your body and head. This penalty can even leave your Character (at a minimum of MOVE 0) completely immobile
 	
 	var wound := {}
 	match wounded_state:
@@ -170,11 +169,16 @@ func update():
 			wound = {"wounded_state": { "stabilization_dv": 15, "action_penalty": +4, "MOVE":-6 }}
 	stat_modifiers.append(wound)
 	
-	#Apply armor penalties
 	for mod in stat_modifiers:
 		for s in mod[mod.keys()[0]]:
 			var stat = get(s)
 			set(s, stat + mod[mod.keys()[0]][s])
+	
+	updated.emit()
+
+
+func get_stat_mods(stat:String):
+	return get(stat) - starting_stats[stat]
 
 
 func roll_death_save():

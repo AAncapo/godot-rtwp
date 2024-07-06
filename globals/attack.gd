@@ -1,8 +1,8 @@
 class_name Attack extends Node
 
-var actor
-var target
-var wpn
+var actor:Character
+var target:Character
+var wpn:Weapon
 var damage:int
 
 
@@ -27,5 +27,4 @@ func calc_hit_chance():
 		#TODO melee relevant skills
 		attacker_roll = actor.stats.DEX + wpn_skill + Fnff.roll(1,10)
 		defender_roll = target.stats.DEX + target.stats.skills.evasion + Fnff.roll(1,10)
-	
 	return attacker_roll > defender_roll

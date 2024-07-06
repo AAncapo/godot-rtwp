@@ -1,4 +1,4 @@
 class_name MeleeWeapon extends Weapon
 
-enum Type { FIST, KNIFE, SWORD }
-@export var type := Type.FIST
+enum MeleeType { KNIFE, SWORD }
+@export var melee_type:MeleeType

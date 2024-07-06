@@ -3,8 +3,8 @@ class_name RangedWeapon extends Weapon
 signal clip_updated(_clip)
 signal reload_requested
 
-enum Type { HANDGUN, RIFLE, SMG, SHTG, HVY }
-@export var type := Type.HANDGUN
+enum RangedType { HANDGUN, RIFLE, SMG, SHTG, HVY }
+@export var ranged_type:RangedType
 
 enum FireMode { SINGLE, BURST, SEMIAUTO, FULLAUTO }
 @export var firemode := FireMode.SINGLE

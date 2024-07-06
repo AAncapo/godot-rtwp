@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=124 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" path="res://actions/unit_actions/action_takedown.gd" id="23_h3fpd"]
 [ext_resource type="Texture2D" uid="uid://ddulu80l7o3fg" path="res://imports/placeholder/icosn/sneak_attack_melee_action_baldursgate3_wiki_guide_64px.png" id="23_jbviw"]
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="29_gokau"]
 [ext_resource type="Texture2D" uid="uid://cno1iuyl38gsd" path="res://gui/position.png" id="29_o1pm1"]
 [ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="30_avtgg"]
 [ext_resource type="PackedScene" uid="uid://blm3o5emacldf" path="res://items/chest_gear.tscn" id="31_drjph"]
@@ -4471,13 +4472,9 @@ _data = {
 "walk_normal": SubResource("Animation_xs7am")
 }
 
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_s37me"]
+
 [sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_wcjds"]
-
-[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_68oed"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t5wms"]
-
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_73euu"]
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_no1q2"]
 
@@ -4506,6 +4503,10 @@ blend_point_2/node = SubResource("AnimationNodeAnimation_ofcl2")
 blend_point_2/pos = Vector2(1, 0)
 blend_point_3/node = SubResource("AnimationNodeAnimation_xf7sg")
 blend_point_3/pos = Vector2(1, 1)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q4o6r"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_gwfc2"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_igre3"]
 animation = &"idle_normal"
@@ -4572,6 +4573,38 @@ blend_point_2/pos = Vector2(0, 1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_svwc7")
 blend_point_3/pos = Vector2(1, 1)
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_t5wms"]
+animation = &"reload_handgun"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_24eox"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_at6eu"]
+animation = &"idle_alert"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0vhmk"]
+animation = &"aim_fist"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hdv0h"]
+animation = &"aim_fist"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_id0l5"]
+animation = &"idle_alert"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_w6wss"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_at6eu")
+blend_point_0/pos = Vector2(0, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_0vhmk")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_hdv0h")
+blend_point_2/pos = Vector2(1, 1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_id0l5")
+blend_point_3/pos = Vector2(1, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6n5pg"]
+animation = &"attack_fist"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_cmxh1"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8mspr"]
 animation = &"grabbed"
 
@@ -4582,33 +4615,43 @@ animation = &"die1"
 animation = &"grab"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_p4co3"]
-graph_offset = Vector2(-80.1436, 156.34)
-nodes/Blend3/node = SubResource("AnimationNodeBlend3_wcjds")
-nodes/Blend3/position = Vector2(680, 660)
-nodes/EquippedOneshot/node = SubResource("AnimationNodeOneShot_68oed")
-nodes/EquippedOneshot/position = Vector2(340, 300)
-nodes/EquippedOneshotAnimation/node = SubResource("AnimationNodeAnimation_t5wms")
-nodes/EquippedOneshotAnimation/position = Vector2(-40, 460)
-nodes/EquippedType/node = SubResource("AnimationNodeBlend2_73euu")
-nodes/EquippedType/position = Vector2(40, 240)
-nodes/GeneralOneshot/node = SubResource("AnimationNodeOneShot_no1q2")
-nodes/GeneralOneshot/position = Vector2(800, 220)
+graph_offset = Vector2(-370.623, 40.2642)
+nodes/EquippedType/node = SubResource("AnimationNodeBlend3_s37me")
+nodes/EquippedType/position = Vector2(300, 320)
+nodes/GeneralOneshot/node = SubResource("AnimationNodeBlend3_wcjds")
+nodes/GeneralOneshot/position = Vector2(600, 660)
+nodes/GeneralOneshotLink/node = SubResource("AnimationNodeOneShot_no1q2")
+nodes/GeneralOneshotLink/position = Vector2(800, 220)
 nodes/IsEquipped/node = SubResource("AnimationNodeBlend2_ausa8")
 nodes/IsEquipped/position = Vector2(580, 160)
 nodes/Melee/node = SubResource("AnimationNodeBlendSpace2D_yw1ln")
-nodes/Melee/position = Vector2(-200, 200)
+nodes/Melee/position = Vector2(-180, 340)
+nodes/MeleeOneshot/node = SubResource("AnimationNodeAnimation_q4o6r")
+nodes/MeleeOneshot/position = Vector2(-180, 500)
+nodes/MeleeOneshotLink/node = SubResource("AnimationNodeOneShot_gwfc2")
+nodes/MeleeOneshotLink/position = Vector2(-20, 380)
 nodes/MotionStates/node = SubResource("AnimationNodeBlendSpace2D_5ipqf")
 nodes/MotionStates/position = Vector2(300, 100)
 nodes/Ranged/node = SubResource("AnimationNodeBlendSpace2D_yp6kp")
-nodes/Ranged/position = Vector2(-200, 360)
+nodes/Ranged/position = Vector2(-180, 640)
+nodes/RangedOneshot/node = SubResource("AnimationNodeAnimation_t5wms")
+nodes/RangedOneshot/position = Vector2(-200, 800)
+nodes/RangedOneshotLink/node = SubResource("AnimationNodeOneShot_24eox")
+nodes/RangedOneshotLink/position = Vector2(-20, 680)
+nodes/Unarmed/node = SubResource("AnimationNodeBlendSpace2D_w6wss")
+nodes/Unarmed/position = Vector2(-200, 40)
+nodes/UnarmedOneShot/node = SubResource("AnimationNodeAnimation_6n5pg")
+nodes/UnarmedOneShot/position = Vector2(-220, 200)
+nodes/UnarmedOneShotLink/node = SubResource("AnimationNodeOneShot_cmxh1")
+nodes/UnarmedOneShotLink/position = Vector2(-40, 100)
 nodes/choked/node = SubResource("AnimationNodeAnimation_8mspr")
-nodes/choked/position = Vector2(460, 720)
+nodes/choked/position = Vector2(380, 720)
 nodes/die/node = SubResource("AnimationNodeAnimation_eh4pn")
-nodes/die/position = Vector2(460, 860)
+nodes/die/position = Vector2(380, 860)
 nodes/grab/node = SubResource("AnimationNodeAnimation_grksd")
-nodes/grab/position = Vector2(440, 580)
-nodes/output/position = Vector2(1000, 260)
-node_connections = [&"Blend3", 0, &"grab", &"Blend3", 1, &"choked", &"Blend3", 2, &"die", &"EquippedOneshot", 0, &"EquippedType", &"EquippedOneshot", 1, &"EquippedOneshotAnimation", &"EquippedType", 0, &"Melee", &"EquippedType", 1, &"Ranged", &"GeneralOneshot", 0, &"IsEquipped", &"GeneralOneshot", 1, &"Blend3", &"IsEquipped", 0, &"MotionStates", &"IsEquipped", 1, &"EquippedOneshot", &"output", 0, &"GeneralOneshot"]
+nodes/grab/position = Vector2(360, 580)
+nodes/output/position = Vector2(1060, 180)
+node_connections = [&"EquippedType", 0, &"UnarmedOneShotLink", &"EquippedType", 1, &"MeleeOneshotLink", &"EquippedType", 2, &"RangedOneshotLink", &"GeneralOneshot", 0, &"grab", &"GeneralOneshot", 1, &"choked", &"GeneralOneshot", 2, &"die", &"GeneralOneshotLink", 0, &"IsEquipped", &"GeneralOneshotLink", 1, &"GeneralOneshot", &"IsEquipped", 0, &"MotionStates", &"IsEquipped", 1, &"EquippedType", &"MeleeOneshotLink", 0, &"Melee", &"MeleeOneshotLink", 1, &"MeleeOneshot", &"RangedOneshotLink", 0, &"Ranged", &"RangedOneshotLink", 1, &"RangedOneshot", &"UnarmedOneShotLink", 0, &"Unarmed", &"UnarmedOneShotLink", 1, &"UnarmedOneShot", &"output", 0, &"GeneralOneshotLink"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eum68"]
 
@@ -4825,7 +4868,6 @@ shape = SubResource("CapsuleShape3D_angsg")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 process_mode = 3
-debug_enabled = true
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
@@ -4835,18 +4877,25 @@ libraries = {
 }
 tree_root = SubResource("AnimationNodeBlendTree_p4co3")
 anim_player = NodePath("../model/Character/AnimationPlayer")
-parameters/Blend3/blend_amount = 0
-parameters/EquippedOneshot/active = false
-parameters/EquippedOneshot/internal_active = false
-parameters/EquippedOneshot/request = 0
-parameters/EquippedType/blend_amount = 1.0
-parameters/GeneralOneshot/active = false
-parameters/GeneralOneshot/internal_active = false
-parameters/GeneralOneshot/request = 0
+parameters/EquippedType/blend_amount = -1.0
+parameters/GeneralOneshot/blend_amount = 0
+parameters/GeneralOneshotLink/active = false
+parameters/GeneralOneshotLink/internal_active = false
+parameters/GeneralOneshotLink/request = 0
 parameters/IsEquipped/blend_amount = 0.0
 parameters/Melee/blend_position = Vector2(0, 0)
+parameters/MeleeOneshotLink/active = false
+parameters/MeleeOneshotLink/internal_active = false
+parameters/MeleeOneshotLink/request = 0
 parameters/MotionStates/blend_position = Vector2(0, 0)
 parameters/Ranged/blend_position = Vector2(0, 1)
+parameters/RangedOneshotLink/active = false
+parameters/RangedOneshotLink/internal_active = false
+parameters/RangedOneshotLink/request = 0
+parameters/Unarmed/blend_position = Vector2(0, 1)
+parameters/UnarmedOneShotLink/active = false
+parameters/UnarmedOneShotLink/internal_active = false
+parameters/UnarmedOneShotLink/request = 0
 script = ExtResource("3_roqug")
 
 [node name="model" type="Node3D" parent="."]
@@ -4880,7 +4929,7 @@ one_shot = true
 
 [node name="BeehaveTree" type="Node" parent="." node_paths=PackedStringArray("blackboard", "actor")]
 script = ExtResource("2_fojyy")
-blackboard = NodePath("@Node@37361")
+blackboard = NodePath("@Node@17524")
 actor = NodePath("..")
 
 [node name="Main" type="Node" parent="BeehaveTree"]
@@ -5127,18 +5176,24 @@ libraries = {
 }
 
 [node name="Stats" type="Node" parent="."]
+unique_name_in_owner = true
 script = ExtResource("21_sr724")
 equipment_node = NodePath("../Equipment")
 
 [node name="Equipment" type="Node3D" parent="."]
 script = ExtResource("31_hwb0q")
-unarmed_range = 1.2
-unarmed_icon = ExtResource("31_s58mp")
+
+[node name="Unarmed" parent="Equipment" instance=ExtResource("29_gokau")]
+range_ = 1.2
+related_skill = "brawling"
+name_ = "Brawl"
+icon = ExtResource("31_s58mp")
 
 [node name="Inventory" type="Node3D" parent="Equipment"]
 
 [node name="Test Pistol" parent="Equipment/Inventory" instance=ExtResource("30_avtgg")]
 visible = false
+ranged_type = 0
 body_location = 0
 
 [node name="ChestGear" parent="Equipment/Inventory" instance=ExtResource("31_drjph")]

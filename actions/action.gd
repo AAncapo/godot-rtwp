@@ -12,8 +12,8 @@ signal count_updated(_count)
 @export var action_name:String = "Action"
 @export var action_description:String = ""
 @export var range_:float = -1
-var actor:Unit
-var target:Unit
+var actor:Character
+var target:Character
 var count:int
 
 

@@ -47,6 +47,8 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
+	#Note: 
+	#If a unit is moving to attack a target that is too far away or in a position which requires to follow a path that makes the target exit the player's DetectionArea at some point, the player will stop moving immediatelly(State.IDLE). This happens because when this method is called, if the exited body is the target_unit's, the unit interprets it as: 'target has escaped' and its not programmed to chase after it, so it stops. This shouldnt be common when the rooms are obscured (as intended) bc you will not be able to target enemies that far away, so im not going to bother 'fixing' it.
 	if actor.is_enemy(body):
 		if enemies_in_area.has(body): enemies_in_area.remove_at(enemies_in_area.find(body))
 		# disable fov when no more enmies around

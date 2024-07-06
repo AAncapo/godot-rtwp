@@ -9,7 +9,7 @@ var motion_state = MotionState.NORMAL:
 		set_motion_state(blend_pos)
 
 var is_armed_path := "parameters/IsEquipped/blend_amount"
-var equipped_type := {
+var equipped_data := {
 	'blend_amount':0,
 	'param':"Melee",
 	'blend_pos':Vector2i()
@@ -20,29 +20,29 @@ func move(_run:bool = false): set_motion_state(Vector2(motion_state,1))
 func stop(): set_motion_state(Vector2(motion_state, 0))
 
 
-func update_equipped(_wpn):
-	if !_wpn: return
+func update_equipped(wpn:Weapon):
+	equipped_data.blend_amount = wpn.weapon_class -1
+	equipped_data.param = Weapon.WeaponClass.keys()[wpn.weapon_class].capitalize()
+	var blend_pos_x
+	match wpn.weapon_class:
+		Weapon.WeaponClass.UNARMED: blend_pos_x = 0
+		Weapon.WeaponClass.MELEE: blend_pos_x = wpn.melee_type
+		Weapon.WeaponClass.RANGED: blend_pos_x = wpn.ranged_type
+	equipped_data.blend_pos.x = blend_pos_x
 	
-	equipped_type.blend_amount = 0 if _wpn is MeleeWeapon else 1
-	equipped_type.param = "Melee" if _wpn is MeleeWeapon else "Ranged"
-	equipped_type.blend_pos.x = _wpn.type
+	set("parameters/EquippedType/blend_amount",equipped_data.blend_amount)
+	set(str("parameters/",equipped_data.param,"/blend_position"),equipped_data.blend_pos)
 	
-	set("parameters/EquippedType/blend_amount",equipped_type.blend_amount)
-	set(str("parameters/",equipped_type.param,"/blend_position"),equipped_type.blend_pos)
-	set(is_armed_path, 1)
-
-
-func disarm(): set(is_armed_path, 0)
+	#set(is_armed_path, 1)
+	#TODO if i set it to 0 when unarmed then i cant use the fist attack anims.
+	set(is_armed_path, 1 if wpn.weapon_class != Weapon.WeaponClass.UNARMED else 0)
 
 
 func aim(_aim:bool):
-	var _current_pos:Vector2 = get(str("parameters/",equipped_type.param,"/blend_position"))
+	var _current_pos:Vector2 = get(str("parameters/",equipped_data.param,"/blend_position"))
 	_current_pos.y = 0 if !_aim else 1
-	set(str("parameters/",equipped_type.param,"/blend_position"), _current_pos)
+	set(str("parameters/",equipped_data.param,"/blend_position"), _current_pos)
 
-
-func reload_gun():
-	print(" RELOADING...")
 
 func choke(): request_oneshot(-1)
 
@@ -70,6 +70,10 @@ func set_motion_state(blend_pos:Vector2):
 	set("parameters/MotionStates/blend_position",blend_pos)
 
 
+func request_equipped_oneshot():
+	set(str("parameters/", equipped_data.param, "OneshotLink/request"), AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+
+
 func request_oneshot(blend_amount:int):
-	set("parameters/Blend3/blend_amount",blend_amount)
-	set("parameters/GeneralOneshot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+	set("parameters/GeneralOneshot/blend_amount",blend_amount)
+	set("parameters/GeneralOneshotLink/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

@@ -89,11 +89,9 @@ func _ready() -> void:
 	
 	actions.init(self)
 	
-	anim.disarm()
-	actions.get_action("attack").icon = equipment.unarmed_icon
-	actions.get_action("attack").range_ = equipment.unarmed_range
-	crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
+	equipment.equipment_updated.emit(equipment.unarmed, true)
 	
+	#TODO add starting_equipment var (dictionary with keys for packedScenes)
 	if !is_player():
 		for i in $Equipment/Inventory.get_children():
 			if i is Weapon:
@@ -236,11 +234,10 @@ func find_job():
 					current_job = Job.new(pp.get_children())
 					#print(self.name, " has patrol job at ",pp.name)
 					return
-			#no patrol path found
-			assignment = Assignment.NONE
+			assignment = Assignment.NONE  #no patrol path found
 
 
-func msg(pop, text="",remove=false):
+func msg(pop, text = "", remove = false):
 	bound_area.add_notification(pop,text,remove)
 
 
@@ -265,33 +262,32 @@ func disable():
 	bound_area.clear_notifications()
 
 
-func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx:int = 0) -> void:
-	match _item.equipment_class:
-		Item.EquipmentClass.WEAPON:
-			if _set_equipped:
-				anim.update_equipped(_item)
-				actions.get_action("attack").icon = _item.icon
-				actions.get_action("attack").range_ = _item.range_
-				crosshair.target_position = crosshair.transform.basis.z * -_item.range_
+func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx: int = 0) -> void:
+	if _set_equipped:
+		if _item.equipment_class == Item.EquipmentClass.WEAPON:
+			if _item.weapon_class == Weapon.WeaponClass.RANGED:
 				if !_item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.connect(_on_reload_request)
-				
-				equipment.equip(_item,link_idx)
-			else:
+		
+		if _item.equipment_class == Item.EquipmentClass.GEAR:
+			pass
+		
+		equipment.equip(_item,link_idx)
+	else:
+		if _item.equipment_class == Item.EquipmentClass.WEAPON:
+			if _item.weapon_class == Weapon.WeaponClass.RANGED:
 				if _item.reload_requested.is_connected(_on_reload_request):
 					_item.reload_requested.disconnect(_on_reload_request)
-				anim.disarm()
-				actions.get_action("attack").icon = equipment.unarmed_icon
-				actions.get_action("attack").range_ = equipment.unarmed_range
-				crosshair.target_position = crosshair.transform.basis.z * -equipment.unarmed_range
-				
-				equipment.unequip(_item)
 		
-		Item.EquipmentClass.GEAR:
-			if _set_equipped:
-				equipment.equip(_item,link_idx)
-			else:
-				equipment.unequip(_item)
+		equipment.unequip(_item)
 	
+	if _item is Weapon: anim.update_equipped(equipment.equipped_wpn)
+	_on_equipped_wpn_changed(equipment.equipped_wpn)
 	_item.is_equipped = _set_equipped
 	stats.update()
+
+
+func _on_equipped_wpn_changed(_wpn:Weapon):
+	actions.get_action("attack").icon = _wpn.icon
+	actions.get_action("attack").range_ = _wpn.range_
+	crosshair.target_position = crosshair.transform.basis.z * -_wpn.range_

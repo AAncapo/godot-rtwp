@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://sacg1lplgw51"]
+
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_2qa0w"]
+[ext_resource type="Texture2D" uid="uid://cw63hogo4q263" path="res://imports/placeholder/icosn/second_wind_action_baldursgate3_wiki_guide_64px.webp" id="2_5o5ak"]
+
+[node name="Unarmed" instance=ExtResource("1_2qa0w")]
+range_ = 1.2
+related_skill = "brawling"
+name_ = "Brawl"
+icon = ExtResource("2_5o5ak")

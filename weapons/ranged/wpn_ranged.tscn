@@ -98,6 +98,7 @@ firemode = 0
 accuracy = 0
 clip_size = 0
 rof = 1
+weapon_class = 2
 
 [node name="mesh" parent="." index="0"]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0473302, 0, 0)

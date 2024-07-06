@@ -21,6 +21,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t0udm")
+stats_line_spacing = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -62,55 +63,92 @@ custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = ">"
 
-[node name="EquipmentSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Stats" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="key" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Stats"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 1
+text = "STA
+STAT"
+
+[node name="value" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Stats"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+text = "0
+10"
+horizontal_alignment = 2
+
+[node name="mod" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/Stats"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "-50
++1
+"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="EquipmentSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots"]
 layout_mode = 2
 
-[node name="EquipmtSection" type="Label" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2"]
+[node name="EquipmtSection" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer2"]
 layout_mode = 2
 text = "Weapon"
 horizontal_alignment = 1
 
-[node name="WeaponSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2"]
+[node name="WeaponSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="WeaponSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
+[node name="WeaponSlot" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
 link_idx = 4
 
-[node name="WeaponSlot2" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
+[node name="WeaponSlot2" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer2/WeaponSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 1
 link_idx = 7
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots"]
 layout_mode = 2
 
-[node name="EquipmtSection" type="Label" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer"]
+[node name="EquipmtSection" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer"]
 layout_mode = 2
 text = "Gear"
 horizontal_alignment = 1
 
-[node name="GearSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer"]
+[node name="GearSlots" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HeadSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
+[node name="HeadSlot" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 2
 
-[node name="TorsoSlot" parent="PanelContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
+[node name="TorsoSlot" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/EquipmentSlots/VBoxContainer/GearSlots" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 compatible_equipmt_class = 2
 link_idx = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 clip_contents = false
 custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
@@ -118,65 +156,65 @@ size_flags_vertical = 3
 follow_focus = true
 horizontal_scroll_mode = 0
 
-[node name="SlotContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/ScrollContainer"]
+[node name="SlotContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 9
 
-[node name="InvSlot" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot2" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot2" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot3" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot3" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot4" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot4" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot5" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot5" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot6" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot6" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot7" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot7" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot8" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot8" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot9" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot9" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot10" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot10" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot11" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot11" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot12" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot12" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot13" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot13" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot14" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot14" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot15" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot15" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot16" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot16" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot17" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot17" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
-[node name="InvSlot18" parent="PanelContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
+[node name="InvSlot18" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/SlotContainer" instance=ExtResource("2_fa67w")]
 layout_mode = 2
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

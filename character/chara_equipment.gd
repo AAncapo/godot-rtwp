@@ -1,11 +1,17 @@
 class_name CharacterEquipment extends Node3D
 
-signal equipment_updated(_item:Item, set_equipped:bool, link_key:String)
+signal equipment_updated(_item:Item, set_equipped:bool, link_idx:int)
 
 @onready var bones := $Bones
-@onready var inventory = $Inventory
+@onready var inventory := $Inventory
+@onready var unarmed:Weapon = $Unarmed
 var links:Dictionary
-var equipped_wpn :Weapon
+var equipped_wpn:Weapon:
+	set(value):
+		#when trying to get if wpn != null, get if weapon_class != UNARMED instead.
+		equipped_wpn = value
+		if !equipped_wpn: equipped_wpn = unarmed
+		if equipped_wpn == unarmed: update_unarmed(%Stats)
 var equipped_gear := {
 	"Head"      :null,
 	"Torso"     :null,
@@ -15,9 +21,7 @@ var equipped_gear := {
 	"ShoulderL" :null,
 	"LowerarmL" :null,
 	"HandL"     :null,
-}
-@export var unarmed_range:float
-@export var unarmed_icon:Texture2D
+	}
 
 
 func _ready() -> void:
@@ -37,7 +41,8 @@ func _process(_delta: float) -> void:
 		if links[key].item != null:
 			links[key].item.global_transform = links[key].offset.global_transform
 
-
+#TODO I should either keep the equipment data on equipped_wpns/gear dicts or in links dicts
+#maybe later when i start adding clothes idk
 func equip(_item:Item, link_idx:int):
 	var key: String = Stats.BL.keys()[link_idx]
 	links[key].item = _item
@@ -51,11 +56,21 @@ func equip(_item:Item, link_idx:int):
 
 
 func unequip(_item:Item):
-	for key in links.keys():
-		if links[key].item == _item: links[key].item = null
-	
-	if _item is Weapon:
-		equipped_wpn = null
+	if _item != unarmed:
+		for key in links.keys():
+			if links[key].item == _item: links[key].item = null
+		equipped_gear[equipped_gear.find_key(_item)] = null
+		
+		if _item is Weapon: equipped_wpn = unarmed
+
+
+func update_unarmed(stats:Stats):
+	var dice_amount := 1
+	if stats.BODY <= 4: dice_amount = 1
+	if stats.BODY in [5,6]: dice_amount = 2
+	if stats.BODY in [7,10]: dice_amount = 3
+	if stats.BODY >= 11: dice_amount = 4
+	unarmed.dice_amount = dice_amount
 
 
 func get_inventory_items():

@@ -1,5 +1,6 @@
 class_name InventoryUI extends Control
 
+@export var stats_line_spacing:int = -5
 @onready var chara_name := %CharacterName
 @onready var slot_container := %SlotContainer
 var equipment_slots := []
@@ -8,8 +9,11 @@ var inv_item = preload("res://gui/inventory/inv_item.tscn")
 var _character:Character:
 	set(value):
 		_character = value
+		if _character and !_character.stats.updated.is_connected(_on_stats_updated):
+			_character.stats.updated.connect(_on_stats_updated)
 		if !_character: return #shouldnt be null at any point but warever
 		chara_name.text = str(_character.stats.alias," ",_character.stats.name_)
+		update_stats()
 		update_slots()
 var all_slots := []
 var item_dragging:InvItem
@@ -30,6 +34,9 @@ func _ready() -> void:
 	all_slots.append_array(slot_container.get_children())
 	for s in all_slots:
 		s.mouseover.connect(_on_slot_mouseover)
+	
+	for label in %Stats.get_children():
+		label.set("theme_override_constants/line_spacing",stats_line_spacing)
 
 
 func _process(_delta: float) -> void:
@@ -60,11 +67,30 @@ func update_slots():
 				#find slot that shares link key w item
 				for key in _character.equipment.links.keys():
 					var link = _character.equipment.links[key]
-					if link.item == i and key == es.link_key:
+					if link.item == i and key == Stats.BL.keys()[es.link_idx]:
 						es.add_item(item_btn)
 		item_btn.item = i
 		item_btn._is_dragging.connect(_on_item_dragging)
 		item_btn.mouseover.connect(_on_item_mouseover)
+
+
+func _on_stats_updated():
+	update_stats()
+func update_stats():
+	for label in %Stats.get_children() as Array[Label]:
+		label.text = ""
+	var stats := _character.stats
+	for s in stats.starting_stats:
+		for label in %Stats.get_children() as Array[Label]:
+			match label.name:
+				"key": label.text += str(s,"\n")
+				"value": label.text += str(stats.get(s),"\n")
+				"mod":
+					var stat_mod = stats.get_stat_mods(s)
+					if !stat_mod: 
+						label.text += str("\n")
+						continue
+					label.text += str("(",str(stat_mod) if stat_mod < 0 else str("+",stat_mod),")\n")
 
 # The weapons.body_location is set to HandR by default but is not taken into consideration at any point
 #when equipping a weapon the only thing that needs to know which hand it belongs to its the slot
