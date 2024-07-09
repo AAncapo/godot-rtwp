@@ -22,6 +22,7 @@ var equipped_gear := {
 	"LowerarmL" :null,
 	"HandL"     :null,
 	}
+var quick_items := []
 
 
 func _ready() -> void:

@@ -3,11 +3,15 @@ class_name InventoryUI extends Control
 @export var stats_line_spacing:int = -5
 @onready var chara_name := %CharacterName
 @onready var slot_container := %SlotContainer
+@onready var quick_items := %HBoxContainer
 var equipment_slots := []
 var inv_slot = preload("res://gui/inventory/inv_slot.tscn")
 var inv_item = preload("res://gui/inventory/inv_item.tscn")
 var _character:Character:
 	set(value):
+		if _character: #disconnect previous character signal
+			if _character.stats.updated.is_connected(_on_stats_updated):
+				_character.stats.updated.disconnect(_on_stats_updated)
 		_character = value
 		if _character and !_character.stats.updated.is_connected(_on_stats_updated):
 			_character.stats.updated.connect(_on_stats_updated)
@@ -55,8 +59,10 @@ func _process(_delta: float) -> void:
 func update_slots():
 	for es in equipment_slots: es.clear()
 	for slot in slot_container.get_children(): slot.clear()
+	for qis in quick_items.get_children(): qis.clear()
 	
 	var inventory = _character.equipment.get_inventory_items()
+	
 	for i in inventory:
 		var item_btn = inv_item.instantiate()
 		if !i.is_equipped:
@@ -69,6 +75,12 @@ func update_slots():
 					var link = _character.equipment.links[key]
 					if link.item == i and key == Stats.BL.keys()[es.link_idx]:
 						es.add_item(item_btn)
+			
+			#Quick Items
+			if _character.equipment.quick_items.has(i):
+				for qis in quick_items.get_children():
+					qis.add_item(item_btn)
+		
 		item_btn.item = i
 		item_btn._is_dragging.connect(_on_item_dragging)
 		item_btn.mouseover.connect(_on_item_mouseover)
@@ -131,6 +143,8 @@ func drop_item():
 			_character.equipment.equipment_updated.emit(item_dragging.item, true, slot_target.link_idx)
 	
 	slot_target.add_item(item_dragging)
+	
+	#TODO add set to equipped unequipped if quick slot and add/remove from quick items in equipment
 
 
 func reset_dragging():
@@ -171,3 +185,8 @@ func _on_visibility_changed() -> void:
 	if self.visible:
 		if !_character:
 			_character = Global.player_units[0]
+
+
+func is_quickitem_slot(_slot:InvSlot):
+	if _slot.get_parent() == quick_items:
+		return true

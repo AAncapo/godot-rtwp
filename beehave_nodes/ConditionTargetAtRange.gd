@@ -10,6 +10,7 @@ func tick(actor, _blackboard):
 	var dist:Vector3 = (enemy.global_position - actor.global_position)
 	
 	##TODO Hay que ajustar la manera en que determina la nueva posicion considerando habitaciones peque;as
+	#TODO if attacked by melee, change to melee / runaway
 	if dist.length() < action.range_ and actor.check_visibility(enemy):
 		actor.target_vec = null
 		actor.anim.aim(true)

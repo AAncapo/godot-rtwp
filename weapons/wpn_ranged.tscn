@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://dpt0sxyoqs5dy"]
 
-[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_14nna"]
-[ext_resource type="Script" path="res://weapons/ranged/wpn_ranged.gd" id="2_p2ggo"]
-[ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://actions/action.tscn" id="3_s6a68"]
-[ext_resource type="Script" path="res://actions/action_reload.gd" id="4_hwqr8"]
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_d6xqr"]
+[ext_resource type="Script" path="res://weapons/wpn_ranged.gd" id="2_2pf6j"]
+[ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://actions/action.tscn" id="3_u5w4a"]
+[ext_resource type="Script" path="res://actions/action_reload.gd" id="4_0gkt4"]
 
 [sub_resource type="Animation" id="Animation_4lhu1"]
 length = 0.001
@@ -91,17 +91,15 @@ _data = {
 "fire": SubResource("Animation_lun2x")
 }
 
-[node name="RangedWeapon" instance=ExtResource("1_14nna")]
-script = ExtResource("2_p2ggo")
-type = 0
+[node name="RangedWeapon" instance=ExtResource("1_d6xqr")]
+script = ExtResource("2_2pf6j")
+ranged_type = 0
 firemode = 0
 accuracy = 0
 clip_size = 0
 rof = 1
+firepoint_node = NodePath("Firepoint")
 weapon_class = 2
-
-[node name="mesh" parent="." index="0"]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0473302, 0, 0)
 
 [node name="muzzle" type="Node3D" parent="." index="1"]
 transform = Transform3D(0.412801, 0, 0, 0, 0.412801, 0, 0, 0, 0.412801, 0, 0, 0)
@@ -122,6 +120,9 @@ libraries = {
 "": SubResource("AnimationLibrary_t1lb5")
 }
 
-[node name="Reload" parent="Actions" index="0" instance=ExtResource("3_s6a68")]
-script = ExtResource("4_hwqr8")
+[node name="Reload" parent="Actions" index="0" instance=ExtResource("3_u5w4a")]
+script = ExtResource("4_0gkt4")
 action_name = "Reload"
+
+[node name="Firepoint" type="Marker3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0170082, -0.0593619)

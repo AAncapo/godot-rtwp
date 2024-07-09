@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cror0h1op4631"]
+
+[ext_resource type="Script" path="res://items/ammo/mag.gd" id="1_hqnck"]
+
+[node name="Mag" type="Node3D"]
+script = ExtResource("1_hqnck")
+total_amount = 5
+equipment_class = 0
+name_ = "Mag"

@@ -292,10 +292,10 @@ custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 color = Color(1, 0.819608, 0.282353, 1)
 
-[node name="Actions" type="GridContainer" parent="HBoxContainer" groups=["unit_actions"]]
+[node name="Actions" type="HBoxContainer" parent="HBoxContainer" groups=["unit_actions"]]
 unique_name_in_owner = true
 layout_mode = 2
-columns = 9
+size_flags_vertical = 8
 
 [node name="ActionButton" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
 layout_mode = 2
@@ -313,15 +313,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ActionButton6" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
-layout_mode = 2
-
-[node name="ActionButton7" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
-layout_mode = 2
-
-[node name="ActionButton8" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
-layout_mode = 2
-
-[node name="ActionButton9" parent="HBoxContainer/Actions" instance=ExtResource("3_vskdv")]
 layout_mode = 2
 
 [node name="Control" type="Control" parent="HBoxContainer"]

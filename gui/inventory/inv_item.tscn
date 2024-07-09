@@ -6,6 +6,7 @@
 custom_minimum_size = Vector2(50, 50)
 offset_right = 8.0
 offset_bottom = 8.0
+clip_text = true
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("1_4axfa")

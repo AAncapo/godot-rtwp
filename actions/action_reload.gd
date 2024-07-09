@@ -1,7 +1,4 @@
 extends Action
-## Call the reload_gun() in the actor.anim
-## Get the anim_finished signal at self._on_anim_finished()
-## Execute the action
 
 
 func select():
@@ -12,14 +9,14 @@ func select():
 
 
 func _on_anim_finished(_anim:String):
-	var ranged_type:String = RangedWeapon.RangedType.keys()[actor.equipment.equipped_wpn.ranged_type]
+	#var ranged_type:String = RangedWeapon.RangedType.keys()[actor.equipment.equipped_wpn.ranged_type]
 	
-	if _anim == str("reload_", ranged_type.to_lower()):
+	#if _anim == str("reload_", ranged_type.to_lower()):
+	if _anim == str("reload_handgun"):
 		execute()
 
 
 func execute():
-	#print("RELOADED")
 	actor.equipment.equipped_wpn.reload()
 	actor.end_turn()
 	super.execute()

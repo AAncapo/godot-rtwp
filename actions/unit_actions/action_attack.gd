@@ -3,7 +3,8 @@ extends Action
 
 func init():
 	if actor.equipment.equipped_wpn.weapon_class == Weapon.WeaponClass.RANGED:
-		count = actor.equipment.equipped_wpn.current_clip
+		if actor.equipment.equipped_wpn.ammo:
+			count = actor.equipment.equipped_wpn.ammo.current_amount
 
 
 func select():
@@ -15,7 +16,16 @@ func select():
 
 
 func execute():
-	actor.attack(actor.target_unit)
+	#TODO (?) get targets in crosshair line and get the hit chance for each one
+		#that way emulate firendly fire or lost bullets hits
+	var atk = Attack.new(actor, actor.target_unit)
+	var hit = atk.calc_hit_chance()
+	if hit: 
+		#TODO wait till bullet hits or melee animation finishes
+		#this must be on the bullet (when reaches or exceded target pos > deal damage)
+		actor.target_unit.take_damage(atk) 
+	#else: msg(Global.POPUP_NOTIF.NORMAL,"Miss")
+	
 	if actor.equipment.equipped_wpn.weapon_class == Weapon.WeaponClass.UNARMED:
 		actor.anim.request_equipped_oneshot()
 	super.execute()

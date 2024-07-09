@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://ctxvsxy3wp6sm"]
 
 [ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_sot2w"]
-[ext_resource type="Script" path="res://weapons/melee/wpn_melee.gd" id="2_bgnor"]
+[ext_resource type="Script" path="res://weapons/wpn_melee.gd" id="2_bgnor"]
 
 [node name="MeleeWeapon" instance=ExtResource("1_sot2w")]
 script = ExtResource("2_bgnor")

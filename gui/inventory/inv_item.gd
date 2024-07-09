@@ -10,6 +10,8 @@ var item:Item:
 		item = value
 		if item:
 			icon = item.icon
+			if !icon:
+				text = item.name_
 			draggable.texture = icon
 
 

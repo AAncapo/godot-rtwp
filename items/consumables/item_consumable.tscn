@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://lanmdujur7fl"]
+
+[ext_resource type="Script" path="res://items/consumables/item_consumable.gd" id="1_rytpw"]
+
+[node name="ItemConsumable" type="Node3D"]
+script = ExtResource("1_rytpw")
+total_amount = 2
+equipment_class = 0
+name_ = "Consumable"

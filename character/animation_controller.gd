@@ -71,6 +71,7 @@ func set_motion_state(blend_pos:Vector2):
 
 
 func request_equipped_oneshot():
+	print("equipped oneshot requested")
 	set(str("parameters/", equipped_data.param, "OneshotLink/request"), AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 

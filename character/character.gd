@@ -5,12 +5,12 @@ signal detected
 
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var anim:AnimationController = %AnimationTree
-@onready var crosshair:RayCast3D = $crosshair
-@onready var ttimer:Timer = $TurnTimer
-@onready var actions := $Actions
-@onready var stats := $Stats
-@onready var equipment: CharacterEquipment = $Equipment
+@onready var ttimer := $TurnTimer
+@onready var crosshair := $crosshair
 @onready var bound_area := $BoundArea
+@onready var actions := $Actions
+@onready var stats:Stats = $Stats
+@onready var equipment:CharacterEquipment = $Equipment
 
 var is_turn:bool = true
 var next_action:float = 2.0:
@@ -20,7 +20,7 @@ var next_action:float = 2.0:
 
 ## values edited to match the MotionState (AnimCtr)
 enum State { DOWNED = -1, IDLE, WORKING, ALERT, COMBAT }
-var current_state:State= State.IDLE:
+var current_state:State = State.IDLE:
 	set(value):
 		if value == current_state: return
 		previous_state = current_state
@@ -157,17 +157,9 @@ func check_visibility(_target):
 
 
 func _on_reload_request():
-	#equipped_wpn send a (signal)request when no ammo
-	#gui.gd send the signal from his equipped_wpn reference
+	if !equipment.equipped_wpn.get_ammo_from_inventory():
+		return #TODO switch guns or change to melee/unarmed
 	equipment.equipped_wpn.actions.get_action("reload").select()
-
-
-func attack(_target):
-	var atk = Attack.new(self, _target)
-	var hit = atk.calc_hit_chance()
-	
-	if hit: _target.take_damage(atk) 
-	else: msg(Global.POPUP_NOTIF.NORMAL,"Miss")
 
 
 func take_damage(atk:Attack):
@@ -217,26 +209,6 @@ func _on_detected() -> void:
 	msg(Global.POPUP_NOTIF.NORMAL,"DETECTED")
 
 
-func find_job():
-	match assignment:
-		Assignment.NONE:
-			#remain idle
-			pass
-		Assignment.FOLLOW:
-			current_job = Job.new()
-		Assignment.PATROL:
-			#search patrol paths in scene
-			var patrol_paths = get_tree().get_nodes_in_group("patrol_path")
-			#if not occupied, occupy by actor and send to it
-			for pp in patrol_paths:
-				if !pp.is_in_group("occupied"):
-					pp.add_to_group("occupied")
-					current_job = Job.new(pp.get_children())
-					#print(self.name, " has patrol job at ",pp.name)
-					return
-			assignment = Assignment.NONE  #no patrol path found
-
-
 func msg(pop, text = "", remove = false):
 	bound_area.add_notification(pop,text,remove)
 
@@ -263,6 +235,8 @@ func disable():
 
 
 func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx: int = 0) -> void:
+	if _item is Weapon: anim.update_equipped(_item)
+	
 	if _set_equipped:
 		if _item.equipment_class == Item.EquipmentClass.WEAPON:
 			if _item.weapon_class == Weapon.WeaponClass.RANGED:
@@ -281,7 +255,6 @@ func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx: int = 0) 
 		
 		equipment.unequip(_item)
 	
-	if _item is Weapon: anim.update_equipped(equipment.equipped_wpn)
 	_on_equipped_wpn_changed(equipment.equipped_wpn)
 	_item.is_equipped = _set_equipped
 	stats.update()
