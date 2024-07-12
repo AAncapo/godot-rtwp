@@ -8,7 +8,7 @@ const MAX_DISTANCE := 100.0
 var has_reached_target := false
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	#has_reached_target = (get_slide_collision_count() > 0 and
 	#(global_position - starting_pos).length() > MAX_DISTANCE)
 	#

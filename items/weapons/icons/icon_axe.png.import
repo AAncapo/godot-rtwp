@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mb414kglxc8k"
-path="res://.godot/imported/icon_rifle2.png-dcea475b0897c6bd542aa1964366649f.ctex"
+uid="uid://ex53qohguq1n"
+path="res://.godot/imported/icon_axe.png-9f5ecd871a546b517fc670b8c57f0d54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/icons/icon_rifle2.png"
-dest_files=["res://.godot/imported/icon_rifle2.png-dcea475b0897c6bd542aa1964366649f.ctex"]
+source_file="res://items/weapons/icons/icon_axe.png"
+dest_files=["res://.godot/imported/icon_axe.png-9f5ecd871a546b517fc670b8c57f0d54.ctex"]
 
 [params]
 

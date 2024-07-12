@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bokxa5ilonft4"
-path="res://.godot/imported/icon_hammer.png-4c501d1bdb116ae65f7ee1854e773abc.ctex"
+uid="uid://4ofejusjcg68"
+path="res://.godot/imported/icon_rifle3.png-cac094c9b33d3563d72902eff2e84db1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/icons/icon_hammer.png"
-dest_files=["res://.godot/imported/icon_hammer.png-4c501d1bdb116ae65f7ee1854e773abc.ctex"]
+source_file="res://items/weapons/icons/icon_rifle3.png"
+dest_files=["res://.godot/imported/icon_rifle3.png-cac094c9b33d3563d72902eff2e84db1.ctex"]
 
 [params]
 

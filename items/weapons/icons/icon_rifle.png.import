@@ -2,26 +2,27 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4ofejusjcg68"
-path="res://.godot/imported/icon_rifle3.png-76b7074757a132e61d914f1264d7cd6a.ctex"
+uid="uid://dy25srpjdrtsm"
+path.s3tc="res://.godot/imported/icon_rifle.png-a0983382449729c52c7bedb448c42356.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://weapons/icons/icon_rifle3.png"
-dest_files=["res://.godot/imported/icon_rifle3.png-76b7074757a132e61d914f1264d7cd6a.ctex"]
+source_file="res://items/weapons/icons/icon_rifle.png"
+dest_files=["res://.godot/imported/icon_rifle.png-a0983382449729c52c7bedb448c42356.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -31,4 +32,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

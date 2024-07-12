@@ -7,6 +7,7 @@ resource_local_to_scene = true
 
 [node name="room" type="Area3D"]
 collision_mask = 2
+input_ray_pickable = false
 script = ExtResource("1_c83jk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

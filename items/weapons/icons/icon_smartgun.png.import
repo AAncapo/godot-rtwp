@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2u4ugna8tww1"
-path="res://.godot/imported/icon_machinegun.png-b3a5f8cf158aa48a6082fcab7b45dfe5.ctex"
+uid="uid://5u8hir1tfd3j"
+path="res://.godot/imported/icon_smartgun.png-578e5a97732176052d82deacd3a7663e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/icons/icon_machinegun.png"
-dest_files=["res://.godot/imported/icon_machinegun.png-b3a5f8cf158aa48a6082fcab7b45dfe5.ctex"]
+source_file="res://items/weapons/icons/icon_smartgun.png"
+dest_files=["res://.godot/imported/icon_smartgun.png-578e5a97732176052d82deacd3a7663e.ctex"]
 
 [params]
 

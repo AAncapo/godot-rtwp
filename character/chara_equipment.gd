@@ -2,6 +2,7 @@ class_name CharacterEquipment extends Node3D
 
 signal equipment_updated(_item:Item, set_equipped:bool, link_idx:int)
 
+@export var starting_items:Array[PackedScene]
 @onready var bones := $Bones
 @onready var inventory := $Inventory
 @onready var unarmed:Weapon = $Unarmed
@@ -21,6 +22,10 @@ var equipped_gear := {
 	"ShoulderL" :null,
 	"LowerarmL" :null,
 	"HandL"     :null,
+	"ShinR"     :null,
+	"ShinL"     :null,
+	"ThighR"    :null,
+	"ThighL"    :null
 	}
 var quick_items := []
 
@@ -35,6 +40,20 @@ func _ready() -> void:
 				"item"  : null
 				}
 		else: continue
+	
+	await get_parent().ready
+	
+	for i in starting_items:
+		var new_item = i.instantiate()
+		inventory.add_child(new_item)
+	for i in get_inventory_items():
+		if i is Weapon:
+			equipment_updated.emit(i, true, Stats.BL.HandR)
+			break
+	for i in get_inventory_items():
+		if i is Gear:
+			equipment_updated.emit(i, true, Stats.BL.Torso)
+			break
 
 
 func _process(_delta: float) -> void:
@@ -42,7 +61,7 @@ func _process(_delta: float) -> void:
 		if links[key].item != null:
 			links[key].item.global_transform = links[key].offset.global_transform
 
-#TODO I should either keep the equipment data on equipped_wpns/gear dicts or in links dicts
+#TODO [REFACTOR] I should either keep the equipment data on equipped_wpns/gear dicts or in links dicts
 #maybe later when i start adding clothes idk
 func equip(_item:Item, link_idx:int):
 	var key: String = Stats.BL.keys()[link_idx]

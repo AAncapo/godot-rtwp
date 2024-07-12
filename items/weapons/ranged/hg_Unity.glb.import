@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cvelqrdw2tkmy"
-path="res://.godot/imported/hg_Unity.glb-e4061e0098609759f246dca9c9ce8980.scn"
+path="res://.godot/imported/hg_Unity.glb-8b085750fa1410458e6ec000b887ca8e.scn"
 
 [deps]
 
-source_file="res://weapons/ranged/hg_Unity.glb"
-dest_files=["res://.godot/imported/hg_Unity.glb-e4061e0098609759f246dca9c9ce8980.scn"]
+source_file="res://items/weapons/ranged/hg_Unity.glb"
+dest_files=["res://.godot/imported/hg_Unity.glb-8b085750fa1410458e6ec000b887ca8e.scn"]
 
 [params]
 

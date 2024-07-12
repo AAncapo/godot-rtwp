@@ -140,7 +140,6 @@ func _animate_marker(anim_in:bool):
 	var start_val = Vector3.ONE * 1.2
 	marked_circle.scale = start_val
 	var tween := create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
 	
 	if anim_in:
 		marked_circle.modulate = Color("ffffff")
@@ -150,8 +149,9 @@ func _animate_marker(anim_in:bool):
 		tween.tween_property(marked_circle,"scale",start_val, .2)
 	else:
 		if !is_marked:
-			tween.tween_property(marked_circle,"scale",Vector3.ZERO, .2)
-			tween.set_parallel(true)
-			tween.tween_property(marked_circle,"modulate",Color("ffffff00"), .1)
-			await tween.finished
+			#tween.tween_property(marked_circle,"scale",Vector3.ZERO, .2)
+			#tween.set_parallel(true)
+			#tween.tween_property(marked_circle,"modulate",Color("ffffff00"), .1)
+			#await tween.finished
 			marked_circle.hide()
+	tween.set_trans(Tween.TRANS_SINE)

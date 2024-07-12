@@ -39,11 +39,18 @@ var target_vec = null:
 		if val and val.length() > 0:
 			nav.target_position = val
 			target_vec = nav.target_position if nav.is_target_reachable() else null
+			if !target_vec: #if vec still null (not reachable) check if its a wall
+				#print(target)
+				if target.normal.y == 0:
+					var new_vec = val + target.normal
+					new_vec.y = 0
+					nav.target_position = new_vec
+					target_vec = nav.target_position if nav.is_target_reachable() else null
 		else: 
 			target_vec = null
 		if is_player(): _update_vec_visual(target_vec)
 	get: return target_vec if target_vec != null else null
-var target_unit:Character:
+var target_unit:Unit:
 	set(val):
 		if target_unit: #Remove mark from previous target (if existed)
 			if target_unit.team != Global.PLAYER_TEAM:
@@ -61,6 +68,10 @@ var target_unit:Character:
 			if !stealth_on:
 				anim.motion_state = AnimationController.MotionState.NORMAL
 				current_state = State.IDLE
+var target_interaction:Interactable:
+	set(value):
+		target_interaction = value
+		actions.get_action("interact").select()
 var is_moving:bool:
 	set(value):
 		is_moving = value
@@ -90,13 +101,6 @@ func _ready() -> void:
 	actions.init(self)
 	
 	equipment.equipment_updated.emit(equipment.unarmed, true)
-	
-	#TODO add starting_equipment var (dictionary with keys for packedScenes)
-	if !is_player():
-		for i in $Equipment/Inventory.get_children():
-			if i is Weapon:
-				equipment.equipment_updated.emit(i, true, Stats.BL.HandR)
-				break
 	
 	ttimer.timeout.connect(_on_turn_started)
 	next_action = 1
@@ -158,7 +162,11 @@ func check_visibility(_target):
 
 func _on_reload_request():
 	if !equipment.equipped_wpn.get_ammo_from_inventory():
-		return #TODO switch guns or change to melee/unarmed
+		if selected_action == actions.get_action("attack"):
+			#switch to melee/unarmed
+			equipment.equipment_updated.emit(equipment.equipped_wpn, false)
+			equipment.equipment_updated.emit(equipment.unarmed, true)
+			return
 	equipment.equipped_wpn.actions.get_action("reload").select()
 
 
@@ -198,10 +206,15 @@ func _on_target_updated(new_target) -> void:
 		target_vec = new_target.position
 	else:
 		target_unit = new_target.collider
+	if new_target is Interactable:
+		print("click interactable")
+		target_interaction = new_target
 
 
 func _on_nav_target_reached() -> void:
 	target_vec = null
+	if selected_action == actions.get_action("interact"):
+		actions.get_action("interact").execute()
 
 
 func _on_detected() -> void:
@@ -233,7 +246,7 @@ func disable():
 	$BeehaveTree.enabled = false
 	bound_area.clear_notifications()
 
-
+#TODO [REFACTOR] i think i could use the same func without the set_equipped param, if unarmed is a wpn so it will never be TRULY unequipped
 func _on_equipment_updated(_item: Item, _set_equipped: bool, link_idx: int = 0) -> void:
 	if _item is Weapon: anim.update_equipped(_item)
 	

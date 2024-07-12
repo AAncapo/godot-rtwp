@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dpt0sxyoqs5dy"]
 
-[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="1_d6xqr"]
-[ext_resource type="Script" path="res://weapons/wpn_ranged.gd" id="2_2pf6j"]
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://items/weapons/weapon.tscn" id="1_d6xqr"]
+[ext_resource type="Script" path="res://items/weapons/wpn_ranged.gd" id="2_2pf6j"]
 [ext_resource type="PackedScene" uid="uid://b1xmhfc1484kq" path="res://actions/action.tscn" id="3_u5w4a"]
 [ext_resource type="Script" path="res://actions/action_reload.gd" id="4_0gkt4"]
 

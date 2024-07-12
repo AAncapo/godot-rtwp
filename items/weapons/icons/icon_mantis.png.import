@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5u8hir1tfd3j"
-path="res://.godot/imported/icon_smartgun.png-f87b7b243c4653fa0b0aa1e1c49b46b6.ctex"
+uid="uid://dbobibt5wq52l"
+path="res://.godot/imported/icon_mantis.png-dbf45214d96aa67c3451f58559f52e75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/icons/icon_smartgun.png"
-dest_files=["res://.godot/imported/icon_smartgun.png-f87b7b243c4653fa0b0aa1e1c49b46b6.ctex"]
+source_file="res://items/weapons/icons/icon_mantis.png"
+dest_files=["res://.godot/imported/icon_mantis.png-dbf45214d96aa67c3451f58559f52e75.ctex"]
 
 [params]
 

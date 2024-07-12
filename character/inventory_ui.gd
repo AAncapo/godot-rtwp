@@ -77,10 +77,9 @@ func update_slots():
 						es.add_item(item_btn)
 			
 			#Quick Items
-			if _character.equipment.quick_items.has(i):
-				for qis in quick_items.get_children():
-					qis.add_item(item_btn)
-		
+			#if _character.equipment.quick_items.has(i):
+				#for qis in quick_items.get_children():
+					#qis.add_item(item_btn)
 		item_btn.item = i
 		item_btn._is_dragging.connect(_on_item_dragging)
 		item_btn.mouseover.connect(_on_item_mouseover)
@@ -112,7 +111,6 @@ func drop_item():
 	if !slot_target and !item_target:
 		return #dropped in an unavailable point
 	
-	var dragged_item_cl = item_dragging.item.equipment_class
 	var curr_slot_cl = item_dragging.get_parent().compatible_equipmt_class
 	
 	if slot_target: #target is EMPTY slot

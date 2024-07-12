@@ -1,18 +1,17 @@
 class_name Stats extends Node
 
 signal updated
-signal new_wound_state(state:Stats)
 
 ##Use this enum from any script as indexed reference to all the BoneAttachment nodes in the model linked to body parts that can use equipment, be affected by damage or replaced
-enum BL { Head, Torso, ShoulderR, LowerarmR, HandR, ShoulderL, LowerarmL, HandL }
+enum BL { Head, Torso, ShoulderR, LowerarmR, HandR, ThighR, ShinR, ShoulderL, LowerarmL, HandL, ThighL, ShinL }
 #Note: CPRED doesnt have any table for hit locations and the one in CP2020 doesnt have the amount I need
 var BODY_TABLE = {
 	"Head"  : { "to_hit_nums":[1],     "body_locations":[0] },
 	"Torso" : { "to_hit_nums":[2,3,4], "body_locations":[1] },
 	"ArmR"  : { "to_hit_nums":[5],     "body_locations":[2,3,4] }, #shoulder-lowerarm-hand
 	"ArmL"  : { "to_hit_nums":[6],     "body_locations":[5,6,7] },
-	#"LegR"  : { "to_hit_nums":[7,8],   "body_locations":[8,9] },  #thigh-shin
-	#"LegL"  : { "to_hit_nums":[9,10],  "body_locations":[10,11] }
+	"LegR"  : { "to_hit_nums":[7,8],   "body_locations":[8,9] },  #thigh-shin
+	"LegL"  : { "to_hit_nums":[9,10],  "body_locations":[10,11] }
 	}
 #How this works: When getting the hit location first select an 'area' based on 1D6 that matches one of the "to_hit_nums", after that pick a random number from the "body_locations" array to get the body location (the numbers represent the parts that exist in that area from upper to lower)
 
@@ -64,14 +63,18 @@ var stabilization_dv:int
 var death_save_penalty := 0 
 var action_penalty := 0
 var at_death_door := false
-var is_dead := false
+var is_dead := false:
+	set(value):
+		is_dead = value
+		updated.emit()
 var stat_modifiers := []
+var total_hits := 0
 
 
 func _ready() -> void:
 	## Stats ##
 	for s in starting_stats.keys():
-		var _pts = Fnff.roll(1,10)
+		var _pts = max(2, Fnff.roll(1,10))
 		self[s] = _pts
 		starting_stats[s] = _pts
 	
@@ -103,17 +106,21 @@ func calc_damage(atk:Attack) -> Dictionary:
 				var bl: int = BODY_TABLE[area].body_locations.pick_random()
 				#find bl in equipment
 				var equipped_gear = equipmt.equipped_gear[BL.keys()[bl]]
-				print(name_," was hit in ",BL.keys()[bl])
+				print(name_," was hit in ", BL.keys()[bl])
 				if equipped_gear:
 					dmg = max(0, dmg - equipped_gear.sp)
 					if dmg > 0: #following CP2020s rule
 						equipped_gear.sp -= 1
-					print(name_," gear absorbed ",equipped_gear.sp," of the damage")
+					#print(name_," gear absorbed ",equipped_gear.sp," of the damage")
 				#double damage if hit HEAD
 				if dmg > 0 and BL.keys()[bl] == "Head":
 					dmg *= 2
 				print(name_," take ",dmg," damage")
 				current_hp -= dmg
+				
+				if dmg > 0:
+					total_hits += 1
+					print(name_, " total hits: ",total_hits)
 	
 	damage_status.amount = dmg
 	return damage_status
@@ -129,7 +136,6 @@ func update_wound_state():
 	if current_hp <= hitpoints / 2: wounded_state = WoundedState.SERIOUS
 	if current_hp != hitpoints: wounded_state = WoundedState.LIGHT
 	wounded_state = WoundedState.ANY
-	new_wound_state.emit(self)
 	update()
 
 
@@ -177,7 +183,7 @@ func update():
 	updated.emit()
 
 
-func get_stat_mods(stat:String):
+func get_stat_mods(stat:String):  #used by inventoryUi
 	return get(stat) - starting_stats[stat]
 
 

@@ -6,8 +6,11 @@ signal unit_died(unit)
 
 ## SHOULD only be emitted by nodes that dont handle selection
 #portraits listen to the signals then call de sel/deselect_unit funcs
-signal unit_selected(unit)
-signal unit_deselected(unit)
+signal unit_selected(unit:Unit)
+signal unit_deselected(unit:Unit)
+signal unit_focused(position:Vector3)
+signal dialog_triggered(key:String)
+signal close_dialog
 
 const UNIT_GROUP = "units"
 const ITEM_GROUP = "items"
@@ -63,3 +66,13 @@ func deselect_all_units():
 	var _selected_units = selected_units.duplicate()
 	for u in _selected_units:
 		unit_deselected.emit(u)
+
+
+func _on_interactable_selected(interactabl):
+	var unit:Character
+	for u in selected_units:
+		if !unit: unit = u
+		if (u.global_position.distance_to(interactabl.global_position) 
+		< unit.global_position.distance_to(interactabl.global_position)):
+			unit = u
+	unit.target_interaction = interactabl

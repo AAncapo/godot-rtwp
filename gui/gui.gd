@@ -27,7 +27,7 @@ func _process(_delta):
 	$Paused.visible = get_tree().paused
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
 		if event.is_action("inventory"):
 			inv.visible = !inv.visible
@@ -37,7 +37,7 @@ func _on_added_unit(unit):
 	if unit.is_player():
 		var port = portrait_tscn.instantiate()
 		portraits.add_child(port)
-		port.unit = unit
+		port.character = unit
 
 
 func _on_Global_selected_unit(_unit):
@@ -94,7 +94,7 @@ func update_clip_view(_count):
 		b.hide()
 	for b in range(_count):
 		ranged_clip.get_child(b).show()
-	ranged_clip.show()
+	#ranged_clip.show()
 
 
 func _on_ranged_clip_updated(_count):

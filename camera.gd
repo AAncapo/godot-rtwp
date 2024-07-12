@@ -7,6 +7,10 @@ var mouse_sens = 0.004
 var move_speed: float = .5
 
 
+func _ready() -> void:
+	Global.unit_focused.connect(focus_camera_on)
+
+
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("cam_left"):
 		new_pos -= global_basis.x
@@ -30,3 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			new_pos -= cam.global_basis.z * zoom_speed
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			new_pos += cam.global_basis.z * zoom_speed
+
+
+func focus_camera_on(pos:Vector3):
+	new_pos = pos

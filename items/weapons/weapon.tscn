@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://begjstbwp6ge1"]
 
-[ext_resource type="Script" path="res://weapons/weapon.gd" id="1_1y0ef"]
+[ext_resource type="Script" path="res://items/weapons/weapon.gd" id="1_1y0ef"]
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="2_r12su"]
 
 [node name="weapon" type="Node3D"]

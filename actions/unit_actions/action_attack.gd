@@ -24,7 +24,7 @@ func execute():
 		#TODO wait till bullet hits or melee animation finishes
 		#this must be on the bullet (when reaches or exceded target pos > deal damage)
 		actor.target_unit.take_damage(atk) 
-	#else: msg(Global.POPUP_NOTIF.NORMAL,"Miss")
+	else: actor.msg(Global.POPUP_NOTIF.NORMAL,"Miss")
 	
 	if actor.equipment.equipped_wpn.weapon_class == Weapon.WeaponClass.UNARMED:
 		actor.anim.request_equipped_oneshot()

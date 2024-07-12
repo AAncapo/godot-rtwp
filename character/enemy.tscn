@@ -1,8 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt3yeud88yqnf"]
+[gd_scene load_steps=9 format=3 uid="uid://bt3yeud88yqnf"]
 
 [ext_resource type="PackedScene" uid="uid://ckby50onxho51" path="res://character/character.tscn" id="1_uyefs"]
+[ext_resource type="Texture2D" uid="uid://5l8ynabhg3gu" path="res://gui/selection_ring.png" id="2_2vjgr"]
+[ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://items/weapons/test_pistol.tscn" id="3_mi2or"]
+[ext_resource type="PackedScene" uid="uid://cror0h1op4631" path="res://items/ammo/mag.tscn" id="4_i5jcu"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t6a6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4ci34"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_texture = ExtResource("2_2vjgr")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tf20d"]
+viewport_path = NodePath("BoundArea/MarkedCircle/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_27uct"]
+viewport_path = NodePath("BoundArea/RangeVisualizer/SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xanwi"]
 resource_local_to_scene = true
 content_margin_left = 4.0
 content_margin_right = 4.0
@@ -14,18 +30,83 @@ border_width_bottom = 1
 border_color = Color(0.92549, 0.92549, 0.92549, 1)
 
 [node name="enemy" instance=ExtResource("1_uyefs")]
-starting_wpn = 1
 assignment = 1
 team = 1
 
-[node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@26315")
+[node name="Skeleton3D" parent="model/Character/character_rig" index="0"]
+bones/1/position = Vector3(0.0100161, 0.00134965, -0.950904)
+bones/2/rotation = Quaternion(0.989831, 0.0650981, 0.026885, 0.12359)
+bones/3/rotation = Quaternion(0.262234, 0.0028015, 0.0448919, 0.963956)
+bones/4/rotation = Quaternion(-0.639999, -0.164885, -0.05061, 0.748768)
+bones/5/rotation = Quaternion(0.00569842, -2.38415e-07, -8.5555e-17, 0.999984)
+bones/6/rotation = Quaternion(0.0697004, 2.37839e-07, -7.90185e-16, 0.997568)
+bones/7/rotation = Quaternion(-0.0793124, -6.74113e-14, -1.89095e-08, 0.99685)
+bones/8/rotation = Quaternion(0.0935196, 0.0191155, -0.993443, 0.0629253)
+bones/9/rotation = Quaternion(0.213413, -0.00101468, -0.00725204, 0.976935)
+bones/10/rotation = Quaternion(-0.0163479, -0.153767, -0.130474, 0.979319)
+bones/12/rotation = Quaternion(0.0935197, -0.0191149, 0.993443, 0.0629252)
+bones/13/rotation = Quaternion(0.213412, 0.00101466, 0.007252, 0.976935)
+bones/14/rotation = Quaternion(-0.0163475, 0.153767, 0.130475, 0.979319)
+bones/16/rotation = Quaternion(0.994107, -0.0512411, 0.0041883, 0.0954393)
+bones/17/rotation = Quaternion(0.271282, -0.00279396, -0.0464408, 0.961375)
+bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 
-[node name="Stats" parent="." index="9"]
+[node name="BeehaveTree" parent="." index="5" node_paths=PackedStringArray("blackboard")]
+blackboard = NodePath("@Node@21864")
+
+[node name="SelectionRing" parent="BoundArea" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_4ci34")
+
+[node name="MarkedCircle" parent="BoundArea" index="2"]
+texture = SubResource("ViewportTexture_tf20d")
+
+[node name="RangeVisualizer" parent="BoundArea" index="3"]
+texture = SubResource("ViewportTexture_27uct")
+
+[node name="Name" parent="BoundArea/CharaHUD/Control/VBoxContainer" index="1"]
+theme_override_styles/normal = SubResource("StyleBoxFlat_xanwi")
+
+[node name="Stats" parent="." index="12"]
 alias = "SCAVENGER"
 SPEED = 3.0
 
-[node name="Name" parent="CharaHUD/Control/VBoxContainer" index="1"]
-theme_override_styles/normal = SubResource("StyleBoxFlat_6t6a6")
+[node name="Equipment" parent="." index="13"]
+starting_items = Array[PackedScene]([ExtResource("3_mi2or"), ExtResource("4_i5jcu")])
+
+[node name="Head" parent="Equipment/Bones" index="0"]
+transform = Transform3D(-1, 1.0721e-09, -3.25835e-07, -2.92385e-09, 0.999925, 0.0122636, 3.25823e-07, 0.0122636, -0.999925, -0.0100161, 1.73859, -0.0177077)
+
+[node name="Torso" parent="Equipment/Bones" index="1"]
+transform = Transform3D(-1, -6.13161e-10, 1.50998e-07, -1.6722e-09, 0.999975, -0.00701374, -1.5099e-07, -0.00701374, -0.999975, -0.0100161, 1.14481, 0.000849744)
+
+[node name="ShoulderR" parent="Equipment/Bones" index="2"]
+transform = Transform3D(0.974589, 0.1286, -0.183407, 0.120127, -0.991142, -0.0566332, -0.189066, 0.033162, -0.981404, 0.197464, 1.58786, -0.00422777)
+
+[node name="ShoulderL" parent="Equipment/Bones" index="3"]
+transform = Transform3D(0.974589, -0.128601, 0.183407, -0.120127, -0.991142, -0.0566345, 0.189066, 0.0331632, -0.981404, -0.217496, 1.58786, -0.00422773)
+
+[node name="HandR" parent="Equipment/Bones" index="4"]
+transform = Transform3D(0.969311, -0.226892, 0.0946383, -0.245694, -0.907267, 0.341323, 0.00841865, -0.3541, -0.935169, 0.241533, 0.919437, -0.122145)
+
+[node name="HandL" parent="Equipment/Bones" index="5"]
+transform = Transform3D(0.969311, 0.226892, -0.0946385, 0.245694, -0.907267, 0.341323, -0.00841888, -0.3541, -0.935169, -0.261566, 0.919438, -0.122145)
+
+[node name="LowerarmR" parent="Equipment/Bones" index="6"]
+transform = Transform3D(0.976158, 0.0270056, -0.215373, 0.105578, -0.926021, 0.362407, -0.189653, -0.376505, -0.906794, 0.242223, 1.24289, 0.00731435)
+
+[node name="LowerarmL" parent="Equipment/Bones" index="7"]
+transform = Transform3D(0.976158, -0.0270055, 0.215374, -0.105578, -0.926021, 0.362407, 0.189653, -0.376506, -0.906794, -0.262256, 1.24289, 0.00731479)
+
+[node name="ThighR" parent="Equipment/Bones" index="8"]
+transform = Transform3D(-0.994716, 0.102678, 0.00145392, -0.100999, -0.975692, -0.194485, -0.0185506, -0.193603, 0.980907, 0.0879839, 0.984231, 0.0123999)
+
+[node name="ThighL" parent="Equipment/Bones" index="9"]
+transform = Transform3D(-0.990082, -0.122227, -0.0693139, 0.135679, -0.959878, -0.245407, -0.0365376, -0.252376, 0.966941, -0.108016, 0.984231, 0.0123999)
+
+[node name="ShinR" parent="Equipment/Bones" index="10"]
+transform = Transform3D(-0.999763, 0.000566106, -0.0218831, -0.00810321, -0.938234, 0.345907, -0.0203358, 0.346003, 0.938015, 0.136659, 0.521698, -0.0793788)
+
+[node name="ShinL" parent="Equipment/Bones" index="11"]
+transform = Transform3D(-0.998091, -0.0557494, -0.0266755, 0.0461925, -0.959668, 0.277314, -0.0410596, 0.275553, 0.96041, -0.165958, 0.529195, -0.107241)
 
 [editable path="model/Character"]

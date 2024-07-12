@@ -4,6 +4,6 @@
 
 [node name="Mag" type="Node3D"]
 script = ExtResource("1_hqnck")
-total_amount = 5
+total_amount = 30
 equipment_class = 0
 name_ = "Mag"

@@ -5,11 +5,6 @@ const RAY_LENGTH = 1000
 @onready var selection_box = $SelectionBox  #Only handles the selection box's rendering
 
 
-func _ready():
-	#TODO: GameEvents.focus_world_object.connect(__on_unit_selected)
-	pass
-
-
 func _unhandled_input(ev):
 	if ev is InputEventMouseButton:
 		var m_pos = get_viewport().get_mouse_position()
@@ -17,7 +12,6 @@ func _unhandled_input(ev):
 			command_selected_units(m_pos)
 		if ev.is_action_released("left_click"):
 			Global.deselect_all_units()
-			#TODO: add await deselect_all before continue (?)
 			select_units(m_pos)
 
 

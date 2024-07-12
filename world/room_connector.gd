@@ -23,12 +23,12 @@ func _ready() -> void:
 
 #TODO peek (light up neighboor room) when is_open and body entered or hide otherwise
 func _on_body_entered(_body: Node3D) -> void:
-	if door:
-		is_connection_open = door.is_open
-		if auto_door:
-			if !door.is_open: door.open()
-			is_connection_open = true
-		return
+	#if door:
+		#is_connection_open = door.is_open
+		#if auto_door:
+			#if !door.is_open: door.open()
+			#is_connection_open = true
+		#return
 	
 	if !is_connection_open: is_connection_open = true
 

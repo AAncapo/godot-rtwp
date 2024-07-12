@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://ckby50onxho51"]
+[gd_scene load_steps=123 format=3 uid="uid://ckby50onxho51"]
 
 [ext_resource type="Script" path="res://character/character.gd" id="1_x5oe7"]
 [ext_resource type="Script" path="res://addons/beehave/nodes/beehave_tree.gd" id="2_fojyy"]
@@ -26,14 +26,11 @@
 [ext_resource type="Script" path="res://actions/unit_actions/action_takedown.gd" id="23_h3fpd"]
 [ext_resource type="Texture2D" uid="uid://ddulu80l7o3fg" path="res://imports/placeholder/icosn/sneak_attack_melee_action_baldursgate3_wiki_guide_64px.png" id="23_jbviw"]
 [ext_resource type="FontFile" uid="uid://bvlrmyf8p1x6o" path="res://gui/fonts/blenderpro/BlenderPro-Bold.ttf" id="23_reer0"]
-[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://weapons/weapon.tscn" id="29_gokau"]
+[ext_resource type="Script" path="res://character/action_interact.gd" id="26_fdy28"]
 [ext_resource type="Texture2D" uid="uid://cno1iuyl38gsd" path="res://gui/position.png" id="29_o1pm1"]
-[ext_resource type="PackedScene" uid="uid://ckwt688wutcy4" path="res://weapons/test_pistol.tscn" id="30_avtgg"]
-[ext_resource type="PackedScene" uid="uid://blm3o5emacldf" path="res://items/chest_gear.tscn" id="31_drjph"]
+[ext_resource type="PackedScene" uid="uid://begjstbwp6ge1" path="res://items/weapons/weapon.tscn" id="29_vgyw4"]
 [ext_resource type="Script" path="res://character/chara_equipment.gd" id="31_hwb0q"]
 [ext_resource type="Texture2D" uid="uid://cw63hogo4q263" path="res://imports/placeholder/icosn/second_wind_action_baldursgate3_wiki_guide_64px.webp" id="31_s58mp"]
-[ext_resource type="PackedScene" uid="uid://cror0h1op4631" path="res://items/ammo/mag.tscn" id="33_odojw"]
-[ext_resource type="PackedScene" uid="uid://lanmdujur7fl" path="res://items/consumables/item_consumable.tscn" id="34_40f11"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_angsg"]
 radius = 0.32999
@@ -4980,6 +4977,7 @@ unique_name_in_owner = true
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0.959962, 0)
 target_position = Vector3(0, 0, -10)
 collision_mask = 3
+hit_from_inside = true
 
 [node name="DetectionArea" type="Area3D" parent="DetectionHandler"]
 unique_name_in_owner = true
@@ -5148,6 +5146,12 @@ icon = ExtResource("23_jbviw")
 action_name = "Takedown"
 range_ = 1.2
 
+[node name="interact" type="Node" parent="Actions"]
+script = ExtResource("26_fdy28")
+target_self = false
+action_name = "Interact"
+range_ = 1.5
+
 [node name="PositionIndicator" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.05, 0)
 top_level = true
@@ -5185,27 +5189,13 @@ equipment_node = NodePath("../Equipment")
 [node name="Equipment" type="Node3D" parent="."]
 script = ExtResource("31_hwb0q")
 
-[node name="Unarmed" parent="Equipment" instance=ExtResource("29_gokau")]
+[node name="Unarmed" parent="Equipment" instance=ExtResource("29_vgyw4")]
 range_ = 1.2
 related_skill = "brawling"
 name_ = "Brawl"
 icon = ExtResource("31_s58mp")
 
 [node name="Inventory" type="Node3D" parent="Equipment"]
-
-[node name="Test Pistol" parent="Equipment/Inventory" instance=ExtResource("30_avtgg")]
-visible = false
-rof = 2
-body_location = 0
-
-[node name="ChestGear" parent="Equipment/Inventory" instance=ExtResource("31_drjph")]
-visible = false
-
-[node name="Mag" parent="Equipment/Inventory" instance=ExtResource("33_odojw")]
-
-[node name="Mag2" parent="Equipment/Inventory" instance=ExtResource("33_odojw")]
-
-[node name="ItemConsumable" parent="Equipment/Inventory" instance=ExtResource("34_40f11")]
 
 [node name="Bones" type="Node3D" parent="Equipment"]
 
@@ -5273,6 +5263,34 @@ external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D"
 transform = Transform3D(-0.976158, 0.0270055, -0.215374, -0.105578, -0.926021, 0.362407, -0.189653, 0.376505, 0.906794, 0.262256, 1.24289, -0.00731479)
 bone_name = "forearm.L"
 bone_idx = 9
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="ThighR" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(0.994716, -0.102678, -0.00145383, -0.100999, -0.975692, -0.194485, 0.0185507, 0.193603, -0.980907, -0.0879839, 0.984231, -0.0123999)
+bone_name = "thigh.R"
+bone_idx = 16
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="ThighL" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(0.990082, 0.122227, 0.069314, 0.135679, -0.959878, -0.245407, 0.0365378, 0.252376, -0.966941, 0.108016, 0.984231, -0.0123999)
+bone_name = "thigh.L"
+bone_idx = 2
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="ShinR" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(0.999763, -0.000566174, 0.0218832, -0.00810331, -0.938234, 0.345906, 0.0203359, -0.346003, -0.938015, -0.136659, 0.521698, 0.0793787)
+bone_name = "shin.R"
+bone_idx = 17
+use_external_skeleton = true
+external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
+
+[node name="ShinL" type="BoneAttachment3D" parent="Equipment/Bones"]
+transform = Transform3D(0.998091, 0.0557495, 0.0266756, 0.0461925, -0.959668, 0.277314, 0.0410598, -0.275553, -0.96041, 0.165958, 0.529195, 0.107241)
+bone_name = "shin.L"
+bone_idx = 3
 use_external_skeleton = true
 external_skeleton = NodePath("../../../model/Character/character_rig/Skeleton3D")
 

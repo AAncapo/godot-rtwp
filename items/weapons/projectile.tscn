@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwpshaj36r00m"]
 
-[ext_resource type="Script" path="res://weapons/projectile.gd" id="1_t7hmm"]
+[ext_resource type="Script" path="res://items/weapons/projectile.gd" id="1_t7hmm"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v0u1m"]
 

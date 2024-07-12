@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cgltkspjoccnx"]
+[gd_scene load_steps=21 format=3 uid="uid://cgltkspjoccnx"]
 
 [ext_resource type="StyleBox" uid="uid://chktc41xo5c00" path="res://character/portraits/portrait_style.tres" id="1_e04eb"]
 [ext_resource type="Script" path="res://gui/portrait.gd" id="1_g7jkf"]
@@ -10,6 +10,9 @@
 resource_local_to_scene = true
 shader = ExtResource("4_dnlku")
 shader_parameter/percentage = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3qnmy"]
+bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gtbk5"]
 bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
@@ -233,6 +236,23 @@ pivot_offset = Vector2(75, 178)
 texture = ExtResource("5_5p8vx")
 stretch_mode = 6
 
+[node name="HP" type="Label" parent="VBoxContainer/Button"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_3qnmy")
+text = "0/0"
+horizontal_alignment = 1
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -307,6 +327,7 @@ libraries = {
 "": SubResource("AnimationLibrary_n1f5p")
 }
 
+[connection signal="gui_input" from="VBoxContainer/Button" to="." method="_on_button_gui_input"]
 [connection signal="mouse_entered" from="VBoxContainer/Button" to="." method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="VBoxContainer/Button" to="." method="_on_button_mouse_exited"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]

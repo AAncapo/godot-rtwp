@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=14 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
@@ -6,9 +6,20 @@
 [ext_resource type="Script" path="res://selection_sys/selection_box.gd" id="4_3a13g"]
 [ext_resource type="PackedScene" uid="uid://bbyi4tcs1p770" path="res://gui/gui.tscn" id="5_0g4r5"]
 [ext_resource type="PackedScene" uid="uid://d1kj0vf7h4k3k" path="res://world/map.tscn" id="6_j3nym"]
+[ext_resource type="Script" path="res://dialog_box.gd" id="6_pysqx"]
+[ext_resource type="Texture2D" uid="uid://sqix5klj8rav" path="res://character/portraits/tbug.png" id="7_f0n7o"]
 [ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="7_s48wt"]
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
 [ext_resource type="PackedScene" uid="uid://dixbrc03xx0ij" path="res://character/player_companion.tscn" id="9_4ethv"]
+[ext_resource type="PackedScene" uid="uid://gucx4pwu2l57" path="res://world/corpse1.tscn" id="12_8hmy4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fpso"]
+bg_color = Color(0.121569, 0.121569, 0.121569, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.121569, 0.121569, 0.121569, 1)
 
 [node name="Main" type="Node3D"]
 process_mode = 3
@@ -38,10 +49,67 @@ offset_bottom = 40.0
 script = ExtResource("4_3a13g")
 
 [node name="GUI" parent="." instance=ExtResource("5_0g4r5")]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+
+[node name="DialogBox" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1fpso")
+script = ExtResource("6_pysqx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="DialogBox/HBoxContainer"]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="DialogBox/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(150, 210)
+layout_mode = 2
+texture = ExtResource("7_f0n7o")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PortraitName" type="Label" parent="DialogBox/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "T-Bug"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogBox/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Text" type="Label" parent="DialogBox/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Lookin' for door 1237. Target should be inside, but I got zero eyes on her biomon.
+Fingers crossed it's not too late. Ugh, hate this life or death shit. 
+Hurry."
+autowrap_mode = 3
+
+[node name="DialogOptions" type="VBoxContainer" parent="DialogBox/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" type="Button" parent="DialogBox/HBoxContainer/VBoxContainer/DialogOptions"]
+layout_mode = 2
+text = "1. Shut up T"
+alignment = 0
 
 [node name="Map" parent="." instance=ExtResource("6_j3nym")]
 
@@ -86,4 +154,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9256, 0, -31.5697)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.3874, 0, -34.0026)
 
 [node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 18.9769, 0, -49.3344)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.9769, 0, -39.3344)
+
+[node name="corpse" parent="." instance=ExtResource("12_8hmy4")]
+transform = Transform3D(-0.0574421, 0, 0.998349, 0, 1, 0, -0.998349, 0, -0.0574421, 18.4464, 0, -48.646)

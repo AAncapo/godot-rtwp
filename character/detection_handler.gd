@@ -83,7 +83,7 @@ func handle_detected_body(body):
 		if actor.is_player() and !actor.stealth_on: 
 			actor.current_state = Character.State.ALERT
 			if not actor.selected_action:
-				#TODO make action_move
+				#TODO make action_move (NOPE)
 				actor.target_unit = body
 		
 		#ENEMY: if dont have a target already set body as target

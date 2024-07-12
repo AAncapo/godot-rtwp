@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwt27ejrgxgwm"]
+
+[ext_resource type="Script" path="res://world/interactable.gd" id="1_d8it0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kb1jb"]
+resource_local_to_scene = true
+size = Vector3(1, 2.71387, 2.51953)
+
+[node name="Interactable" type="Area3D"]
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_d8it0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36262, 0)
+shape = SubResource("BoxShape3D_kb1jb")
