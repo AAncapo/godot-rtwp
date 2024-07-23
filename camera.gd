@@ -1,10 +1,10 @@
 extends Node3D
 
-@export var zoom_speed: float = 3.0
+@export var zoom_speed:float = 3.0
 @onready var cam := $CamPivot/Camera3D
 @onready var new_pos:Vector3 = self.global_position
 var mouse_sens = 0.004
-var move_speed: float = .5
+var move_speed:float = .5
 
 
 func _ready() -> void:

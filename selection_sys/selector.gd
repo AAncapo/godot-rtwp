@@ -1,5 +1,7 @@
 extends Node
 
+signal new_target(result:Dictionary)
+
 const RAY_LENGTH = 1000
 @onready var cam = %Camera3D
 @onready var selection_box = $SelectionBox  #Only handles the selection box's rendering
@@ -17,7 +19,8 @@ func _unhandled_input(ev):
 
 func command_selected_units(m_pos:Vector2):
 	var res = raycast_from_mouse(m_pos, 1)
-	if res: Global.command.emit(res)
+	#if res: Global.command.emit(res)
+	if res: new_target.emit(res)
 
 
 func select_units(m_pos):

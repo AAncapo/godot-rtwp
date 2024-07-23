@@ -31,7 +31,7 @@ var DEX  :int
 var TECH :int
 var MOVE :int
 var BODY :int
-var starting_stats = {
+@export var starting_stats := {
 	"INT"  : 0,
 	"WILL" : 0,
 	"EMP"  : 0,
@@ -72,10 +72,13 @@ var total_hits := 0
 
 
 func _ready() -> void:
-	## Stats ##
+	########## Stats ##########
 	for s in starting_stats.keys():
+		if starting_stats[s] > 0:
+			set(s, starting_stats[s])
+			continue
 		var _pts = max(2, Fnff.roll(1,10))
-		self[s] = _pts
+		set(s,_pts)
 		starting_stats[s] = _pts
 	
 	hitpoints = roundi(10 + (((BODY + WILL)/2) * 5))
@@ -83,7 +86,7 @@ func _ready() -> void:
 	humanity = EMP * 10
 	death_save = BODY
 	
-	## Skills ##
+	########## Skills ##########
 	var pts = 86
 	for s in Fnff.skills:
 		for _s in Fnff.skills.get(s):
@@ -194,3 +197,5 @@ func roll_death_save():
 	else:
 		death_save_penalty += 1
 		owner.end_turn()
+	
+	updated.emit()

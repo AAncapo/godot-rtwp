@@ -96,7 +96,6 @@ script = ExtResource("2_2pf6j")
 ranged_type = 0
 firemode = 0
 accuracy = 0
-clip_size = 0
 rof = 1
 firepoint_node = NodePath("Firepoint")
 weapon_class = 2

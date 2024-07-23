@@ -11,7 +11,10 @@ signal detected
 @onready var actions := $Actions
 @onready var stats:Stats = $Stats
 @onready var equipment:CharacterEquipment = $Equipment
-
+var curr_zone:Room:
+	set(value):
+		curr_zone = value
+		#TODO if value (new) team != curr_zone -> entered new neutral/hostile
 var is_turn:bool = true
 var next_action:float = 2.0:
 	set(val):
@@ -36,20 +39,9 @@ var stealth_on:bool = false:
 
 var target_vec = null:
 	set(val):
-		if val and val.length() > 0:
-			nav.target_position = val
-			target_vec = nav.target_position if nav.is_target_reachable() else null
-			if !target_vec: #if vec still null (not reachable) check if its a wall
-				#print(target)
-				if target.normal.y == 0:
-					var new_vec = val + target.normal
-					new_vec.y = 0
-					nav.target_position = new_vec
-					target_vec = nav.target_position if nav.is_target_reachable() else null
-		else: 
-			target_vec = null
+		if val and val.length() > 0: target_vec = val
+		else: target_vec = null
 		if is_player(): _update_vec_visual(target_vec)
-	get: return target_vec if target_vec != null else null
 var target_unit:Unit:
 	set(val):
 		if target_unit: #Remove mark from previous target (if existed)
@@ -151,6 +143,7 @@ func rotate_to(_target:Vector3, rotation_speed:float = .2):
 
 
 func check_visibility(_target):
+	#TODO put this in detection handle ?
 	var vcheck:RayCast3D = %VisibilityChecker
 	vcheck.look_at(_target.global_position)
 	var length = (_target.global_position - self.global_position).length()
@@ -164,6 +157,7 @@ func _on_reload_request():
 	if !equipment.equipped_wpn.get_ammo_from_inventory():
 		if selected_action == actions.get_action("attack"):
 			#switch to melee/unarmed
+			#TODO ? call all this from equipment ?
 			equipment.equipment_updated.emit(equipment.equipped_wpn, false)
 			equipment.equipment_updated.emit(equipment.unarmed, true)
 			return
@@ -203,12 +197,8 @@ func _on_unit_died(unit):
 func _on_target_updated(new_target) -> void:
 	if !is_enemy(new_target.collider):
 		if target_unit: target_unit = null
-		target_vec = new_target.position
 	else:
 		target_unit = new_target.collider
-	if new_target is Interactable:
-		print("click interactable")
-		target_interaction = new_target
 
 
 func _on_nav_target_reached() -> void:

@@ -14,3 +14,15 @@ script = ExtResource("1_d8it0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36262, 0)
 shape = SubResource("BoxShape3D_kb1jb")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09514, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+fixed_size = true
+outline_modulate = Color(0.152941, 0.152941, 0.152941, 1)
+text = "AAAA"
+font_size = 8
+
+[connection signal="ready" from="." to="." method="_on_ready"]

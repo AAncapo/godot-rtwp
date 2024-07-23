@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://drj02j3p1ncdt"]
+[gd_scene load_steps=24 format=3 uid="uid://drj02j3p1ncdt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ot487"]
 [ext_resource type="Script" path="res://camera.gd" id="2_lgycl"]
+[ext_resource type="Script" path="res://command_center.gd" id="3_vwloo"]
 [ext_resource type="Script" path="res://selection_sys/selector.gd" id="3_yxkw6"]
 [ext_resource type="Script" path="res://selection_sys/selection_box.gd" id="4_3a13g"]
 [ext_resource type="PackedScene" uid="uid://bbyi4tcs1p770" path="res://gui/gui.tscn" id="5_0g4r5"]
@@ -12,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://bt3yeud88yqnf" path="res://character/enemy.tscn" id="8_4bqg6"]
 [ext_resource type="PackedScene" uid="uid://dixbrc03xx0ij" path="res://character/player_companion.tscn" id="9_4ethv"]
 [ext_resource type="PackedScene" uid="uid://gucx4pwu2l57" path="res://world/corpse1.tscn" id="12_8hmy4"]
+[ext_resource type="PackedScene" uid="uid://dwt27ejrgxgwm" path="res://world/interactable.tscn" id="13_aictd"]
+[ext_resource type="PackedScene" uid="uid://cn1n6llu4lpar" path="res://character/model/Character.glb" id="14_c8aty"]
+[ext_resource type="Script" path="res://CameraEditor.gd" id="16_tlpps"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fpso"]
 bg_color = Color(0.121569, 0.121569, 0.121569, 1)
@@ -21,32 +25,262 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.121569, 0.121569, 0.121569, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lcghl"]
+resource_local_to_scene = true
+size = Vector3(1.00836, 0.91797, 1.98206)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4tncd"]
+
+[sub_resource type="Animation" id="Animation_c5yfp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AV:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AV:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(35.8047, 18.2876, 46.157)]
+}
+
+[sub_resource type="Animation" id="Animation_r5ttq"]
+resource_name = "tt_arrives"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AV:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AV:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(35.8047, 18.2876, 46.157), Vector3(-2.64858, 0.593279, -2.34675)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c6ev8"]
+_data = {
+"RESET": SubResource("Animation_c5yfp"),
+"tt_arrives": SubResource("Animation_r5ttq")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_7g23v"]
+font_color = Color(0.6, 0.6, 0.6, 1)
+
 [node name="Main" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_ot487")
 
 [node name="CamBase" type="Node3D" parent="."]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.58703, 0, -44.6945)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 9.71193, 0, -46.6739)
 script = ExtResource("2_lgycl")
 
 [node name="CamPivot" type="Node3D" parent="CamBase"]
-transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.596421, 0.802672, 0, -0.802672, 0.596421, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="CamBase/CamPivot"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 1.49012e-07, 0, -2.98023e-08, 0.999999, -2.86102e-05, -3.8147e-05, 32.3447)
 current = true
-size = 15.394
+fov = 30.0
+size = 10.0
 
-[node name="UnitSelector" type="Node" parent="."]
+[node name="CommandCenter" type="Node" parent="."]
+script = ExtResource("3_vwloo")
+
+[node name="UnitSelector" type="Node" parent="CommandCenter"]
 script = ExtResource("3_yxkw6")
 
-[node name="SelectionBox" type="Control" parent="UnitSelector"]
+[node name="SelectionBox" type="Control" parent="CommandCenter/UnitSelector"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("4_3a13g")
+
+[node name="FormationGrid" type="Node3D" parent="CommandCenter"]
+
+[node name="rays" type="Node3D" parent="CommandCenter/FormationGrid"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.97156, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D2" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D3" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D4" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D5" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D6" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D7" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D8" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D9" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D10" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D11" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D12" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D13" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D14" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D15" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D16" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D17" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D18" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D19" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D20" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D21" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D22" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D23" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D24" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="RayCast3D25" type="RayCast3D" parent="CommandCenter/FormationGrid/rays"]
+collision_mask = 3
+
+[node name="markers" type="Node3D" parent="CommandCenter/FormationGrid"]
+
+[node name="Marker3D" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+
+[node name="Marker3D2" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="Marker3D3" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Marker3D4" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Marker3D5" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="Marker3D6" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Marker3D7" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="Marker3D8" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+
+[node name="Marker3D9" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="Marker3D10" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="Marker3D11" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Marker3D12" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 2)
+
+[node name="Marker3D13" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Marker3D14" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Marker3D15" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+
+[node name="Marker3D16" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="Marker3D17" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="Marker3D18" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -1)
+
+[node name="Marker3D19" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -1)
+
+[node name="Marker3D20" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)
+
+[node name="Marker3D21" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Marker3D22" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+
+[node name="Marker3D23" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="Marker3D24" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Marker3D25" type="Marker3D" parent="CommandCenter/FormationGrid/markers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
 
 [node name="GUI" parent="." instance=ExtResource("5_0g4r5")]
 
@@ -106,11 +340,6 @@ autowrap_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Button" type="Button" parent="DialogBox/HBoxContainer/VBoxContainer/DialogOptions"]
-layout_mode = 2
-text = "1. Shut up T"
-alignment = 0
-
 [node name="Map" parent="." instance=ExtResource("6_j3nym")]
 
 [node name="PatrolRoutes" type="Node3D" parent="."]
@@ -137,24 +366,200 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.38119, 0, -0.52095)
 [node name="Marker3D3" type="Marker3D" parent="PatrolRoutes/Route2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.111, 0, 6.58527)
 
-[node name="player" parent="." instance=ExtResource("7_s48wt")]
+[node name="Female Body" parent="." instance=ExtResource("12_8hmy4")]
+transform = Transform3D(-0.0574421, 0, 0.998349, 0, 1, 0, -0.998349, 0, -0.0574421, 18.4464, 0, -48.646)
+
+[node name="Sandra Dorsett" parent="." instance=ExtResource("13_aictd")]
+transform = Transform3D(-0.131184, 0, 0.991358, 0, 1, 0, -0.991358, 0, -0.131184, 10.7167, 0, -2.15227)
+trigger_dialog = true
+dialog_key = "sandra_dorsett"
+
+[node name="CollisionShape3D" parent="Sandra Dorsett" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.110504, 0.46467, 0.740053)
+shape = SubResource("BoxShape3D_lcghl")
+
+[node name="Character" parent="Sandra Dorsett" instance=ExtResource("14_c8aty")]
+
+[node name="Skeleton3D" parent="Sandra Dorsett/Character/character_rig" index="0"]
+bones/1/position = Vector3(-0.414424, 0.66888, -0.315885)
+bones/1/rotation = Quaternion(-0.0407183, 0.330695, -0.0104603, 0.942801)
+bones/2/rotation = Quaternion(0.791977, 0.238605, 0.0104788, 0.561899)
+bones/3/rotation = Quaternion(0.461174, 0.00256834, 0.0789486, 0.883787)
+bones/4/rotation = Quaternion(-0.665405, 0.154096, -0.0330284, 0.729657)
+bones/4/scale = Vector3(1, 0.999993, 1.00001)
+bones/5/rotation = Quaternion(0.18459, 0.164792, -0.0701525, 0.966359)
+bones/6/rotation = Quaternion(0.177402, 0.0233932, 0.0842637, 0.980245)
+bones/7/rotation = Quaternion(0.0884013, -0.171472, 0.0473088, 0.980074)
+bones/8/rotation = Quaternion(0.262198, -0.415503, -0.864755, -0.10396)
+bones/9/rotation = Quaternion(0.677165, -0.000763882, -0.0230109, 0.735471)
+bones/10/rotation = Quaternion(-0.0513117, 0.129642, -0.177411, 0.97421)
+bones/12/rotation = Quaternion(0.24358, 0.197857, 0.949372, 0.0146177)
+bones/13/rotation = Quaternion(0.601746, 0.000829258, 0.0204481, 0.798425)
+bones/14/rotation = Quaternion(0.220302, 0.00910923, -0.601941, 0.767496)
+bones/16/rotation = Quaternion(0.822131, 0.103586, -0.166511, 0.534457)
+bones/17/rotation = Quaternion(0.694182, -0.00206292, -0.118837, 0.709919)
+bones/18/rotation = Quaternion(-0.545079, 0.373529, 0.175673, 0.729729)
+bones/18/scale = Vector3(0.999993, 1, 1.00001)
+
+[node name="TraumaTeamEvent" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0958, 0, 9.36767)
+
+[node name="AV" type="Node3D" parent="TraumaTeamEvent"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.8047, 18.2876, 46.157)
+visible = false
+
+[node name="TTAV" type="MeshInstance3D" parent="TraumaTeamEvent/AV"]
+transform = Transform3D(5.16573, 0, 0, 0, 3.19083, 0, 0, 0, 11.5807, 0, 1.5995, 0)
+mesh = SubResource("BoxMesh_4tncd")
+skeleton = NodePath("../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TraumaTeamEvent"]
+libraries = {
+"": SubResource("AnimationLibrary_c6ev8")
+}
+
+[node name="players" type="Node" parent="."]
+
+[node name="player" parent="players" instance=ExtResource("7_s48wt")]
 transform = Transform3D(-0.471135, 0, -0.882061, 0, 1, 0, 0.882061, 0, -0.471135, 1.25085, 0, -48.0819)
 
-[node name="player_companion" parent="." instance=ExtResource("9_4ethv")]
+[node name="player_companion" parent="players" instance=ExtResource("9_4ethv")]
 transform = Transform3D(0.189901, 0, -0.981803, 0, 1, 0, 0.981803, 0, 0.189901, 1.00716, 0, -45.4456)
 collision_mask = 0
 
-[node name="enemy2" parent="." instance=ExtResource("8_4bqg6")]
+[node name="enemies" type="Node" parent="."]
+
+[node name="enemy2" parent="enemies" instance=ExtResource("8_4bqg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.755, 0, -13.3711)
+collision_mask = 0
 
-[node name="enemy3" parent="." instance=ExtResource("8_4bqg6")]
+[node name="enemy3" parent="enemies" instance=ExtResource("8_4bqg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.9256, 0, -31.5697)
+collision_mask = 0
 
-[node name="enemy4" parent="." instance=ExtResource("8_4bqg6")]
+[node name="enemy4" parent="enemies" instance=ExtResource("8_4bqg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.3874, 0, -34.0026)
+collision_mask = 0
 
-[node name="enemy" parent="." instance=ExtResource("8_4bqg6")]
+[node name="enemy" parent="enemies" instance=ExtResource("8_4bqg6")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 15.9769, 0, -39.3344)
+collision_mask = 0
 
-[node name="corpse" parent="." instance=ExtResource("12_8hmy4")]
-transform = Transform3D(-0.0574421, 0, 0.998349, 0, 1, 0, -0.998349, 0, -0.0574421, 18.4464, 0, -48.646)
+[node name="CameraEditor" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+script = ExtResource("16_tlpps")
+camera_path = NodePath("../CamBase/CamPivot/Camera3D")
+
+[node name="PanelContainer" type="PanelContainer" parent="CameraEditor"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CameraEditor/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Camera Editor"
+label_settings = SubResource("LabelSettings_7g23v")
+horizontal_alignment = 1
+
+[node name="properties" type="VBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RotationY" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties"]
+layout_mode = 2
+
+[node name="property" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationY"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Y Rotation (drag MMB)"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationY"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="add" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationY/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="value" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationY/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="sub" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationY/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="RotationX" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties"]
+layout_mode = 2
+
+[node name="property" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationX"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X Rotation *height"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationX"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="add" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationX/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="value" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationX/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="sub" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/RotationX/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[node name="Zoom" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties"]
+layout_mode = 2
+
+[node name="property" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/Zoom"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Camera Z Position *zoom"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CameraEditor/PanelContainer/VBoxContainer/properties/Zoom"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="add" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/Zoom/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "+"
+
+[node name="value" type="Label" parent="CameraEditor/PanelContainer/VBoxContainer/properties/Zoom/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="sub" type="Button" parent="CameraEditor/PanelContainer/VBoxContainer/properties/Zoom/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "-"
+
+[connection signal="new_target" from="CommandCenter/UnitSelector" to="CommandCenter" method="_on_unit_selector_new_target"]
+
+[editable path="Sandra Dorsett"]
+[editable path="Sandra Dorsett/Character"]

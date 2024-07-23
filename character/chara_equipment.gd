@@ -19,13 +19,13 @@ var equipped_gear := {
 	"ShoulderR" :null,
 	"LowerarmR" :null,
 	"HandR"     :null,
+	"ThighR"    :null,
+	"ShinR"     :null,
 	"ShoulderL" :null,
 	"LowerarmL" :null,
 	"HandL"     :null,
-	"ShinR"     :null,
-	"ShinL"     :null,
-	"ThighR"    :null,
-	"ThighL"    :null
+	"ThighL"    :null,
+	"ShinL"     :null
 	}
 var quick_items := []
 

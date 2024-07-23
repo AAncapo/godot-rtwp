@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://begjstbwp6ge1"]
+[gd_scene load_steps=4 format=3 uid="uid://begjstbwp6ge1"]
 
 [ext_resource type="Script" path="res://items/weapons/weapon.gd" id="1_1y0ef"]
 [ext_resource type="Script" path="res://character/actions_manager.gd" id="2_r12su"]
+[ext_resource type="PackedScene" uid="uid://bd6h67sdt5len" path="res://sounds/sound_player_3d.tscn" id="3_f2s0v"]
 
 [node name="weapon" type="Node3D"]
 script = ExtResource("1_1y0ef")
@@ -12,3 +13,5 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
 [node name="Actions" type="Node" parent="."]
 script = ExtResource("2_r12su")
+
+[node name="SoundPlayer3D" parent="." instance=ExtResource("3_f2s0v")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cgltkspjoccnx"]
+[gd_scene load_steps=31 format=3 uid="uid://cgltkspjoccnx"]
 
 [ext_resource type="StyleBox" uid="uid://chktc41xo5c00" path="res://character/portraits/portrait_style.tres" id="1_e04eb"]
 [ext_resource type="Script" path="res://gui/portrait.gd" id="1_g7jkf"]
@@ -6,13 +6,105 @@
 [ext_resource type="Shader" path="res://gui/portrait_wounded_status.gdshader" id="4_dnlku"]
 [ext_resource type="Texture2D" uid="uid://cvg2mpe286ad3" path="res://character/portraits/silverhand.png" id="5_5p8vx"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2ank"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t8awd"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_efy28"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo5ma"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_juqtg"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eot3"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ectco"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rooea"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwtxb"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxfpp"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uey3e"]
 resource_local_to_scene = true
 shader = ExtResource("4_dnlku")
 shader_parameter/percentage = 1.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3qnmy"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_ydxhe"]
+font_size = 24
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.392157)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gtbk5"]
 bg_color = Color(0.0980392, 0.0980392, 0.0980392, 1)
@@ -209,6 +301,81 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
+[node name="BodyPts" type="HBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Button" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_w2ank")
+
+[node name="Button2" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_t8awd")
+
+[node name="Button3" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_efy28")
+
+[node name="Button4" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_yo5ma")
+
+[node name="Button5" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_juqtg")
+
+[node name="Button6" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_1eot3")
+
+[node name="Button7" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_ectco")
+
+[node name="Button8" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_rooea")
+
+[node name="Button9" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_pwtxb")
+
+[node name="Button10" type="Button" parent="VBoxContainer/BodyPts"]
+visible = false
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_gxfpp")
+
 [node name="Button" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -239,18 +406,15 @@ stretch_mode = 6
 [node name="HP" type="Label" parent="VBoxContainer/Button"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 1.0
 offset_left = -20.0
-offset_top = -23.0
 offset_right = 20.0
+offset_bottom = 23.0
 grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_3qnmy")
 text = "0/0"
+label_settings = SubResource("LabelSettings_ydxhe")
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -299,6 +463,7 @@ scale = Vector2(1, 1e-05)
 pivot_offset = Vector2(0, 15)
 mouse_filter = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_h76sa")
+text = "SERIOUS"
 
 [node name="Label" type="Label" parent="DANGER"]
 unique_name_in_owner = true
@@ -308,7 +473,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "DANGER"
 label_settings = SubResource("LabelSettings_jmgrc")
 horizontal_alignment = 1
 vertical_alignment = 1

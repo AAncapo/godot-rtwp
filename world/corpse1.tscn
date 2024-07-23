@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://gucx4pwu2l57"]
+[gd_scene load_steps=4 format=3 uid="uid://gucx4pwu2l57"]
 
 [ext_resource type="PackedScene" uid="uid://dwt27ejrgxgwm" path="res://world/interactable.tscn" id="1_nobyr"]
-[ext_resource type="Script" path="res://corpse.gd" id="2_coaab"]
 [ext_resource type="PackedScene" uid="uid://cn1n6llu4lpar" path="res://character/model/Character.glb" id="3_u6mws"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hbkli"]
@@ -9,7 +8,8 @@ resource_local_to_scene = true
 size = Vector3(1.07471, 0.651245, 1.73254)
 
 [node name="corspe" instance=ExtResource("1_nobyr")]
-script = ExtResource("2_coaab")
+trigger_dialog = true
+dialog_key = "corpse_inspection_jackie"
 
 [node name="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.116097, 0.331308, 0.787437)
@@ -37,5 +37,8 @@ bones/16/rotation = Quaternion(0.822131, 0.103586, -0.166511, 0.534457)
 bones/17/rotation = Quaternion(0.694182, -0.00206292, -0.118837, 0.709919)
 bones/18/rotation = Quaternion(-0.545079, 0.373529, 0.175673, 0.729729)
 bones/18/scale = Vector3(0.999993, 1, 1.00001)
+
+[node name="Label3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09514, 0.790341)
 
 [editable path="Character"]

@@ -1,35 +1,122 @@
-[gd_scene load_steps=3 format=3 uid="uid://dixbrc03xx0ij"]
+[gd_scene load_steps=8 format=3 uid="uid://dixbrc03xx0ij"]
 
 [ext_resource type="PackedScene" uid="uid://d3x4ahl8l7dad" path="res://character/player.tscn" id="1_1brf0"]
 [ext_resource type="Texture2D" uid="uid://dxdg31kuc6afb" path="res://character/portraits/jackie.png" id="2_avkga"]
+[ext_resource type="Texture2D" uid="uid://5l8ynabhg3gu" path="res://gui/selection_ring.png" id="2_lxtsf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_issjs"]
+resource_local_to_scene = true
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_texture = ExtResource("2_lxtsf")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a3usi"]
+viewport_path = NodePath("BoundArea/MarkedCircle/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tyble"]
+viewport_path = NodePath("BoundArea/RangeVisualizer/SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2iooh"]
+resource_local_to_scene = true
+content_margin_left = 4.0
+content_margin_right = 4.0
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.92549, 0.92549, 0.92549, 1)
 
 [node name="player_companion" instance=ExtResource("1_1brf0")]
 
-[node name="Skeleton3D" parent="model/Character3/metarig" index="0"]
-bones/0/position = Vector3(0, 0.978033, -0.0552)
-bones/2/rotation = Quaternion(-0.0689348, 0, 0, 0.997621)
-bones/3/rotation = Quaternion(0.00738041, 0, 0, 0.999973)
-bones/4/rotation = Quaternion(0.188687, 0, 0, 0.982037)
-bones/8/rotation = Quaternion(-0.154904, 0.742505, -0.553898, 0.343349)
-bones/9/rotation = Quaternion(0.205227, 0.00133496, -0.0457191, 0.977645)
-bones/13/rotation = Quaternion(-0.16046, -0.787706, 0.466425, 0.36908)
-bones/14/rotation = Quaternion(0.39972, -0.00124573, 0.0890467, 0.912301)
-bones/18/rotation = Quaternion(0.952353, 0.0399921, -0.1342, 0.270951)
-bones/19/rotation = Quaternion(0.280195, 0.000425656, -0.0270831, 0.959561)
-bones/20/rotation = Quaternion(-0.604899, -0.0872083, 0.0527598, 0.789752)
-bones/24/rotation = Quaternion(0.970554, -0.0409948, 0.132893, 0.196684)
-bones/25/rotation = Quaternion(0.209365, -0.000433673, 0.0202368, 0.977628)
-bones/26/rotation = Quaternion(-0.613556, 0.107832, -0.0621474, 0.779781)
+[node name="Skeleton3D" parent="model/Character/character_rig" index="0"]
+bones/1/position = Vector3(0.0100161, 0.00134965, -0.950904)
+bones/2/rotation = Quaternion(0.989831, 0.0650981, 0.026885, 0.12359)
+bones/3/rotation = Quaternion(0.262234, 0.0028015, 0.0448919, 0.963956)
+bones/4/rotation = Quaternion(-0.639999, -0.164885, -0.05061, 0.748768)
+bones/5/rotation = Quaternion(0.00569842, -2.38415e-07, -8.5555e-17, 0.999984)
+bones/6/rotation = Quaternion(0.0697004, 2.37839e-07, -7.90185e-16, 0.997568)
+bones/7/rotation = Quaternion(-0.0793124, -6.74113e-14, -1.89095e-08, 0.99685)
+bones/8/rotation = Quaternion(0.0935196, 0.0191155, -0.993443, 0.0629253)
+bones/9/rotation = Quaternion(0.213413, -0.00101468, -0.00725204, 0.976935)
+bones/10/rotation = Quaternion(-0.0163479, -0.153767, -0.130474, 0.979319)
+bones/12/rotation = Quaternion(0.0935197, -0.0191149, 0.993443, 0.0629252)
+bones/13/rotation = Quaternion(0.213412, 0.00101466, 0.007252, 0.976935)
+bones/14/rotation = Quaternion(-0.0163475, 0.153767, 0.130475, 0.979319)
+bones/16/rotation = Quaternion(0.994107, -0.0512411, 0.0041883, 0.0954393)
+bones/17/rotation = Quaternion(0.271282, -0.00279396, -0.0464408, 0.961375)
+bones/18/rotation = Quaternion(-0.662701, 0.133883, 0.0625201, 0.734163)
 
-[node name="BoneAttachment3D" parent="model/Character3/metarig/Skeleton3D" index="1"]
-transform = Transform3D(-0.904797, 0.13012, 0.405476, 0.12659, -0.826943, 0.54785, 0.406592, 0.547023, 0.731744, -0.353907, 1.0804, 0.0800875)
+[node name="BeehaveTree" parent="." index="5" node_paths=PackedStringArray("blackboard")]
+blackboard = NodePath("@Node@25279")
 
-[node name="BeehaveTree" parent="." index="4" node_paths=PackedStringArray("blackboard")]
-blackboard = NodePath("@Node@45466")
+[node name="SelectionRing" parent="BoundArea" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_issjs")
 
-[node name="Stats" parent="." index="10"]
+[node name="MarkedCircle" parent="BoundArea" index="2"]
+texture = SubResource("ViewportTexture_a3usi")
+
+[node name="RangeVisualizer" parent="BoundArea" index="3"]
+texture = SubResource("ViewportTexture_tyble")
+
+[node name="Name" parent="BoundArea/CharaHUD/Control/VBoxContainer" index="1"]
+theme_override_styles/normal = SubResource("StyleBoxFlat_2iooh")
+
+[node name="interact" parent="Actions" index="3"]
+range_ = 1.5
+
+[node name="Stats" parent="." index="12"]
 name_ = "Jackson Welles"
 alias = "Jackie"
 portrait_image = ExtResource("2_avkga")
+starting_stats = {
+"BODY": 5,
+"COOL": 0,
+"DEX": 4,
+"EMP": 0,
+"INT": 3,
+"LUCK": 0,
+"MOVE": 0,
+"REF": 7,
+"TECH": 0,
+"WILL": 5
+}
 
-[editable path="model/Character3"]
+[node name="Head" parent="Equipment/Bones" index="0"]
+transform = Transform3D(-1, 1.0721e-09, -3.25835e-07, -2.92385e-09, 0.999925, 0.0122636, 3.25823e-07, 0.0122636, -0.999925, -0.0100161, 1.73859, -0.0177077)
+
+[node name="Torso" parent="Equipment/Bones" index="1"]
+transform = Transform3D(-1, -6.13161e-10, 1.50998e-07, -1.6722e-09, 0.999975, -0.00701374, -1.5099e-07, -0.00701374, -0.999975, -0.0100161, 1.14481, 0.000849744)
+
+[node name="ShoulderR" parent="Equipment/Bones" index="2"]
+transform = Transform3D(0.974589, 0.1286, -0.183407, 0.120127, -0.991142, -0.0566332, -0.189066, 0.033162, -0.981404, 0.197464, 1.58786, -0.00422777)
+
+[node name="ShoulderL" parent="Equipment/Bones" index="3"]
+transform = Transform3D(0.974589, -0.128601, 0.183407, -0.120127, -0.991142, -0.0566345, 0.189066, 0.0331632, -0.981404, -0.217496, 1.58786, -0.00422773)
+
+[node name="HandR" parent="Equipment/Bones" index="4"]
+transform = Transform3D(0.969311, -0.226892, 0.0946383, -0.245694, -0.907267, 0.341323, 0.00841865, -0.3541, -0.935169, 0.241533, 0.919437, -0.122145)
+
+[node name="HandL" parent="Equipment/Bones" index="5"]
+transform = Transform3D(0.969311, 0.226892, -0.0946385, 0.245694, -0.907267, 0.341323, -0.00841888, -0.3541, -0.935169, -0.261566, 0.919438, -0.122145)
+
+[node name="LowerarmR" parent="Equipment/Bones" index="6"]
+transform = Transform3D(0.976158, 0.0270056, -0.215373, 0.105578, -0.926021, 0.362407, -0.189653, -0.376505, -0.906794, 0.242223, 1.24289, 0.00731435)
+
+[node name="LowerarmL" parent="Equipment/Bones" index="7"]
+transform = Transform3D(0.976158, -0.0270055, 0.215374, -0.105578, -0.926021, 0.362407, 0.189653, -0.376506, -0.906794, -0.262256, 1.24289, 0.00731479)
+
+[node name="ThighR" parent="Equipment/Bones" index="8"]
+transform = Transform3D(-0.994716, 0.102678, 0.00145392, -0.100999, -0.975692, -0.194485, -0.0185506, -0.193603, 0.980907, 0.0879839, 0.984231, 0.0123999)
+
+[node name="ThighL" parent="Equipment/Bones" index="9"]
+transform = Transform3D(-0.990082, -0.122227, -0.0693139, 0.135679, -0.959878, -0.245407, -0.0365376, -0.252376, 0.966941, -0.108016, 0.984231, 0.0123999)
+
+[node name="ShinR" parent="Equipment/Bones" index="10"]
+transform = Transform3D(-0.999763, 0.000566106, -0.0218831, -0.00810321, -0.938234, 0.345907, -0.0203358, 0.346003, 0.938015, 0.136659, 0.521698, -0.0793788)
+
+[node name="ShinL" parent="Equipment/Bones" index="11"]
+transform = Transform3D(-0.998091, -0.0557494, -0.0266755, 0.0461925, -0.959668, 0.277314, -0.0410596, 0.275553, 0.96041, -0.165958, 0.529195, -0.107241)
+
+[editable path="model/Character"]

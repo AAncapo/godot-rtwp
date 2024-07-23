@@ -27,6 +27,7 @@ func attack():
 		reload_requested.emit()
 		return false
 	shoot()
+	super.attack()
 	return true
 
 
@@ -35,7 +36,6 @@ func shoot():
 	ammo.current_amount -= 1
 	clip_updated.emit(ammo.current_amount)
 	$muzzle/AnimationPlayer.play("fire")
-
 
 func reload():
 	var new_ammo = get_ammo_from_inventory()

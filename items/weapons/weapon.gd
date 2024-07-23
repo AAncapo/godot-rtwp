@@ -7,6 +7,11 @@ enum WeaponClass { UNARMED, MELEE, RANGED }
 enum Reliability { NA, VERY_RELIABLE, STANDARD, UNRELIABLE }
 @export var reliabl:Reliability
 @export var related_skill:String
+
+@onready var sound_player := $SoundPlayer3D
+@export var shot_sfx:AudioStreamOggVorbis
+@export var reload_sfx:AudioStreamOggVorbis
+
 @export_category("Damage Calc")
 @export var dice_amount:int = 1
 enum Dice { D6 = 6, D10 = 10 }
@@ -28,4 +33,4 @@ func init(actor):
 
 
 func attack():
-	pass
+	sound_player.play_sound(shot_sfx)

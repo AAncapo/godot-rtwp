@@ -8,6 +8,7 @@ size = Vector3(4, 4, 4)
 [node name="RoomConnector" type="Area3D"]
 collision_layer = 0
 collision_mask = 3
+input_ray_pickable = false
 monitorable = false
 script = ExtResource("1_atfta")
 auto_door = true

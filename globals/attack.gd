@@ -26,8 +26,9 @@ func calc_hit_chance():
 			
 			var DV:int = wpn.get_range_dv(actor.global_position, target.global_position)
 			if DV < 0:  #get_range_dv() returns -1 if out of range
-				return 0
+				return false
 			atk = actor.stats.REF + wpn_skill + Fnff.roll(1,10)
+			print(wpn_skill)
 			def = DV
 			#TODO *A Defender with a REF 8 or higher can choose to attempt to dodge a Ranged Attack instead of using the range table to determine the DV
 		
